@@ -17,12 +17,15 @@ public class FighterScript : MonoBehaviour {
     public bool straightProjectile;
     public bool lobbedProjectile;
 
+    public Animator anim;
+
 	// Use this for initialization
 	void Start ()
     {
         rigid = GetComponent<Rigidbody2D>();
         //load in the projectile
         bullet = (GameObject)Resources.Load("Projectile");
+        anim = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -51,15 +54,21 @@ public class FighterScript : MonoBehaviour {
             Flip();
         }
 
+
         //if the player is on the ground and you are pressing space or A, jump
-        if(isGrounded && Input.GetKeyDown("joystick button 0"))
+        if(anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0"))
         {
+            anim.SetBool("isJumping", true);
+            anim.Play("fighterJumpAnim");
             rigid.velocity = Vector2.up * jumpVelocity;
         }
 
         //if the player is falling, set the falling speed using the fallMaultiplier value
         if(rigid.velocity.y < 0)
         {
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isFalling", true);
+            anim.Play("fighterFallAnim");
             rigid.velocity += Vector2.up * Physics2D.gravity.y *
                 (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -124,7 +133,9 @@ public class FighterScript : MonoBehaviour {
         //if the player collides with the ground, isGrounded is true
         if (collision.transform.tag == "Ground")
         {
-            isGrounded = true;
+            anim.SetBool("isGrounded", true);
+            anim.SetBool("isFalling", false);
+            anim.Play("fighterIdleAnim");
         }
     }
 
@@ -133,7 +144,7 @@ public class FighterScript : MonoBehaviour {
         //if the player stops colliding with the ground, isGrounded is false
         if (collision.transform.tag == "Ground")
         {
-            isGrounded = false;
+           anim.SetBool("isGrounded", false);
         }
     }
 

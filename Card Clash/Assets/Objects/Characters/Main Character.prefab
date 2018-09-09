@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50937885105963090}
   - component: {fileID: 61418858846208874}
   - component: {fileID: 114131073851300634}
+  - component: {fileID: 114550942262543406}
   m_Layer: 0
   m_Name: Main Character
   m_TagString: Player
@@ -100,13 +101,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
-  jumpVelocity: 7
-  fallMultiplier: 6
-  lowJumpMultiplier: 5
+  jumpVelocity: 9
+  fallMultiplier: 3
+  lowJumpMultiplier: 2
   facingRight: 0
   bullet: {fileID: 0}
   straightProjectile: 0
   lobbedProjectile: 0
+--- !u!114 &114550942262543406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1200660813637990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223af8a3c01c6494e93b5d82509a03bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 0}
+  kick: {fileID: 0}
 --- !u!212 &212105016586230486
 SpriteRenderer:
   m_ObjectHideFlags: 1
