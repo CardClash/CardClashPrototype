@@ -92,6 +92,15 @@ public class FighterScript : MonoBehaviour {
             Reset();
         }
 
+        if (anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 2"))
+        {
+            Punch();
+        }
+        if(Input.GetKeyUp("joystick button 2"))
+        {
+            anim.SetBool("isPunching", false);
+        }
+
         //press Z to shoot the straight projectile
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -163,5 +172,11 @@ public class FighterScript : MonoBehaviour {
         transform.position = new Vector3(0.0f, 2.5f, 0.0f);
 
         rigid.velocity = new Vector2();
+    }
+
+    private void Punch()
+    {
+        anim.SetBool("isPunching", true);
+        //anim.Play("fighterPunchAnim");
     }
 }

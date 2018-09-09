@@ -27,7 +27,7 @@ public class CardSelect : MonoBehaviour {
 	void Update () {
 
         //Select card to the left (wraps if first card)
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown("joystick button 4"))
         {
             next = current - 1;
             if(next < 0 )
@@ -39,7 +39,7 @@ public class CardSelect : MonoBehaviour {
         }
 
         //Select card to the right (wraps if last card)
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown("joystick button 5"))
         {
             next = current + 1;
             if (next > 3)
