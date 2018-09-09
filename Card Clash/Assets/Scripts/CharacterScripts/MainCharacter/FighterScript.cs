@@ -31,6 +31,7 @@ public class FighterScript : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
+        anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
         //locks rotation
         transform.rotation = Quaternion.Euler(
             transform.rotation.eulerAngles.x, 
@@ -44,12 +45,12 @@ public class FighterScript : MonoBehaviour {
             rigid.velocity.y);
 
         //flips the direction if they are going right...
-        if(inputX > 0 && !facingRight)
+        if(inputX < 0 && !facingRight)
         {
             Flip();
         }
         //... and vice versa
-        else if(inputX < 0 && facingRight)
+        else if(inputX > 0 && facingRight)
         {
             Flip();
         }
@@ -126,6 +127,14 @@ public class FighterScript : MonoBehaviour {
     void Flip()
     {
         facingRight = !facingRight;
+        if(GetComponent<SpriteRenderer>().flipX == true)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if(GetComponent<SpriteRenderer>().flipX == false)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
