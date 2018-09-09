@@ -10,16 +10,17 @@ public class CardSelect : MonoBehaviour {
     public Selectable card3;
     public Selectable card4;
 
-    private Selectable current;
-    private Selectable next;
+    private int current;
+    private int next;
+    private Selectable[] cards;
 
     // Use this for initialization
     void Start () {
 
-        //Selects a card at the start
-        current = card1;
-        current.Select();
-        
+        cards = new Selectable[] { card1, card2, card3, card4 };
+        //Selects a card at the start       
+        current = 0;
+        cards[0].Select();
 	}
 	
 	// Update is called once per frame
@@ -28,16 +29,24 @@ public class CardSelect : MonoBehaviour {
         //Select card to the left (wraps if first card)
         if (Input.GetKeyDown(KeyCode.I))
         {
-            next = current.FindSelectableOnLeft();
-            next.Select();
+            next = current - 1;
+            if(next < 0 )
+            {
+                next = 3;
+            }
+            cards[next].Select();
             current = next;
         }
 
         //Select card to the right (wraps if last card)
         if (Input.GetKeyDown(KeyCode.O))
         {
-            next = current.FindSelectableOnRight();
-            next.Select();
+            next = current + 1;
+            if (next > 3)
+            {
+                next = 0;
+            }
+            cards[next].Select();
             current = next;
         }
 
