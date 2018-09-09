@@ -1,0 +1,38 @@
+
+//////////////////////////////////////////////////
+//Thank you for downloading my package!
+////////////////////////////////////////////////
+
+
+|This is a free asset package. If you paid for this, you got ripped off.|
+
+
+This package includes the following: 
+
+     - 17 Animations | Run, Hurt, Jump, Land, Attack, Idle, Dead. With and without weapon|
+
+     - 169 Sprites |Around 7.98mb|
+
+     - 4 Prefabs |Rigged and Not Rigged|
+    
+     - Basic Player Script to test the animations
+ 
+     - Misc Demo Environment
+
+     - Demo Scene 
+
+
+In the Demo Scene, you can mess around with the rigged character to preview the animations. Use the Arrow Keys or A and D to move, Left Alt to attack, Space to jump, Z to play dead animation, and X to switch characters. 
+There are two characters; a basic no weapon character, and one with a bat. The bat character has 2 Attack animations, the basic character has only 1.
+
+Thank you again for downloading! If you have any questions or comments, my information's below.
+
+
+////////////////////////
+//My contact info: 
+//////////////////////
+
+Email: unity.puddi@gmail.com
+Blog: https://puddicustard.tumblr.com/
+Unity Store: https://assetstore.unity.com/publishers/28577#_=_
+
