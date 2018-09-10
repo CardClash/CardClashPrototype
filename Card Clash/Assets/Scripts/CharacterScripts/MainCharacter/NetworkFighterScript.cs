@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FighterScript : MonoBehaviour {
-    
+public class NetworkFighterScript : NetworkBehaviour
+{
+
     public float playerSpeed;
     [Range(5, 20)]
     public float jumpVelocity;
@@ -20,8 +21,8 @@ public class FighterScript : MonoBehaviour {
 
     public Animator anim;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         //load in the projectile
@@ -29,13 +30,23 @@ public class FighterScript : MonoBehaviour {
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate ()
+    public override void OnStartLocalPlayer()
     {
+        GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
         //locks rotation
         transform.rotation = Quaternion.Euler(
-            transform.rotation.eulerAngles.x, 
+            transform.rotation.eulerAngles.x,
             0, 0);
         //takes in input for the x-axis
         float inputX = Input.GetAxis("Horizontal");
@@ -46,19 +57,19 @@ public class FighterScript : MonoBehaviour {
             rigid.velocity.y);
 
         //flips the direction if they are going right...
-        if(inputX < 0 && !facingRight)
+        if (inputX < 0 && !facingRight)
         {
             Flip();
         }
         //... and vice versa
-        else if(inputX > 0 && facingRight)
+        else if (inputX > 0 && facingRight)
         {
             Flip();
         }
 
 
         //if the player is on the ground and you are pressing space or A, jump
-        if((anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0")) || (anim.GetBool("isGrounded") && Input.GetKey(KeyCode.Space)))
+        if ((anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0")) || (anim.GetBool("isGrounded") && Input.GetKey(KeyCode.Space)))
         {
             anim.SetBool("isJumping", true);
             anim.Play("fighterJumpAnim");
@@ -66,7 +77,7 @@ public class FighterScript : MonoBehaviour {
         }
 
         //if the player is falling, set the falling speed using the fallMaultiplier value
-        if(rigid.velocity.y < 0)
+        if (rigid.velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
             anim.SetBool("isFalling", true);
@@ -97,7 +108,7 @@ public class FighterScript : MonoBehaviour {
         {
             Punch();
         }
-        if(Input.GetKeyUp("joystick button 2"))
+        if (Input.GetKeyUp("joystick button 2"))
         {
             anim.SetBool("isPunching", false);
         }
@@ -107,14 +118,14 @@ public class FighterScript : MonoBehaviour {
         {
             straightProjectile = true;
             //create a projectile and set it depending on the way the player is facing
-            if(facingRight)
+            if (facingRight)
                 Instantiate(bullet, new Vector3(transform.position.x + 0.5f, transform.position.y), Quaternion.identity);
-            else if(!facingRight)
+            else if (!facingRight)
                 Instantiate(bullet, new Vector3(transform.position.x - 0.5f, transform.position.y), Quaternion.identity);
         }
 
         //press X to shoot the lobbed projectile
-        if(Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             lobbedProjectile = true;
             //create a projectile and set it depending on the way the player is facing
@@ -122,7 +133,7 @@ public class FighterScript : MonoBehaviour {
             {
                 Instantiate(bullet, new Vector3(transform.position.x + 0.5f, transform.position.y + 0.5f), Quaternion.identity);
             }
-            else if(!facingRight)
+            else if (!facingRight)
             {
                 Instantiate(bullet, new Vector3(transform.position.x - 0.5f, transform.position.y + 0.5f), Quaternion.identity);
             }
@@ -137,11 +148,11 @@ public class FighterScript : MonoBehaviour {
     void Flip()
     {
         facingRight = !facingRight;
-        if(GetComponent<SpriteRenderer>().flipX == true)
+        if (GetComponent<SpriteRenderer>().flipX == true)
         {
             GetComponent<SpriteRenderer>().flipX = false;
         }
-        else if(GetComponent<SpriteRenderer>().flipX == false)
+        else if (GetComponent<SpriteRenderer>().flipX == false)
         {
             GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -167,7 +178,7 @@ public class FighterScript : MonoBehaviour {
         //if the player stops colliding with the ground, isGrounded is false
         if (collision.transform.tag == "Ground")
         {
-           anim.SetBool("isGrounded", false);
+            anim.SetBool("isGrounded", false);
         }
     }
 
