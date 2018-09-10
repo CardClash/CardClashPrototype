@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class FighterScript : MonoBehaviour {
+public class FighterScript : NetworkBehaviour {
     
     public float playerSpeed;
     [Range(5, 20)]
@@ -27,10 +28,20 @@ public class FighterScript : MonoBehaviour {
         bullet = (GameObject)Resources.Load("Projectile");
         anim = GetComponent<Animator>();
     }
-	
-	// Update is called once per frame
-	void FixedUpdate ()
+
+    public override void OnStartLocalPlayer()
     {
+        GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
+    }
+
+    // Update is called once per frame
+    void FixedUpdate ()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
         //locks rotation
         transform.rotation = Quaternion.Euler(
@@ -57,7 +68,7 @@ public class FighterScript : MonoBehaviour {
 
 
         //if the player is on the ground and you are pressing space or A, jump
-        if(anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0"))
+        if((anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0")) || (anim.GetBool("isGrounded") && Input.GetKey(KeyCode.Space)))
         {
             anim.SetBool("isJumping", true);
             anim.Play("fighterJumpAnim");
@@ -74,11 +85,11 @@ public class FighterScript : MonoBehaviour {
                 (fallMultiplier - 1) * Time.deltaTime;
         }
         //if the player is rising from a jump from a jump and you aren't holding space, set the falling speed using the lowJumpMultiplier value
-        /*else if(rigid.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
+        else if (rigid.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
         {
             rigid.velocity += (Vector2.up * Physics2D.gravity.y *
                             (lowJumpMultiplier - 1) * Time.deltaTime);
-        }*/
+        }
         //if the player is rising from a jump from a jump and you aren't holding A, set the falling speed using the lowJumpMultiplier value
         else if (rigid.velocity.y > 0 && !Input.GetKey("joystick button 0"))
         {

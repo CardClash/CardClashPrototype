@@ -11,6 +11,7 @@ public class NetworkTestPlayerScript : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         transform.position = new Vector3(Random.Range(-8, 8), 3, 0);
+        GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
     }
     
     void Update ()
