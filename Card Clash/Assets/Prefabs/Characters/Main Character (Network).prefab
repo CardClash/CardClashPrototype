@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 95371811612110070}
   - component: {fileID: 114709051292810158}
   - component: {fileID: 114639318334275792}
+  - component: {fileID: 114174384725739290}
   m_Layer: 0
   m_Name: Main Character (Network)
   m_TagString: Player
@@ -183,6 +184,25 @@ MonoBehaviour:
   lowJumpMultiplier: 2
   facingRight: 0
   anim: {fileID: 0}
+--- !u!114 &114174384725739290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1200660813637990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95371811612110070}
+  m_ParameterSendBits: 31
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114550942262543406
 MonoBehaviour:
   m_ObjectHideFlags: 1
