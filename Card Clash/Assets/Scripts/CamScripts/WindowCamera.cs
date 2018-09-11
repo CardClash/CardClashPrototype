@@ -11,19 +11,15 @@ public class WindowCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        mainChar = GameObject.FindWithTag("Player");
         zero = Vector3.zero;
         target = Vector3.zero;
         diff = Vector3.zero;
-        if (mainChar == null)
-        {
-            Debug.Log("Null!");
-        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        mainChar = GameObject.FindWithTag("Player");
         //sets the target to the main character's position Vector
         target = mainChar.transform.position;
         //finds the difference between the target and the camera's position

@@ -7,16 +7,27 @@ public class FighterHealthScript : MonoBehaviour {
 
     public int startingPercentage = 0;
     public int currentPercentage;
-
-    bool isDead;
+    private Rigidbody2D rigid;
+    //bool isDead;
 
 	// Use this for initialization
 	void Start ()
     {
-        isDead = false;
         //set current percentage to the starting percentage amount
         currentPercentage = startingPercentage;
+        rigid = GetComponent<Rigidbody2D>();
 	}
+
+    public void TakeDamage(int amount, Vector2 hitPos)
+    {
+        //increase the percentage by the amount of damage taken
+        currentPercentage += amount;
+
+        Vector2 force = new Vector2(-(amount * currentPercentage) * 2.0f, (amount * currentPercentage) * 1.5f);
+
+        rigid.AddForceAtPosition(force, hitPos);
+
+    }
 
     public void TakeDamage(int amount)
     {
@@ -24,9 +35,9 @@ public class FighterHealthScript : MonoBehaviour {
         currentPercentage += amount;
     }
 
-    void Death()
+    /*void Death()
     {
         isDead = true;
-    }
+    }*/
 
 }

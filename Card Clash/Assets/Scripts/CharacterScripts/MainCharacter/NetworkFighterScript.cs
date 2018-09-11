@@ -15,18 +15,12 @@ public class NetworkFighterScript : NetworkBehaviour
     public bool facingRight = false;
     private Rigidbody2D rigid;
 
-    public GameObject bullet;
-    public bool straightProjectile;
-    public bool lobbedProjectile;
-
     public Animator anim;
 
     // Use this for initialization
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        //load in the projectile
-        bullet = (GameObject)Resources.Load("Projectile");
         anim = GetComponent<Animator>();
     }
 
@@ -38,6 +32,7 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        gameObject.SetActive(true);
         if (!isLocalPlayer)
         {
             return;
@@ -51,110 +46,56 @@ public class NetworkFighterScript : NetworkBehaviour
         //takes in input for the x-axis
         float inputX = Input.GetAxis("Horizontal");
 
-        //sets the velocity to the playerSpeed and the direction of the x-axis input
-        rigid.velocity = new Vector2(
-            playerSpeed * inputX,
-            rigid.velocity.y);
+        Move(inputX);
 
-        //flips the direction if they are going right...
-        if (inputX < 0 && !facingRight)
-        {
-            Flip();
-        }
-        //... and vice versa
-        else if (inputX > 0 && facingRight)
-        {
-            Flip();
-        }
+        Flip(inputX);
 
+        CheckBoundaries();
 
-        //if the player is on the ground and you are pressing space or A, jump
-        if ((anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 0")) || (anim.GetBool("isGrounded") && Input.GetKey(KeyCode.Space)))
-        {
-            anim.SetBool("isJumping", true);
-            anim.Play("fighterJumpAnim");
-            rigid.velocity = Vector2.up * jumpVelocity;
-        }
+        CheckJump();
 
-        //if the player is falling, set the falling speed using the fallMaultiplier value
-        if (rigid.velocity.y < 0)
-        {
-            anim.SetBool("isJumping", false);
-            anim.SetBool("isFalling", true);
-            anim.Play("fighterFallAnim");
-            rigid.velocity += Vector2.up * Physics2D.gravity.y *
-                (fallMultiplier - 1) * Time.deltaTime;
-        }
-        //if the player is rising from a jump from a jump and you aren't holding space, set the falling speed using the lowJumpMultiplier value
-        else if (rigid.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
-        {
-            rigid.velocity += (Vector2.up * Physics2D.gravity.y *
-                            (lowJumpMultiplier - 1) * Time.deltaTime);
-        }
-        //if the player is rising from a jump from a jump and you aren't holding A, set the falling speed using the lowJumpMultiplier value
-        else if (rigid.velocity.y > 0 && !Input.GetKey("joystick button 0"))
-        {
-            rigid.velocity += (Vector2.up * Physics2D.gravity.y *
-                            (lowJumpMultiplier - 1) * Time.deltaTime);
-        }
-
-        //press R to reset
-        if (Input.GetKeyDown(KeyCode.R))
+        //press R or Start to reset
+        if (Input.GetButton("Reset"))
         {
             Reset();
         }
 
-        if (anim.GetBool("isGrounded") && Input.GetKeyDown("joystick button 2"))
+        //press J or the A button to punch
+        if (Input.GetButtonDown("Punch"))
         {
-            Punch();
+            Debug.Log("Punch!");
+            anim.SetBool("isPunching", true);
         }
-        if (Input.GetKeyUp("joystick button 2"))
+        else if (!Input.GetButton("Punch"))
         {
             anim.SetBool("isPunching", false);
-        }
-
-        //press Z to shoot the straight projectile
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            straightProjectile = true;
-            //create a projectile and set it depending on the way the player is facing
-            if (facingRight)
-                Instantiate(bullet, new Vector3(transform.position.x + 0.5f, transform.position.y), Quaternion.identity);
-            else if (!facingRight)
-                Instantiate(bullet, new Vector3(transform.position.x - 0.5f, transform.position.y), Quaternion.identity);
-        }
-
-        //press X to shoot the lobbed projectile
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            lobbedProjectile = true;
-            //create a projectile and set it depending on the way the player is facing
-            if (facingRight)
-            {
-                Instantiate(bullet, new Vector3(transform.position.x + 0.5f, transform.position.y + 0.5f), Quaternion.identity);
-            }
-            else if (!facingRight)
-            {
-                Instantiate(bullet, new Vector3(transform.position.x - 0.5f, transform.position.y + 0.5f), Quaternion.identity);
-            }
         }
 
         //clamps player's velocity to the playerSpeed 1.5x
         rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
 
+        //press escape or the select button to quit
+        if (Input.GetButton("Quit"))
+        {
+            Application.Quit();
+        }
+
     }
 
     //switches the facingRight bool
-    void Flip()
+    void Flip(float inputX)
     {
-        facingRight = !facingRight;
-        if (GetComponent<SpriteRenderer>().flipX == true)
+        //flips the direction if they are going right...
+        if (inputX < 0 && !facingRight)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
-        else if (GetComponent<SpriteRenderer>().flipX == false)
-        {
+            facingRight = !facingRight;
             GetComponent<SpriteRenderer>().flipX = true;
+        }
+        //... and vice versa
+        else if (inputX > 0 && facingRight)
+        {
+            facingRight = !facingRight;
+            GetComponent<SpriteRenderer>().flipX = false;
         }
     }
 
@@ -165,7 +106,7 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             anim.SetBool("isGrounded", true);
             anim.SetBool("isFalling", false);
-            anim.Play("fighterIdleAnim");
+            //anim.Play("fighterIdleAnim");
         }
         if (collision.transform.tag == "Player")
         {
@@ -190,9 +131,58 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid.velocity = new Vector2();
     }
 
-    private void Punch()
+    private void CheckBoundaries()
     {
-        anim.SetBool("isPunching", true);
-        //anim.Play("fighterPunchAnim");
+        if (transform.position.x < -40.0f)
+        {
+            Reset();
+        }
+        if (transform.position.x > 44.0f)
+        {
+            Reset();
+        }
+        if (transform.position.y < -18.0f)
+        {
+            Reset();
+        }
+        if (transform.position.y > 24.0f)
+        {
+            Reset();
+        }
+    }
+
+    private void CheckJump()
+    {
+        //if the player is on the ground and you are pressing space or A, jump
+        if ((anim.GetBool("isGrounded") && Input.GetButtonDown("Jump")))
+        {
+            anim.SetBool("isJumping", true);
+            //anim.Play("fighterJumpAnim");
+            rigid.velocity = Vector2.up * jumpVelocity;
+        }
+
+        //if the player is falling, set the falling speed using the fallMaultiplier value
+        if (rigid.velocity.y < 0)
+        {
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isFalling", true);
+            //anim.Play("fighterFallAnim");
+            rigid.velocity += Vector2.up * Physics2D.gravity.y *
+                (fallMultiplier - 1) * Time.deltaTime;
+        }
+        //if the player is rising from a jump from a jump and you aren't holding A, set the falling speed using the lowJumpMultiplier value
+        else if (rigid.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rigid.velocity += (Vector2.up * Physics2D.gravity.y *
+                            (lowJumpMultiplier - 1) * Time.deltaTime);
+        }
+    }
+
+    private void Move(float inputX)
+    {
+        //sets the velocity to the playerSpeed and the direction of the x-axis input
+        rigid.velocity = new Vector2(
+            playerSpeed * inputX,
+            rigid.velocity.y);
     }
 }

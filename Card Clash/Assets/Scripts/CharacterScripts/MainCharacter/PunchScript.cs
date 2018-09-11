@@ -20,6 +20,6 @@ public class PunchScript : MonoBehaviour {
     void DamageEnemy()
     {
         //deal damage to the player
-        enemyHealth.TakeDamage(7);
+        //enemyHealth.TakeDamage(7);
     }
 }

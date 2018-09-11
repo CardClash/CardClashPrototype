@@ -11,9 +11,6 @@ public class FighterHitBoxManager : MonoBehaviour
     //array to organize them
     private BoxCollider2D[] colliders;
 
-    //Collider on this GameObject
-    private BoxCollider2D localCollider;
-
     //Enum for hitboxes
     public enum hitBoxes
     {
@@ -27,29 +24,15 @@ public class FighterHitBoxManager : MonoBehaviour
     {
         //Set up the array
         colliders = new BoxCollider2D[] { punch, kick };
-
-        //Create local collider
-        localCollider = gameObject.AddComponent<BoxCollider2D>();
-        //Set it as a trigger so it won't collide with the environment
-        localCollider.isTrigger = true;
 	}
 
     void OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log("Collider hit something!");
-        if(localCollider == colliders[0])
-            col.GetComponentInParent<FighterHealthScript>().TakeDamage(7);
-        else if (localCollider == colliders[1])
-            col.GetComponentInParent<FighterHealthScript>().TakeDamage(5);
-    }
-
-    public void setHitBox(hitBoxes val)
-    {
-        if(val != hitBoxes.clear)
-        {
-            localCollider = colliders[(int)val];
-            return;
-        }
+        if(col.tag == "Punch")
+            gameObject.GetComponent<FighterHealthScript>().TakeDamage(7, col.transform.position);
+        else if (col == colliders[1])
+            GetComponent<FighterHealthScript>().TakeDamage(5, col.transform.position);
     }
 
     // Update is called once per frame
