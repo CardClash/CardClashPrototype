@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour {
-
-    //public UIManagerScript UI;
+    
     public Canvas canvas;
 
     //Window camera

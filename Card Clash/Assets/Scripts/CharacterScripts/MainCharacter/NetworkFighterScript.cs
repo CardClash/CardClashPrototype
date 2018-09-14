@@ -39,19 +39,20 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
-        //locks rotation
-        transform.rotation = Quaternion.Euler(
-            transform.rotation.eulerAngles.x,
-            0, 0);
-        //takes in input for the x-axis
+       
+        //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
         float inputX = Input.GetAxis("Horizontal");
 
+        //Moves the character each frame
         Move(inputX);
 
+        //Flips the direction the character is facing
         Flip(inputX);
 
+        //Checks if the character is within the boundaries of the stage
         CheckBoundaries();
 
+        //Checks for jump
         CheckJump();
 
         //press R or Start to reset
@@ -89,13 +90,13 @@ public class NetworkFighterScript : NetworkBehaviour
         if (inputX < 0 && !facingRight)
         {
             facingRight = !facingRight;
-            GetComponent<SpriteRenderer>().flipX = true;
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
         }
         //... and vice versa
         else if (inputX > 0 && facingRight)
         {
             facingRight = !facingRight;
-            GetComponent<SpriteRenderer>().flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
@@ -106,8 +107,9 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             anim.SetBool("isGrounded", true);
             anim.SetBool("isFalling", false);
-            //anim.Play("fighterIdleAnim");
         }
+
+        // Ignores collision between player colliders
         if (collision.transform.tag == "Player")
         {
             Physics2D.IgnoreCollision(collision.collider, GetComponent<BoxCollider2D>());
@@ -126,13 +128,14 @@ public class NetworkFighterScript : NetworkBehaviour
     //resets player's velocity and position
     private void Reset()
     {
-        transform.position = new Vector3(0.0f, 2.5f, 0.0f);
+        transform.position = new Vector3(0.0f, 2.5f, -1.0f);
 
         rigid.velocity = new Vector2();
     }
 
     private void CheckBoundaries()
     {
+        //IF the player position is outside the boundaries of the stage, reset them to the stage
         if (transform.position.x < -40.0f)
         {
             Reset();
@@ -158,7 +161,7 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             anim.SetBool("isJumping", true);
             //anim.Play("fighterJumpAnim");
-            rigid.velocity = Vector2.up * jumpVelocity;
+            rigid.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
         }
 
         //if the player is falling, set the falling speed using the fallMaultiplier value
@@ -167,14 +170,14 @@ public class NetworkFighterScript : NetworkBehaviour
             anim.SetBool("isJumping", false);
             anim.SetBool("isFalling", true);
             //anim.Play("fighterFallAnim");
-            rigid.velocity += Vector2.up * Physics2D.gravity.y *
-                (fallMultiplier - 1) * Time.deltaTime;
+            rigid.AddForce(Vector2.up * Physics2D.gravity.y *
+                (fallMultiplier - 1) * Time.deltaTime, ForceMode2D.Impulse);
         }
         //if the player is rising from a jump from a jump and you aren't holding A, set the falling speed using the lowJumpMultiplier value
         else if (rigid.velocity.y > 0 && !Input.GetButton("Jump"))
         {
-            rigid.velocity += (Vector2.up * Physics2D.gravity.y *
-                            (lowJumpMultiplier - 1) * Time.deltaTime);
+            rigid.AddForce(Vector2.up * Physics2D.gravity.y *
+                            (lowJumpMultiplier - 1) * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 

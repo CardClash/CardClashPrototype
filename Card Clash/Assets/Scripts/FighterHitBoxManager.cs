@@ -28,11 +28,16 @@ public class FighterHitBoxManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        //Calcualtes the direction of the collision, collider to collidee
+        Vector2 direction = col.transform.position - transform.position;
+        direction = -direction.normalized;
+
         Debug.Log("Collider hit something!");
+        //If the collider is a punch, it will deal damage to the opponent
         if(col.tag == "Punch")
-            gameObject.GetComponent<FighterHealthScript>().TakeDamage(7, col.transform.position);
+            gameObject.GetComponent<FighterHealthScript>().TakeDamage(7, direction);
         else if (col == colliders[1])
-            GetComponent<FighterHealthScript>().TakeDamage(5, col.transform.position);
+            GetComponent<FighterHealthScript>().TakeDamage(5, direction);
     }
 
     // Update is called once per frame
