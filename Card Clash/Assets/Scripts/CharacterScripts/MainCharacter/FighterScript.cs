@@ -53,6 +53,7 @@ public class FighterScript : MonoBehaviour {
         {
             Debug.Log("Punch!");
             anim.SetBool("isPunching", true);
+            anim.SetTrigger("hitPunch");
         }
         else if(!Input.GetButton("Punch"))
         {
