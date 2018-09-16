@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class FighterHitBoxManager : MonoBehaviour
+public class FighterHitBoxManager : NetworkBehaviour
 {
     //Colliders we'll be using for now, set them in the editor
     public BoxCollider2D punch;
