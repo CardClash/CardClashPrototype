@@ -65,11 +65,7 @@ public class NetworkFighterScript : NetworkBehaviour
         if (Input.GetButtonDown("Punch"))
         {
             Debug.Log("Punch!");
-            anim.SetBool("isPunching", true);
-        }
-        else if (!Input.GetButton("Punch"))
-        {
-            anim.SetBool("isPunching", false);
+            anim.SetTrigger("hitPunch");
         }
 
         //clamps player's velocity to the playerSpeed 1.5x

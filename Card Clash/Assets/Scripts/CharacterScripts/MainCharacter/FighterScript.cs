@@ -52,12 +52,7 @@ public class FighterScript : MonoBehaviour {
         if (Input.GetButtonDown("Punch"))
         {
             Debug.Log("Punch!");
-            anim.SetBool("isPunching", true);
             anim.SetTrigger("hitPunch");
-        }
-        else if(!Input.GetButton("Punch"))
-        {
-            anim.SetBool("isPunching", false);
         }
 
         //clamps player's velocity to the playerSpeed 1.5x

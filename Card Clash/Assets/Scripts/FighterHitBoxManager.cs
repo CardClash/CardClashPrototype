@@ -31,7 +31,7 @@ public class FighterHitBoxManager : NetworkBehaviour
     {
         //Calcualtes the direction of the collision, collider to collidee
         Vector2 direction = col.transform.position - transform.position;
-        direction = -direction.normalized;
+        direction = direction.normalized;
 
         Debug.Log("Collider hit something!");
         //If the collider is a punch, it will deal damage to the opponent
