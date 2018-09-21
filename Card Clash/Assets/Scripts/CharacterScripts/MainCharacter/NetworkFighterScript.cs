@@ -22,12 +22,12 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
     }
 
     public override void OnStartLocalPlayer()
     {
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
-        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
     }
 
     // Update is called once per frame
