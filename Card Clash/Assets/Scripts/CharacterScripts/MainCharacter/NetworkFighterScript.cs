@@ -48,7 +48,7 @@ public class NetworkFighterScript : NetworkBehaviour
         Move(inputX);
 
         //Flips the direction the character is facing
-        Flip(inputX);
+        CmdFlip(inputX);
 
         //Checks if the character is within the boundaries of the stage
         CheckBoundaries();
@@ -81,7 +81,8 @@ public class NetworkFighterScript : NetworkBehaviour
     }
 
     //switches the facingRight bool
-    void Flip(float inputX)
+    [Command]
+    void CmdFlip(float inputX)
     {
         //flips the direction if they are going right...
         if (inputX < 0 && !facingRight)
