@@ -319,7 +319,6 @@ MonoBehaviour:
   card2: {fileID: 1303356511}
   card3: {fileID: 168773003}
   card4: {fileID: 295779211}
-  cardDeck: {fileID: 0}
 --- !u!114 &1320549018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +327,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320549016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9451fcb9a882c6541b55c2f23e0949bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 77e46ee6ac1ae884a85078794ddff041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keyList: 
+--- !u!114 &1320549019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1320549016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c4062ef383684440b0b2f0c8534cb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyList: 
 --- !u!1001 &1503761826
 Prefab:
   m_ObjectHideFlags: 0

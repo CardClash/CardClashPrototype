@@ -10,25 +10,27 @@ public class CardSelect : MonoBehaviour {
     public Selectable card3;
     public Selectable card4;
 
-    public VanillaEffectScript cardDeck;
+    private CardDeck cardDeck;
 
     private int current;
     private int next;
-    private Selectable[] cards;
+    private Selectable[] select;
+
 
     // Use this for initialization
     void Start () {
-
-        cards = new Selectable[] { card1, card2, card3, card4 };
+        select = new Selectable[] { card1, card2, card3, card4 };
         //Selects a card at the start       
         current = 0;
-        cards[0].Select();
+        select[0].Select();
+        
+        cardDeck = GetComponent<CardDeck>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        //Select card to the left (wraps if first card)
+        //Highlight card to the left (wraps if first card)
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown("joystick button 4"))
         {
             next = current - 1;
@@ -36,11 +38,11 @@ public class CardSelect : MonoBehaviour {
             {
                 next = 3;
             }
-            cards[next].Select();
+            select[next].Select();
             current = next;
         }
 
-        //Select card to the right (wraps if last card)
+        //Highlight card to the right (wraps if last card)
         if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown("joystick button 5"))
         {
             next = current + 1;
@@ -48,37 +50,17 @@ public class CardSelect : MonoBehaviour {
             {
                 next = 0;
             }
-            cards[next].Select();
+            select[next].Select();
             current = next;
         }
 
+        //Select Card
         if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown("joystick button 6"))
         {
-
+            cardDeck.CardPick(current);
         }
 
       }
 
-    void CheckCard(int n)
-    {
-        if(n == 0)
-        {
 
-        }
-
-        if(n==1)
-        {
-
-        }
-
-        if (n == 2)
-        {
-
-        }
-
-        if (n == 3)
-        {
-
-        }
-    }
 }
