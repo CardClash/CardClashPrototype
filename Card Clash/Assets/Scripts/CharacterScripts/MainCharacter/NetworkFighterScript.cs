@@ -36,16 +36,16 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         gameObject.SetActive(true);
 
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
         float inputX = Input.GetAxis("Horizontal");
 
         //Flips the direction the character is facing
         Flip(inputX);
-
-        if (!isLocalPlayer)
-        {
-            return;
-        }
 
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
 

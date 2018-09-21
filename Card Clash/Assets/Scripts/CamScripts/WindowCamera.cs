@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class WindowCamera : MonoBehaviour {
+public class WindowCamera : NetworkBehaviour {
+
 
     private Vector3 zero;
     private GameObject mainChar;
@@ -19,6 +21,11 @@ public class WindowCamera : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!isLocalPlayer)
+        {
+            return;
+        }
+
         mainChar = GameObject.FindWithTag("Player");
         //sets the target to the main character's position Vector
         target = mainChar.transform.position;
