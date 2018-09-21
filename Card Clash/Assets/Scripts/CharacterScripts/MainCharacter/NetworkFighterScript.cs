@@ -30,6 +30,12 @@ public class NetworkFighterScript : NetworkBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
     }
 
+    // Help from https://answers.unity.com/questions/1170290/unet-indexoutofrangeexception-networkreaderreadbyt.html
+    public override void OnDeserialize(NetworkReader reader, bool initialState)
+    {
+        base.OnDeserialize(reader, initialState);
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
