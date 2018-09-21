@@ -10,6 +10,8 @@ public class CardSelect : MonoBehaviour {
     public Selectable card3;
     public Selectable card4;
 
+    public VanillaEffectScript cardDeck;
+
     private int current;
     private int next;
     private Selectable[] cards;
@@ -50,5 +52,33 @@ public class CardSelect : MonoBehaviour {
             current = next;
         }
 
+        if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown("joystick button 6"))
+        {
+
+        }
+
+      }
+
+    void CheckCard(int n)
+    {
+        if(n == 0)
+        {
+
+        }
+
+        if(n==1)
+        {
+
+        }
+
+        if (n == 2)
+        {
+
+        }
+
+        if (n == 3)
+        {
+
+        }
     }
 }

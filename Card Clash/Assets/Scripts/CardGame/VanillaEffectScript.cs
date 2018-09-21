@@ -19,7 +19,10 @@ public class VanillaEffectScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+   
+    // This is old code
+    
+    /*    if (Input.GetKeyDown(KeyCode.Alpha1))
         {
 
             health.TakeDamage(10);
@@ -34,7 +37,7 @@ public class VanillaEffectScript : MonoBehaviour {
             print("speed increased by 1");
         }
 
-    /*    if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             foreach(Object obj in st)
             {
@@ -44,10 +47,16 @@ public class VanillaEffectScript : MonoBehaviour {
     */
 	}
 
-  /*  void takeDamage()
+  void takeDamage()
     {
             health.TakeDamage(10);
             print("took damage");
 
-    } */
+    }
+
+   void speedBoost()
+    {
+        source.playerSpeed = source.playerSpeed + 1;
+        print("speed increased by 1");
+    }
 }
