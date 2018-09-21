@@ -12,6 +12,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2.0f;
     private bool isGrounded;
+    [SyncVar]
     public bool facingRight = false;
     private Rigidbody2D rigid;
 
@@ -34,21 +35,22 @@ public class NetworkFighterScript : NetworkBehaviour
     void FixedUpdate()
     {
         gameObject.SetActive(true);
+
+        //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
+        float inputX = Input.GetAxis("Horizontal");
+
+        //Flips the direction the character is facing
+        Flip(inputX);
+
         if (!isLocalPlayer)
         {
             return;
         }
 
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
-       
-        //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
-        float inputX = Input.GetAxis("Horizontal");
 
         //Moves the character each frame
         Move(inputX);
-
-        //Flips the direction the character is facing
-        CmdFlip(inputX);
 
         //Checks if the character is within the boundaries of the stage
         CheckBoundaries();
@@ -81,8 +83,7 @@ public class NetworkFighterScript : NetworkBehaviour
     }
 
     //switches the facingRight bool
-    [Command]
-    void CmdFlip(float inputX)
+    void Flip(float inputX)
     {
         //flips the direction if they are going right...
         if (inputX < 0 && !facingRight)
