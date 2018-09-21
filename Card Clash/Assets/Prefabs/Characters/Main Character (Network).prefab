@@ -45,8 +45,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4035784994800156}
   - component: {fileID: 61700633360264932}
-  - component: {fileID: 114818852798057558}
-  - component: {fileID: 114624810779179172}
   m_Layer: 0
   m_Name: Punch
   m_TagString: Untagged
@@ -192,7 +190,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1200660813637990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
@@ -218,27 +216,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   punch: {fileID: 61418858846208874}
   kick: {fileID: 0}
---- !u!114 &114624810779179172
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1491418562689334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114639318334275792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,38 +243,6 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1200660813637990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 202
-    i1: 84
-    i2: 18
-    i3: 154
-    i4: 138
-    i5: 30
-    i6: 222
-    i7: 196
-    i8: 90
-    i9: 110
-    i10: 67
-    i11: 33
-    i12: 76
-    i13: 123
-    i14: 120
-    i15: 75
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114818852798057558
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1491418562689334}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
