@@ -26,7 +26,14 @@ public class WindowCamera : NetworkBehaviour {
             return;
         }
 
-        mainChar = GameObject.FindWithTag("Player");
+        if(isServer)
+        {
+            mainChar = GameObject.FindWithTag("HostPlayer");
+        }
+        else
+        {
+            mainChar = GameObject.FindWithTag("ClientPlayer");
+        }
         //sets the target to the main character's position Vector
         target = mainChar.transform.position;
         //finds the difference between the target and the camera's position
