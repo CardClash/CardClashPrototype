@@ -31,7 +31,7 @@ public class CardSelect : MonoBehaviour {
 	void Update () {
 
         //Highlight card to the left (wraps if first card)
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown("joystick button 4"))
+        if (Input.GetButtonDown("Switch Card Left"))
         {
             next = current - 1;
             if(next < 0 )
@@ -43,7 +43,7 @@ public class CardSelect : MonoBehaviour {
         }
 
         //Highlight card to the right (wraps if last card)
-        if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown("joystick button 5"))
+        if (Input.GetButtonDown("Switch Card Right"))
         {
             next = current + 1;
             if (next > 3)
@@ -55,8 +55,9 @@ public class CardSelect : MonoBehaviour {
         }
 
         //Select Card
-        if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown("joystick button 6"))
+        if (Input.GetButtonDown("Use Card"))
         {
+            Debug.Log("Using Card!");
             cardDeck.CardPick(current);
         }
 
