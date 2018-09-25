@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardEffects : MonoBehaviour {
 
-    private FighterScript source;
+    private NetworkFighterScript source;
     private FighterHealthScript health;
     private Stack stack;
     private bool active = false;
@@ -36,7 +36,7 @@ public class CardEffects : MonoBehaviour {
 
     }
 
-    public void Initialize(GameObject player)
+    public void Initialize()
     {
         if (initialized)
         {
@@ -54,10 +54,16 @@ public class CardEffects : MonoBehaviour {
             { 11, SpeedBoost }
         };
 
-        source = player.GetComponent<FighterScript>();
-        health = player.GetComponent<FighterHealthScript>();
+        source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
+        health = GameObject.Find("Main Character (Network)(Clone)").GetComponent<FighterHealthScript>();
         stack = new Stack();
         initialized = true;
+    }
+
+    public void SetSources(GameObject player)
+    {
+        source = player.GetComponent<NetworkFighterScript>();
+        health = player.GetComponent<FighterHealthScript>();
     }
 
     public void PlayCard(int id)

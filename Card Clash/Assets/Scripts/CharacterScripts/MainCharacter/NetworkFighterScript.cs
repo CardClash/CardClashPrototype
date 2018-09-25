@@ -12,6 +12,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2.0f;
     private bool isGrounded;
+    private GameObject networkManager;
     [SyncVar]
     public bool facingRight = false;
     private Rigidbody2D rigid;
@@ -29,7 +30,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
-        GameObject.Find("Network Manager").GetComponent<CardEffects>().Initialize();
+        networkManager = GameObject.Find("Network Manager");
+        networkManager.GetComponent<CardEffects>().Initialize();
     }
 
     // Update is called once per frame
@@ -41,6 +43,8 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             return;
         }
+        
+        networkManager.GetComponent<CardEffects>().SetSources(gameObject);
 
         SetCamera();
 
