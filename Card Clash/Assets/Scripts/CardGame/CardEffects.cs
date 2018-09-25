@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CardEffects : MonoBehaviour {
 
-    
     private FighterScript source;
     private FighterHealthScript health;
     private Stack stack;
     private bool active = false;
-    
+    private bool initialized = false;
+
     public Dictionary<int, System.Action> database;
     public int[] keyList;
 
@@ -36,8 +36,12 @@ public class CardEffects : MonoBehaviour {
 
     }
 
-    public void Initialize()
+    public void Initialize(GameObject player)
     {
+        if (initialized)
+        {
+            return;
+        }
         keyList = new int[4];
         keyList[0] = 10;
         keyList[1] = 11;
@@ -50,9 +54,10 @@ public class CardEffects : MonoBehaviour {
             { 11, SpeedBoost }
         };
 
-        source = GameObject.Find("Main Character").GetComponent<FighterScript>();
-        health = GameObject.Find("Main Character").GetComponent<FighterHealthScript>();
+        source = player.GetComponent<FighterScript>();
+        health = player.GetComponent<FighterHealthScript>();
         stack = new Stack();
+        initialized = true;
     }
 
     public void PlayCard(int id)
