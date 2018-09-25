@@ -1,14 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class FighterHealthScript : MonoBehaviour {
+public class FighterHealthScript : NetworkBehaviour {
 
     public int startingPercentage = 0;
+    [SyncVar]
     public int currentPercentage;
     private Rigidbody2D rigid;
     //bool isDead;
+
+    public int Damage
+    {
+        get
+        {
+            return currentPercentage;
+        }
+    }
 
 	// Use this for initialization
 	void Start ()

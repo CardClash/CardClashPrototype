@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class NetworkFighterScript : NetworkBehaviour
 {
@@ -47,6 +48,19 @@ public class NetworkFighterScript : NetworkBehaviour
         networkManager.GetComponent<CardEffects>().SetSources(gameObject);
 
         SetCamera();
+
+        //Set % of local player dmg
+        GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString();
+
+        //Set % of opponent dmg
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            if (player != this.gameObject)
+            {
+                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = player.GetComponent<FighterHealthScript>().Damage.ToString();
+            }
+        }
 
         //if(isServer)
         //{
