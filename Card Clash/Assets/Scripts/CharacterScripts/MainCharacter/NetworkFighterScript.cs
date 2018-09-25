@@ -41,14 +41,16 @@ public class NetworkFighterScript : NetworkBehaviour
             return;
         }
 
-        if(isServer)
-        {
-            tag = "HostPlayer";
-        }
-        else
-        {
-            tag = "ClientPlayer";
-        }
+        SetCamera();
+
+        //if(isServer)
+        //{
+        //    tag = "HostPlayer";
+        //}
+        //else
+        //{
+        //    tag = "ClientPlayer";
+        //}
 
         //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
         float inputX = Input.GetAxis("Horizontal");
@@ -195,5 +197,14 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid.velocity = new Vector2(
             playerSpeed * inputX,
             rigid.velocity.y);
+    }
+
+    private void SetCamera()
+    {
+        GameObject cam = GameObject.Find("Window Camera");
+        if (cam != null)
+        {
+            cam.GetComponent<WindowCamera>().SetMainCharacter(gameObject);
+        }
     }
 }

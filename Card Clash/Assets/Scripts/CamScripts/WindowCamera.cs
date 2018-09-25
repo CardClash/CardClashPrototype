@@ -7,7 +7,7 @@ public class WindowCamera : NetworkBehaviour {
 
 
     private Vector3 zero;
-    private GameObject mainChar;
+    public GameObject mainChar;
     private Vector3 target;
     private Vector3 diff;
 
@@ -21,19 +21,19 @@ public class WindowCamera : NetworkBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!isLocalPlayer)
+        if(mainChar == null)
         {
             return;
         }
 
-        if(isServer)
-        {
-            mainChar = GameObject.FindWithTag("HostPlayer");
-        }
-        else
-        {
-            mainChar = GameObject.FindWithTag("ClientPlayer");
-        }
+        //if(isServer)
+        //{
+        //    mainChar = GameObject.FindWithTag("HostPlayer");
+        //}
+        //else
+        //{
+        //    mainChar = GameObject.FindWithTag("ClientPlayer");
+        //}
         //sets the target to the main character's position Vector
         target = mainChar.transform.position;
         //finds the difference between the target and the camera's position
@@ -64,5 +64,10 @@ public class WindowCamera : NetworkBehaviour {
         //set the camera's Z position to -12
         transform.position = new Vector3(transform.position.x, transform.position.y, -12);
 
+    }
+
+    public void SetMainCharacter(GameObject player)
+    {
+        mainChar = player;
     }
 }
