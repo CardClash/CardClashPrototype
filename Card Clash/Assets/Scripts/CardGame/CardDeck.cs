@@ -32,11 +32,6 @@ public class CardDeck : MonoBehaviour {
 
         effects = GetComponent<CardEffects>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-    }
 
     //When card is selected (Used in CardSelect)
     public void CardPick(int current)
