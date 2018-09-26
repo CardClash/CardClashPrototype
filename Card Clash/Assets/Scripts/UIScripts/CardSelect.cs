@@ -57,7 +57,7 @@ public class CardSelect : MonoBehaviour {
         //Select Card
         if (Input.GetButtonDown("Use Card"))
         {
-            Debug.Log("Using Card!" + current);
+            Debug.Log("Using Card! " + current);
             cardDeck.CardPick(current);
         }
 
