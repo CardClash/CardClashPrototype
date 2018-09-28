@@ -213,6 +213,11 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 20386525050755852, guid: a96a6cf4cd6bd654c933d1b3d6642a0d,
     type: 2}
   m_PrefabInternal: {fileID: 1576451041}
+--- !u!61 &583233968 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 61537906849444382, guid: 048a5d851861be542aacb6de392280bd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1947206289}
 --- !u!1001 &838556295
 Prefab:
   m_ObjectHideFlags: 0
@@ -305,6 +310,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114179490600525262, guid: 048a5d851861be542aacb6de392280bd,
+        type: 2}
+      propertyPath: punch
+      value: 
+      objectReference: {fileID: 583233968}
     m_RemovedComponents:
     - {fileID: 61336917028408038, guid: 048a5d851861be542aacb6de392280bd, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 048a5d851861be542aacb6de392280bd, type: 2}
@@ -501,6 +511,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!61 &1710104762 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 61537906849444382, guid: 048a5d851861be542aacb6de392280bd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1013305454}
 --- !u!1001 &1884964864
 Prefab:
   m_ObjectHideFlags: 0
@@ -586,6 +601,11 @@ Prefab:
       propertyPath: m_Name
       value: Main Character (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114179490600525262, guid: 048a5d851861be542aacb6de392280bd,
+        type: 2}
+      propertyPath: punch
+      value: 
+      objectReference: {fileID: 1710104762}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048a5d851861be542aacb6de392280bd, type: 2}
   m_IsPrefabAsset: 0
