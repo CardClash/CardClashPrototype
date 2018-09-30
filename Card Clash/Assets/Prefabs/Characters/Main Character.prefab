@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 114179490600525262}
   - component: {fileID: 95304443474614304}
   - component: {fileID: 114291454882774374}
-  - component: {fileID: 61336917028408038}
   m_Layer: 0
   m_Name: Main Character
   m_TagString: Player
@@ -97,38 +96,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61336917028408038
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1555725556024794}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.25, y: 6.95}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.25, y: 6.95}
-  m_EdgeRadius: 0
 --- !u!61 &61537906849444382
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1289514864693790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -201,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223af8a3c01c6494e93b5d82509a03bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  punch: {fileID: 61539076115856420}
+  punch: {fileID: 0}
   kick: {fileID: 0}
 --- !u!114 &114291454882774374
 MonoBehaviour:

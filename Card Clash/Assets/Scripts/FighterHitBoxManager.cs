@@ -30,15 +30,17 @@ public class FighterHitBoxManager : NetworkBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         //Calcualtes the direction of the collision, collider to collidee
-        Vector2 direction = col.transform.position - transform.position;
+        Vector2 direction = transform.position - col.transform.position;
         direction = direction.normalized;
 
-        Debug.Log("Collider hit something!");
         //If the collider is a punch, it will deal damage to the opponent
-        if(col.tag == "Punch")
-            gameObject.GetComponent<FighterHealthScript>().TakeDamage(7, direction);
+        if (col.tag == "Punch")
+        { 
+            Debug.Log("Punched something");
+            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7);
+        }
         else if (col == colliders[1])
-            GetComponent<FighterHealthScript>().TakeDamage(5, direction);
+            GetComponent<FighterHealthScript>().TakeHitDamage(5);
     }
 
     // Update is called once per frame

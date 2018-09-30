@@ -315,8 +315,7 @@ Prefab:
       propertyPath: punch
       value: 
       objectReference: {fileID: 583233968}
-    m_RemovedComponents:
-    - {fileID: 61336917028408038, guid: 048a5d851861be542aacb6de392280bd, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048a5d851861be542aacb6de392280bd, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1159656202
@@ -606,6 +605,11 @@ Prefab:
       propertyPath: punch
       value: 
       objectReference: {fileID: 1710104762}
+    - target: {fileID: 114763064754675800, guid: 048a5d851861be542aacb6de392280bd,
+        type: 2}
+      propertyPath: playerSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048a5d851861be542aacb6de392280bd, type: 2}
   m_IsPrefabAsset: 0
