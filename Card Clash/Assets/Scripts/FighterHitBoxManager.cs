@@ -29,7 +29,6 @@ public class FighterHitBoxManager : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("OnTriggerEnter2D");
         //Calcualtes the direction of the collision, collider to collidee
         Vector2 direction = transform.position - col.transform.position;
         direction = direction.normalized;
