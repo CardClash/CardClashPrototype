@@ -15,11 +15,18 @@ public class NetworkFighterScript : NetworkBehaviour
     private bool isGrounded;
     private GameObject networkManager;
     [SyncVar]
-    public bool facingRight = false;
+    private bool facingRight = false;
+    [SyncVar]
+    private bool corrected = false;
     private Rigidbody2D rigid;
     private GameObject opponent;
 
     public Animator anim;
+
+    //public bool FacingRight
+    //{
+    //    get { return facingRight; }
+    //}
 
     public GameObject Opponent
     {
@@ -57,6 +64,14 @@ public class NetworkFighterScript : NetworkBehaviour
         //Set % of local player dmg
         GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
+        if (opponent != null)
+        {
+            //Set % of opponent dmg
+            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+        }
+
         if (opponent == null)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -67,9 +82,6 @@ public class NetworkFighterScript : NetworkBehaviour
                     opponent = player;
                 }
             }
-
-            //Set % of opponent dmg
-            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
         }
 
         
@@ -88,6 +100,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
         //Flips the direction the character is facing
         Flip(inputX);
+        CmdFlip(inputX);
+        CorrectFlip();
 
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
 
@@ -133,13 +147,31 @@ public class NetworkFighterScript : NetworkBehaviour
         if (inputX < 0 && !facingRight)
         {
             facingRight = !facingRight;
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
+            corrected = false;
         }
         //... and vice versa
         else if (inputX > 0 && facingRight)
         {
             facingRight = !facingRight;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            corrected = false;
+        }
+    }
+
+    [Command]
+    //switches the facingRight bool
+    void CmdFlip(float inputX)
+    {
+        //flips the direction if they are going right...
+        if (inputX < 0 && !facingRight)
+        {
+            facingRight = !facingRight;
+            corrected = false;
+        }
+        //... and vice versa
+        else if (inputX > 0 && facingRight)
+        {
+            facingRight = !facingRight;
+            corrected = false;
         }
     }
 
@@ -242,13 +274,18 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
-    //This method is called by the opponent fighter, making it 
-    public void SetOpponentHealth(string health)
+    public void CorrectFlip()
     {
-        if (opponent == null)
+        if (!corrected)
         {
-            return;
+            if (facingRight)
+            {
+                transform.rotation = Quaternion.Euler(0, 180f, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
         }
-
     }
 }
