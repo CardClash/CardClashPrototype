@@ -99,6 +99,7 @@ public class NetworkFighterScript : NetworkBehaviour
         if (Input.GetButtonDown("Punch"))
         {
             Debug.Log("Punch!");
+            GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
             anim.SetTrigger("hitPunch");
         }
 
