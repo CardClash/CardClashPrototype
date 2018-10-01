@@ -29,7 +29,11 @@ GameObject:
   - component: {fileID: 114709051292810158}
   - component: {fileID: 114639318334275792}
   - component: {fileID: 114174384725739290}
+<<<<<<< HEAD
   - component: {fileID: 114109821585446956}
+=======
+  - component: {fileID: 114951339351165618}
+>>>>>>> ddec8d1e687ca3a65b3cda0204e13ae85fded2b8
   m_Layer: 0
   m_Name: Main Character (Network)
   m_TagString: Player
@@ -290,6 +294,8 @@ MonoBehaviour:
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114918361793834050
+<<<<<<< HEAD
+=======
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,6 +308,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPercentage: 0
   currentPercentage: 0
+--- !u!114 &114951339351165618
+>>>>>>> ddec8d1e687ca3a65b3cda0204e13ae85fded2b8
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1200660813637990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4035784994800156}
+  m_ChildIndex: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!212 &212105016586230486
 SpriteRenderer:
   m_ObjectHideFlags: 1
