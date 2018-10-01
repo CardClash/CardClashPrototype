@@ -23,7 +23,7 @@ public class FighterScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate ()
+    void FixedUpdate()
     {
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
         
