@@ -31,7 +31,8 @@ public class FighterScript : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
 
         //Moves the character each frame
-        Move(inputX);
+        if(inputX != 0)
+            Move(inputX);
 
         //Flips the direction the character is facing
         Flip(inputX);
@@ -114,6 +115,10 @@ public class FighterScript : MonoBehaviour {
         transform.position = new Vector3(0.0f, 2.5f, -1.0f);
 
         rigid.velocity = new Vector2();
+
+        GetComponent<FighterHealthScript>().currentPercentage = 0;
+
+        playerSpeed = 10;
     }
 
     private void CheckBoundaries()
@@ -166,9 +171,6 @@ public class FighterScript : MonoBehaviour {
 
     private void Move(float inputX)
     {
-        //sets the velocity to the playerSpeed and the direction of the x-axis input
-        rigid.velocity = new Vector2(
-            playerSpeed * inputX,
-            rigid.velocity.y);
+        rigid.velocity = new Vector2(playerSpeed * inputX, rigid.velocity.y);
     }
 }
