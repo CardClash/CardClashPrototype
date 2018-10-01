@@ -17,10 +17,15 @@ public class NetworkFighterScript : NetworkBehaviour
     [SyncVar]
     public bool facingRight = false;
     private Rigidbody2D rigid;
+    private GameObject opponent;
 
     public Animator anim;
 
-    // Use this for initialization
+    public GameObject Opponent
+    {
+        get { return opponent; }
+    }
+    
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -50,17 +55,24 @@ public class NetworkFighterScript : NetworkBehaviour
         SetCamera();
 
         //Set % of local player dmg
-        GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString();
+        GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
-        //Set % of opponent dmg
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
+        if (opponent == null)
         {
-            if (player != this.gameObject)
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject player in players)
             {
-                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = player.GetComponent<FighterHealthScript>().Damage.ToString();
+                if (player != this.gameObject)
+                {
+                    opponent = player;
+                }
             }
+
+            //Set % of opponent dmg
+            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
         }
+
+        
 
         //if(isServer)
         //{
@@ -228,5 +240,15 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             cam.GetComponent<WindowCamera>().SetMainCharacter(gameObject);
         }
+    }
+
+    //This method is called by the opponent fighter, making it 
+    public void SetOpponentHealth(string health)
+    {
+        if (opponent == null)
+        {
+            return;
+        }
+
     }
 }
