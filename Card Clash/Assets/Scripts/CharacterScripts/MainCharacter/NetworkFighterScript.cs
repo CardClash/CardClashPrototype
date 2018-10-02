@@ -207,7 +207,9 @@ public class NetworkFighterScript : NetworkBehaviour
 
         rigid.velocity = new Vector2();
 
-        GetComponent<FighterHealthScript>().currentPercentage = 0;
+        //GetComponent<FighterHealthScript>().currentPercentage = 0;
+
+        GetComponent<FighterHealthScript>().CmdReset();
 
         playerSpeed = 10;
     }

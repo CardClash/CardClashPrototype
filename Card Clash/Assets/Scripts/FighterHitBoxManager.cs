@@ -38,9 +38,10 @@ public class FighterHitBoxManager : NetworkBehaviour
         { 
             Debug.Log("Punched something");
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7);
+            //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
         }
         else if (col == colliders[1])
-            GetComponent<FighterHealthScript>().TakeHitDamage(5);
+            GetComponent<FighterHealthScript>().CmdTakeHitDamage(5);
     }
 
     // Update is called once per frame
