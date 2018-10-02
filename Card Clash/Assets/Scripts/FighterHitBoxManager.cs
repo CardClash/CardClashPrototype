@@ -37,7 +37,7 @@ public class FighterHitBoxManager : NetworkBehaviour
         if (col.tag == "Punch")
         { 
             Debug.Log("Punched something");
-            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7);
+            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
         }
         else if (col == colliders[1])
