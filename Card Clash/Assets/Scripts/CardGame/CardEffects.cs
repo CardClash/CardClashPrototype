@@ -32,7 +32,9 @@ public class CardEffects : MonoBehaviour {
             { 10, TakeDamage },
             { 11, SpeedBoost },
             { 12, HealSelf },
-            { 13, Teleport }
+            { 13, Teleport },
+            { 14, TeleportBackwards },
+            { 15, TakeBigDamage }
         };
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
@@ -65,6 +67,12 @@ public class CardEffects : MonoBehaviour {
         //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
         print("took damage");
     }
+    
+    void TakeBigDamage()
+    {
+        source.Opponent.GetComponent<FighterHealthScript>().TakeDamage(25);
+        print("took big damage");
+    }
 
     void SpeedBoost()
     {
@@ -89,5 +97,17 @@ public class CardEffects : MonoBehaviour {
             source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
         }
         print("Teleported Forward");
+    }
+    void TeleportBackwards()
+    {
+        if (source.facingRight == true)
+        {
+            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+        }
+        else if (source.facingRight == false)
+        {
+            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+        }
+        print("Teleported Backwards");
     }
 }
