@@ -6,6 +6,7 @@ public class CardDeck : MonoBehaviour {
 
     //Selectable array position, card id
     private Dictionary<int, int> hand;
+    public int[] handList;
     
     private CardEffects effects;
     public int[] keyList;
@@ -50,6 +51,8 @@ public class CardDeck : MonoBehaviour {
         print(unusedCards.Peek());
 
         effects = GetComponent<CardEffects>();
+
+        handList = new int[4];
     }
 
     //When card is selected (Used in CardSelect)
@@ -88,6 +91,17 @@ public class CardDeck : MonoBehaviour {
         int temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp; 
+    }
+
+    //Lets CardSelect know the ID of the cards in hand
+    public int[] GetHand()
+    {
+        handList[0] = hand[0];
+        handList[1] = hand[1];
+        handList[2] = hand[2];
+        handList[3] = hand[3];
+
+        return handList;
     }
 
 }

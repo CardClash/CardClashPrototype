@@ -228,6 +228,13 @@ MonoBehaviour:
   card2: {fileID: 1711591024}
   card3: {fileID: 1711591025}
   card4: {fileID: 1711591022}
+  cardArt:
+  - {fileID: 21300000, guid: 3483166e260406645954a9b25c14d65c, type: 3}
+  - {fileID: 21300000, guid: 96bb07b2af1edcc4983f144feaf479c2, type: 3}
+  - {fileID: 21300000, guid: 9990c154c1128e34082be3df7228ff4f, type: 3}
+  - {fileID: 21300000, guid: 31be409df922a0043a1819d4856181b1, type: 3}
+  - {fileID: 21300000, guid: c27d6be6a29e6e249b4556308f031b10, type: 3}
+  - {fileID: 21300000, guid: a08ff72962319f6478d8c9f0714f8bd6, type: 3}
 --- !u!114 &185376965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4062ef383684440b0b2f0c8534cb47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handList: 
   keyList: 
+  cardList: 
 --- !u!114 &185376967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,6 +937,30 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114058747417532540, guid: 59862d4d29c52da46afd2b275347049b,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3483166e260406645954a9b25c14d65c,
+        type: 3}
+    - target: {fileID: 114670861851867022, guid: 59862d4d29c52da46afd2b275347049b,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 96bb07b2af1edcc4983f144feaf479c2,
+        type: 3}
+    - target: {fileID: 114950517774413862, guid: 59862d4d29c52da46afd2b275347049b,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9990c154c1128e34082be3df7228ff4f,
+        type: 3}
+    - target: {fileID: 114958192839506800, guid: 59862d4d29c52da46afd2b275347049b,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31be409df922a0043a1819d4856181b1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59862d4d29c52da46afd2b275347049b, type: 2}
   m_IsPrefabAsset: 0

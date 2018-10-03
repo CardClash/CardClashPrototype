@@ -10,11 +10,15 @@ public class CardSelect : MonoBehaviour {
     public Selectable card3;
     public Selectable card4;
 
+    public Sprite[] cardArt;
+
     private CardDeck cardDeck;
 
     private int current;
     private int next;
     private Selectable[] select;
+
+    private int[] cardList;
 
 
     // Use this for initialization
@@ -25,10 +29,15 @@ public class CardSelect : MonoBehaviour {
         select[0].Select();
         
         cardDeck = GetComponent<CardDeck>();
-	}
+
+        cardList = new int[4]; 
+}
 	
 	// Update is called once per frame
 	void Update () {
+
+        //Update card sprites
+        ShownCards();
 
         //Highlight card to the left (wraps if first card)
         if (Input.GetButtonDown("Switch Card Left"))
@@ -61,7 +70,27 @@ public class CardSelect : MonoBehaviour {
             cardDeck.CardPick(current);
         }
 
+        
       }
 
+
+    private void ShownCards()
+    {
+        //Gets ID's of cards in hand in order
+        cardList = cardDeck.GetHand();
+
+        for (int i = 0; i < cardList.Length; i++)
+        {
+            cardList[i] = cardList[i] - 10;
+            
+        }
+
+        //Changes sprite on card to corresponding image
+        select[0].GetComponent<Image>().sprite = cardArt[cardList[0]];
+        select[1].GetComponent<Image>().sprite = cardArt[cardList[1]];
+        select[2].GetComponent<Image>().sprite = cardArt[cardList[2]];
+        select[3].GetComponent<Image>().sprite = cardArt[cardList[3]];
+
+    }
 
 }
