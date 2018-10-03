@@ -28,7 +28,7 @@ public class FighterHealthScript : NetworkBehaviour {
         rigid = GetComponent<Rigidbody2D>();
 	}
 
-    public void TakeHitDamage(int amount)
+    public void TakeHitDamage(int amount, Vector2 dir)
     {
         //increase the percentage by the amount of damage taken
         CmdTakeDamage(amount);
@@ -43,7 +43,7 @@ public class FighterHealthScript : NetworkBehaviour {
 
         //rigid.velocity = new Vector2(0, 100);
 
-        rigid.AddForce(new Vector2(knockback, knockback), ForceMode2D.Force);
+        rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
 
     }
 
