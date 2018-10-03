@@ -19,16 +19,20 @@ public class CardEffects : MonoBehaviour {
         {
             return;
         }
-        keyList = new int[4];
+        keyList = new int[6];
         keyList[0] = 10;
         keyList[1] = 11;
         keyList[2] = 12;
         keyList[3] = 13;
+        keyList[4] = 14;
+        keyList[5] = 15;
 
         database = new Dictionary<int, System.Action>
         {
             { 10, TakeDamage },
-            { 11, SpeedBoost }
+            { 11, SpeedBoost },
+            { 12, HealSelf },
+            { 13, Teleport }
         };
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
@@ -66,5 +70,24 @@ public class CardEffects : MonoBehaviour {
     {
         source.playerSpeed = source.playerSpeed + 1;
         print("speed increased by 1");
+    }
+
+    void HealSelf()
+    {
+        health.TakeDamage(-10);
+        print("healed self");
+    }
+
+    void Teleport()
+    {
+        if (source.facingRight == false)
+        {
+            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+        }
+        else if (source.facingRight == true)
+        {
+            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+        }
+        print("Teleported Forward");
     }
 }

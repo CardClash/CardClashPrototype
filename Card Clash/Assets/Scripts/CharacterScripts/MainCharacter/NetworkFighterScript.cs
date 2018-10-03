@@ -15,7 +15,7 @@ public class NetworkFighterScript : NetworkBehaviour
     private bool isGrounded;
     private GameObject networkManager;
     [SyncVar]
-    private bool facingRight = false;
+    public bool facingRight = false;
     [SyncVar]
     private bool corrected = false;
     private Rigidbody2D rigid;
