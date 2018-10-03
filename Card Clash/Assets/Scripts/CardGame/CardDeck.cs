@@ -11,6 +11,7 @@ public class CardDeck : MonoBehaviour {
     public int[] keyList;
     public int[] cardList;
     public static System.Random rand;
+    public Queue unusedCards;
 
     // Use this for initialization
     void Start () {
@@ -41,15 +42,12 @@ public class CardDeck : MonoBehaviour {
             { 3, cardList[3] }
         };
 
-        // Swap(cardList, 1, 2);
-        //rand = new System.Random();
-        //float test = rand.Next(10);
+        unusedCards = new Queue();
 
+        unusedCards.Enqueue(cardList[4]);
+        unusedCards.Enqueue(cardList[5]);
 
-        
-        
-
-
+        print(unusedCards.Peek());
 
         effects = GetComponent<CardEffects>();
     }
@@ -65,6 +63,10 @@ public class CardDeck : MonoBehaviour {
             {
                 
                 effects.PlayCard(hand[key]);
+                Debug.Log(hand[key]);
+                unusedCards.Enqueue(hand[key]);
+                //print(unusedCards.Peek());
+                hand[key] = (int)unusedCards.Dequeue();
                 break;
             }
         }
