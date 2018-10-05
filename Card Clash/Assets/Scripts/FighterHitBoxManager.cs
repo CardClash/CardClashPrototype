@@ -40,8 +40,8 @@ public class FighterHitBoxManager : NetworkBehaviour
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
         }
-        else if (col == colliders[1])
-            GetComponent<FighterHealthScript>().CmdTakeHitDamage(5);
+        //else if (col == colliders[1])
+            //GetComponent<FighterHealthScript>().TakeHitDamage(5);
     }
 
     // Update is called once per frame

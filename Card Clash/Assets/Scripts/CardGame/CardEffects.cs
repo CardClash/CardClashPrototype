@@ -63,14 +63,13 @@ public class CardEffects : MonoBehaviour {
     void TakeDamage()
     {
         //use source.Opponent to reference enemy player
-        source.Opponent.GetComponent<FighterHealthScript>().TakeDamage(10);
-        //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
         print("took damage");
     }
     
     void TakeBigDamage()
     {
-        source.Opponent.GetComponent<FighterHealthScript>().TakeDamage(25);
+        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
         print("took big damage");
     }
 
@@ -82,7 +81,7 @@ public class CardEffects : MonoBehaviour {
 
     void HealSelf()
     {
-        health.TakeDamage(-10);
+        health.CmdTakeDamage(-10);
         print("healed self");
     }
 

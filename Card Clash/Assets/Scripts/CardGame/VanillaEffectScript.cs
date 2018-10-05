@@ -49,7 +49,7 @@ public class VanillaEffectScript : MonoBehaviour {
 
   void takeDamage()
     {
-            health.TakeDamage(10);
+            health.CmdTakeDamage(10);
             print("took damage");
 
     }
