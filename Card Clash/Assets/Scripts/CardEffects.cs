@@ -6,8 +6,7 @@ public class CardEffects : MonoBehaviour {
 
     private NetworkFighterScript source;
     private FighterHealthScript health;
-    private Stack stack;
-    private bool active = false;
+  
     private bool initialized = false;
 
     public Dictionary<int, System.Action> database;
@@ -39,7 +38,7 @@ public class CardEffects : MonoBehaviour {
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
         health = GameObject.Find("Main Character (Network)(Clone)").GetComponent<FighterHealthScript>();
-        stack = new Stack();
+        
         initialized = true;
     }
 
