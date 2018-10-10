@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManagerScript : NetworkBehaviour
+{
     
     public Canvas canvas;
 
@@ -12,8 +14,11 @@ public class GameManagerScript : MonoBehaviour {
     public Camera optionalCamMain;
     public Camera optionalCamStart;
 
-	// Use this for initialization
-	void Start () {
+    //using the networked HUD
+    public NetworkManagerHUD networkHUD;
+
+    // Use this for initialization
+    void Start () {
         //Set the camera to true
         if (cam != null)
         {
@@ -28,7 +33,10 @@ public class GameManagerScript : MonoBehaviour {
         {
             throw new System.Exception("Set up a working set of cameras in the Game Manager");
         }
-	}
+
+        networkHUD = gameObject.GetComponent<NetworkManagerHUD>();
+        networkHUD.enabled = false;
+    }
 	
 	// Update is called once per frame
 	void Update ()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class FighterScript : MonoBehaviour {
     
     public float playerSpeed;
+    private int lives;
     [Range(5, 20)]
     public float jumpVelocity;
     public float fallMultiplier = 2.5f;
@@ -20,18 +21,20 @@ public class FighterScript : MonoBehaviour {
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        lives = 4;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
-        
+
         //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
         float inputX = Input.GetAxis("Horizontal");
 
         //Moves the character each frame
-        if(inputX != 0)
+        if (inputX != 0)
             Move(inputX);
 
         //Flips the direction the character is facing
@@ -48,6 +51,9 @@ public class FighterScript : MonoBehaviour {
         {
             Reset();
         }
+
+        if (Input.GetKey("3"))
+            FullReset();
 
         //press J or the A button to punch
         if (Input.GetButtonDown("Punch"))
@@ -121,24 +127,46 @@ public class FighterScript : MonoBehaviour {
         playerSpeed = 10;
     }
 
+    private void FullReset()
+    {
+        transform.position = new Vector3(0.0f, 2.5f, -1.0f);
+
+        rigid.velocity = new Vector2();
+
+        GetComponent<FighterHealthScript>().currentPercentage = 0;
+
+        playerSpeed = 10;
+
+        lives = 4;
+    }
+
     private void CheckBoundaries()
     {
-        //IF the player position is outside the boundaries of the stage, reset them to the stage
+        //if the player loses all their lives, they lose
+        if (lives <= 0)
+        {
+            
+        }
+        //IF the player position is outside the boundaries of the stage, reset them to the stage and remove a life
         if(transform.position.x < -40.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.x > 44.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.y < -18.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.y > 24.0f)
         {
             Reset();
+            lives--;
         }
     }
 

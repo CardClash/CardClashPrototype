@@ -63,7 +63,7 @@ public class CharacterSelect : NetworkBehaviour {
 
         movable.transform.position = options[playerNum - 1].transform.position;
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetButtonDown("Submit"))
         {
             finished = true;
             networkHUD.enabled = true;
