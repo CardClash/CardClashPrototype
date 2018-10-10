@@ -6,6 +6,7 @@ public class FighterScript : MonoBehaviour {
     
     public float playerSpeed;
     private int lives;
+    public int playerState;
     [Range(5, 20)]
     public float jumpVelocity;
     public float fallMultiplier = 2.5f;
@@ -13,7 +14,6 @@ public class FighterScript : MonoBehaviour {
     private bool isGrounded;
     [HideInInspector]public bool facingRight = false;
     private Rigidbody2D rigid;
-
     public Animator anim;
 
 	// Use this for initialization
@@ -23,54 +23,84 @@ public class FighterScript : MonoBehaviour {
         anim = GetComponent<Animator>();
 
         lives = 4;
+
+        //set player state to 0, meaning they haven't lost or won
+        playerState = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
-
-        //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
-        float inputX = Input.GetAxis("Horizontal");
-
-        //Moves the character each frame
-        if (inputX != 0)
-            Move(inputX);
-
-        //Flips the direction the character is facing
-        Flip(inputX);
-
-        //Checks if the character is within the boundaries of the stage
-        CheckBoundaries();
-
-        //Checks for jump
-        CheckJump();
-
-        //press R or Start to reset
-        if (Input.GetButton("Reset"))
+        //run all usual code if the player hasn't won or lost
+        if(playerState == 0)
         {
-            Reset();
+            anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
+
+            //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
+            float inputX = Input.GetAxis("Horizontal");
+
+            //Moves the character each frame
+            if (inputX != 0)
+                Move(inputX);
+
+            //Flips the direction the character is facing
+            Flip(inputX);
+
+            //Checks if the character is within the boundaries of the stage
+            CheckBoundaries();
+
+            //Checks for jump
+            CheckJump();
+
+            //press R or Start to reset
+            if (Input.GetButton("Reset"))
+            {
+                Reset();
+            }
+
+            if (Input.GetKey("3"))
+                FullReset();
+
+            //press J or the A button to punch
+            if (Input.GetButtonDown("Punch"))
+            {
+                Debug.Log("Punch!");
+                anim.SetTrigger("hitPunch");
+            }
+
+            //clamps player's velocity to the playerSpeed 1.5x
+            rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
+
+            //press escape or the select button to quit
+            if (Input.GetButton("Quit"))
+            {
+                Application.Quit();
+            }
+        }
+        
+        //run this code if the player has won
+        if(playerState == 1)
+        {
+            print("You Won!");
+            print("Press Any Button to Exit");
+
+            if(Input.anyKey)
+            {
+                Application.Quit();
+            }
         }
 
-        if (Input.GetKey("3"))
-            FullReset();
-
-        //press J or the A button to punch
-        if (Input.GetButtonDown("Punch"))
+        //run this code if the player has lost
+        if(playerState == 2)
         {
-            Debug.Log("Punch!");
-            anim.SetTrigger("hitPunch");
+            print("You Lost...");
+            print("Press Any Button to Exit");
+
+            if (Input.anyKey)
+            {
+                Application.Quit();
+            }
         }
-
-        //clamps player's velocity to the playerSpeed 1.5x
-        rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
-
-        //press escape or the select button to quit
-        if(Input.GetButton("Quit"))
-        {
-            Application.Quit();
-        }
-
     }
 
     //switches the facingRight bool
@@ -138,6 +168,8 @@ public class FighterScript : MonoBehaviour {
         playerSpeed = 10;
 
         lives = 4;
+
+        playerState = 0;
     }
 
     private void CheckBoundaries()
@@ -145,9 +177,10 @@ public class FighterScript : MonoBehaviour {
         //if the player loses all their lives, they lose
         if (lives <= 0)
         {
-            
+            //set player state to 2, meaning they lost
+            playerState = 2;
         }
-        //IF the player position is outside the boundaries of the stage, reset them to the stage and remove a life
+        //If the player position is outside the boundaries of the stage, reset them to the stage and remove a life
         if(transform.position.x < -40.0f)
         {
             Reset();

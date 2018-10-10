@@ -8,6 +8,8 @@ public class NetworkFighterScript : NetworkBehaviour
 {
 
     public float playerSpeed;
+    private int lives;
+    public int playerState;
     [Range(5, 20)]
     public float jumpVelocity;
     public float fallMultiplier = 2.5f;
@@ -23,11 +25,6 @@ public class NetworkFighterScript : NetworkBehaviour
     public int playerNumber;
 
     public Animator anim;
-
-    //public bool FacingRight
-    //{
-    //    get { return facingRight; }
-    //}
 
     public GameObject Opponent
     {
@@ -45,6 +42,11 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
+
+        lives = 4;
+
+        //set player state to 0, meaning they haven't lost or won
+        playerState = 0;
     }
 
     public override void OnStartLocalPlayer()
@@ -58,110 +60,129 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        gameObject.SetActive(true);
-
-        if (!isLocalPlayer)
+        //run all usual code if the player hasn't won or lost yet
+        if(playerState == 0)
         {
-            return;
-        }
-        
-        networkManager.GetComponent<CardEffects>().SetSources(gameObject);
+            gameObject.SetActive(true);
 
-        SetCamera();
-
-        if (playerNumber == 1)
-        {
-            //Set % of local player dmg
-            GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-            if (opponent != null)
+            if (!isLocalPlayer)
             {
-                //Set % of opponent dmg
-                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+                return;
             }
-        }
-        else if (playerNumber == 2)
-        {
-            //Set % of local player dmg
-            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
-            if (opponent != null)
+            networkManager.GetComponent<CardEffects>().SetSources(gameObject);
+
+            SetCamera();
+
+            if (playerNumber == 1)
             {
-                //Set % of opponent dmg
-                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                //Set % of local player dmg
+                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
-                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
-            }
-        }
-
-        if (opponent == null)
-        {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject player in players)
-            {
-                if (player != this.gameObject)
+                if (opponent != null)
                 {
-                    opponent = player;
+                    //Set % of opponent dmg
+                    GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                    opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
                 }
             }
+            else if (playerNumber == 2)
+            {
+                //Set % of local player dmg
+                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                if (opponent != null)
+                {
+                    //Set % of opponent dmg
+                    GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                    opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+                }
+            }
+
+            if (opponent == null)
+            {
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                foreach (GameObject player in players)
+                {
+                    if (player != this.gameObject)
+                    {
+                        opponent = player;
+                    }
+                }
+            }
+
+            //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
+            float inputX = Input.GetAxis("Horizontal");
+
+            //Flips the direction the character is facing
+            Flip(inputX);
+            CmdFlip(inputX);
+            CorrectFlip();
+
+            anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
+
+            //Moves the character each frame
+            if (inputX != 0)
+                Move(inputX);
+
+            //Checks if the character is within the boundaries of the stage
+            CheckBoundaries();
+
+            //Checks for jump
+            CheckJump();
+
+            //Checks player state
+            CheckPlayerState();
+
+            //press R or Start to reset
+            if (Input.GetButton("Reset"))
+            {
+                Reset();
+            }
+
+            //press J or the A button to punch
+            if (Input.GetButtonDown("Punch"))
+            {
+                Debug.Log("Punch!");
+                GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
+                anim.SetTrigger("hitPunch");
+            }
+
+            //clamps player's velocity to the playerSpeed 1.5x
+            rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
+
+            //press escape or the select button to quit
+            if (Input.GetButton("Quit"))
+            {
+                Application.Quit();
+            }
         }
 
-        
-
-        //if(isServer)
-        //{
-        //    tag = "HostPlayer";
-        //}
-        //else
-        //{
-        //    tag = "ClientPlayer";
-        //}
-
-        //takes in "Horizontal" input for movement on the X-Axis (Refer to the Project-> Project Settings -> Input)
-        float inputX = Input.GetAxis("Horizontal");
-
-        //Flips the direction the character is facing
-        Flip(inputX);
-        CmdFlip(inputX);
-        CorrectFlip();
-
-        anim.SetFloat("Speed", Mathf.Abs(rigid.velocity.x));
-
-        //Moves the character each frame
-        if (inputX != 0)
-            Move(inputX);
-
-        //Checks if the character is within the boundaries of the stage
-        CheckBoundaries();
-
-        //Checks for jump
-        CheckJump();
-
-        //press R or Start to reset
-        if (Input.GetButton("Reset"))
+        //run this code if the player has won
+        if (playerState == 1)
         {
-            Reset();
+            print("You Won!");
+            print("Press Any Button to Exit");
+
+            if (Input.anyKey)
+            {
+                Application.Quit();
+            }
         }
 
-        //press J or the A button to punch
-        if (Input.GetButtonDown("Punch"))
+        //run this code if the player has lost
+        if (playerState == 2)
         {
-            Debug.Log("Punch!");
-            GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
-            anim.SetTrigger("hitPunch");
+            print("You Lost...");
+            print("Press Any Button to Exit");
+
+            if (Input.anyKey)
+            {
+                Application.Quit();
+            }
         }
-
-        //clamps player's velocity to the playerSpeed 1.5x
-        rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
-
-        //press escape or the select button to quit
-        if (Input.GetButton("Quit"))
-        {
-            Application.Quit();
-        }
-
     }
 
     //switches the facingRight bool
@@ -238,24 +259,43 @@ public class NetworkFighterScript : NetworkBehaviour
         playerSpeed = 10;
     }
 
+    private void FullReset()
+    {
+        transform.position = new Vector3(0.0f, 2.5f, -1.0f);
+
+        rigid.velocity = new Vector2();
+
+        GetComponent<FighterHealthScript>().CmdReset();
+
+        playerSpeed = 10;
+
+        lives = 4;
+
+        playerState = 0;
+    }
+
     private void CheckBoundaries()
     {
-        //IF the player position is outside the boundaries of the stage, reset them to the stage
+        //If the player position is outside the boundaries of the stage, reset them to the stage
         if (transform.position.x < -40.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.x > 44.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.y < -18.0f)
         {
             Reset();
+            lives--;
         }
         if (transform.position.y > 24.0f)
         {
             Reset();
+            lives--;
         }
     }
 
@@ -312,6 +352,21 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
+        }
+    }
+    public void CheckPlayerState()
+    {
+        //if the player loses all their lives, they lose
+        if (lives <= 0)
+        {
+            //set player state to 2, meaning they lost
+            playerState = 2;
+        }
+
+        //if your opponent loses, you win
+        if (opponent.GetComponent<NetworkFighterScript>().playerState == 2)
+        {
+            playerState = 1;
         }
     }
 }

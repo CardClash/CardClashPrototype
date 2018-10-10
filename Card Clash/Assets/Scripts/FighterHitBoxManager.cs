@@ -13,7 +13,7 @@ public class FighterHitBoxManager : NetworkBehaviour
     private BoxCollider2D[] colliders;
 
     //Enum for hitboxes
-    public enum hitBoxes
+    public enum HitBoxes
     {
         punchBox,
         kickBox,
