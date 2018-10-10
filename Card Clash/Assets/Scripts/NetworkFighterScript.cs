@@ -20,6 +20,7 @@ public class NetworkFighterScript : NetworkBehaviour
     private bool corrected = false;
     private Rigidbody2D rigid;
     private GameObject opponent;
+    public int playerNumber;
 
     public Animator anim;
 
@@ -31,6 +32,12 @@ public class NetworkFighterScript : NetworkBehaviour
     public GameObject Opponent
     {
         get { return opponent; }
+    }
+
+    public int PlayerNumber
+    {
+        get { return playerNumber; }
+        set { playerNumber = value; }
     }
     
     void Start()
@@ -45,6 +52,7 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
         networkManager = GameObject.Find("Network Manager");
         networkManager.GetComponent<CardEffects>().Initialize();
+        playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
     }
 
     // Update is called once per frame
@@ -61,15 +69,31 @@ public class NetworkFighterScript : NetworkBehaviour
 
         SetCamera();
 
-        //Set % of local player dmg
-        GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-        if (opponent != null)
+        if (playerNumber == 1)
         {
-            //Set % of opponent dmg
-            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            //Set % of local player dmg
+            GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
-            opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+            if (opponent != null)
+            {
+                //Set % of opponent dmg
+                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+            }
+        }
+        else if (playerNumber == 2)
+        {
+            //Set % of local player dmg
+            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            if (opponent != null)
+            {
+                //Set % of opponent dmg
+                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+            }
         }
 
         if (opponent == null)

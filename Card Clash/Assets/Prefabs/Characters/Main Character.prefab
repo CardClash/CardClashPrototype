@@ -185,11 +185,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555725556024794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a46cb736bcde0d24380635059e663fbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 177554dd731f77641bd1a6ec9e7d8685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingPercentage: 0
-  currentPercentage: 0
+  playerSpeed: 0
+  jumpVelocity: 0
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
+  facingRight: 0
+  anim: {fileID: 0}
 --- !u!114 &114763064754675800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,15 +202,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555725556024794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc41c621d07ea24596b2345598c7ddb, type: 3}
+  m_Script: {fileID: 11500000, guid: 0798c27ef7eda1244bfd66f31d60eef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 10
-  jumpVelocity: 9
-  fallMultiplier: 3
-  lowJumpMultiplier: 2
-  facingRight: 0
-  anim: {fileID: 95304443474614304}
+  startingPercentage: 0
+  currentPercentage: 0
 --- !u!212 &212738253560129492
 SpriteRenderer:
   m_ObjectHideFlags: 1
