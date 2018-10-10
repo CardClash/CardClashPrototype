@@ -220,6 +220,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   optionalCamMain: {fileID: 0}
   optionalCamStart: {fileID: 0}
+  networkHUD: {fileID: 0}
 --- !u!114 &114612759029847184
 MonoBehaviour:
   m_ObjectHideFlags: 1

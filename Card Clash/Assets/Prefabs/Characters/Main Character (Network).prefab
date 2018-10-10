@@ -179,11 +179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d13093ae069a749956eb5857536452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 1
-  jumpVelocity: 0
+  playerSpeed: 10
+  jumpVelocity: 9
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   facingRight: 0
+  playerNumber: 0
   anim: {fileID: 0}
 --- !u!114 &114109821585446956
 MonoBehaviour:
