@@ -25,6 +25,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public int playerNumber;
 
     public Animator anim;
+    public GameObject endGameText;
 
     public GameObject Opponent
     {
@@ -52,6 +53,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
+
+        endGameText = GameObject.Find("EndGameText");
     }
 
     public override void OnStartLocalPlayer()
@@ -79,32 +82,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
             SetCamera();
 
-            if (playerNumber == 1)
-            {
-                //Set % of local player dmg
-                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-                if (opponent != null)
-                {
-                    //Set % of opponent dmg
-                    GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-                    opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
-                }
-            }
-            else if (playerNumber == 2)
-            {
-                //Set % of local player dmg
-                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-                if (opponent != null)
-                {
-                    //Set % of opponent dmg
-                    GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
-                    opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
-                }
-            }
+            DisplayHealth();
 
             if (opponent == null)
             {
@@ -141,28 +119,7 @@ public class NetworkFighterScript : NetworkBehaviour
             //Checks player state
             CheckPlayerState();
 
-            //press R or Start to reset
-            if (Input.GetButton("Reset"))
-            {
-                Reset();
-            }
-
-            //press J or the A button to punch
-            if (Input.GetButtonDown("Punch"))
-            {
-                Debug.Log("Punch!");
-                GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
-                anim.SetTrigger("hitPunch");
-            }
-
-            //clamps player's velocity to the playerSpeed 1.5x
-            rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
-
-            //press escape or the select button to quit
-            if (Input.GetButton("Quit"))
-            {
-                Application.Quit();
-            }
+            CheckInput();
         }
 
         //run this code if the player has won
@@ -171,8 +128,13 @@ public class NetworkFighterScript : NetworkBehaviour
             print("You Won!");
             print("Press Any Button to Exit");
 
+            endGameText.SetActive(true);
+
+            endGameText.GetComponent<Text>().text = "You Win!\nPress Any Button to Exit";
+
             if (Input.anyKey)
             {
+                Debug.Break();
                 Application.Quit();
             }
         }
@@ -183,8 +145,13 @@ public class NetworkFighterScript : NetworkBehaviour
             print("You Lost...");
             print("Press Any Button to Exit");
 
+            endGameText.SetActive(true);
+
+            endGameText.GetComponent<Text>().text = "You Lose...\nPress Any Button to Exit";
+
             if (Input.anyKey)
             {
+                Debug.Break();
                 Application.Quit();
             }
         }
@@ -334,6 +301,9 @@ public class NetworkFighterScript : NetworkBehaviour
     private void Move(float inputX)
     {
         rigid.velocity = new Vector2(playerSpeed * inputX, rigid.velocity.y);
+
+        //clamps player's velocity to the playerSpeed 1.5x
+        rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
     }
 
     private void SetCamera()
@@ -359,6 +329,37 @@ public class NetworkFighterScript : NetworkBehaviour
             }
         }
     }
+
+    public void DisplayHealth()
+    {
+        if (playerNumber == 1)
+        {
+            //Set % of local player dmg
+            GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            if (opponent != null)
+            {
+                //Set % of opponent dmg
+                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+            }
+        }
+        else if (playerNumber == 2)
+        {
+            //Set % of local player dmg
+            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            if (opponent != null)
+            {
+                //Set % of opponent dmg
+                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+            }
+        }
+    }
+
     public void CheckPlayerState()
     {
         //if the player loses all their lives, they lose
@@ -372,6 +373,29 @@ public class NetworkFighterScript : NetworkBehaviour
         if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
             playerState = 1;
+        }
+    }
+
+    public void CheckInput()
+    {
+        //press R or Start to reset
+        if (Input.GetButton("Reset"))
+        {
+            Reset();
+        }
+
+        //press J or the A button to punch
+        if (Input.GetButtonDown("Punch"))
+        {
+            Debug.Log("Punch!");
+            GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
+            anim.SetTrigger("hitPunch");
+        }
+
+        //press escape or the select button to quit
+        if (Input.GetButton("Quit"))
+        {
+            Application.Quit();
         }
     }
 }
