@@ -6,10 +6,10 @@ using UnityEngine.Networking;
 public class CharacterSelect : NetworkBehaviour {
 
     public int playerCount;
-    public NetworkManagerHUD networkHUD;
     public GameObject movable;
     public GameObject[] options;
 
+    private NetworkManagerHUD networkHUD;
     private bool doneSelect;
     private bool finished;
     private int playerNum;
@@ -18,7 +18,7 @@ public class CharacterSelect : NetworkBehaviour {
 	void Start ()
     {
         networkHUD = gameObject.GetComponent<NetworkManagerHUD>();
-        networkHUD.enabled = false;
+        networkHUD.enabled = true;
         doneSelect = true;
         finished = false;
         playerNum = 1;

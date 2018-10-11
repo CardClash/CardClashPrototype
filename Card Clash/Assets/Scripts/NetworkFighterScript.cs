@@ -45,6 +45,11 @@ public class NetworkFighterScript : NetworkBehaviour
     
     void Start()
     {
+        if (playerNumber > 2 || playerNumber < 1)
+        {
+            playerNumber = 1;
+        }
+
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
