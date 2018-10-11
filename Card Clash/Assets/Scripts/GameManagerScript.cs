@@ -35,7 +35,7 @@ public class GameManagerScript : NetworkBehaviour
         }
 
         networkHUD = gameObject.GetComponent<NetworkManagerHUD>();
-        networkHUD.enabled = false;
+        //networkHUD.enabled = false;
     }
 	
 	// Update is called once per frame
