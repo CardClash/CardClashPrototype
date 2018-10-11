@@ -36,6 +36,11 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return playerNumber; }
         set { playerNumber = value; }
     }
+
+    public int PlayerState
+    {
+        get { return playerState; }
+    }
     
     void Start()
     {
@@ -364,7 +369,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //if your opponent loses, you win
-        if (opponent.GetComponent<NetworkFighterScript>().playerState == 2)
+        if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
             playerState = 1;
         }
