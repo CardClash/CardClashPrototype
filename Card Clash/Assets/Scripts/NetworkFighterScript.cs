@@ -73,7 +73,7 @@ public class NetworkFighterScript : NetworkBehaviour
         playerState = 0;
 
         endGameText = GameObject.Find("WinText");
-        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+        //endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
 
         readied = false;
         matchStarted = false;
@@ -92,28 +92,28 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!matchStarted)
-        {
-            transform.position = new Vector3(0, 0, transform.position.z);
-            if (readied)
-            {
-                endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
-                if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready)
-                {
-                    CmdStartMatch();
-                }
-            }
-            else
-            {
-                endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
-            }
+        //if (!matchStarted)
+        //{
+        //    transform.position = new Vector3(0, 0, transform.position.z);
+        //    if (readied)
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
+        //        if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready)
+        //        {
+        //            CmdStartMatch();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                readied = !readied;
-            }
-            return;
-        }
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        readied = !readied;
+        //    }
+        //    return;
+        //}
 
         //run all usual code if the player hasn't won or lost yet
         if(playerState == 0)
