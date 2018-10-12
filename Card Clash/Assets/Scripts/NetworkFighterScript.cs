@@ -59,7 +59,8 @@ public class NetworkFighterScript : NetworkBehaviour
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
 
-        endGameText = GameObject.Find("EndGameText");
+        endGameText = GameObject.Find("WinText");
+        endGameText.GetComponent<Text>().text = "";
     }
 
     public override void OnStartLocalPlayer()
@@ -375,7 +376,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //if your opponent loses, you win
-        if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
+        if (opponent && opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
             playerState = 1;
         }
