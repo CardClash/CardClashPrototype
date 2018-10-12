@@ -72,13 +72,13 @@ public class NetworkFighterScript : NetworkBehaviour
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
 
-        endGameText = GameObject.Find("WinText");
+        endGameText = GameObject.Find("EndGameText");
         //endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
 
         readied = false;
         matchStarted = false;
         
-        GetComponent<SpriteRenderer>().enabled = false;
+        //GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public override void OnStartLocalPlayer()
@@ -356,6 +356,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
     private void SetCamera()
     {
+        if(!isLocalPlayer)
+        {
+            return;
+        }
         GameObject cam = GameObject.Find("Window Camera");
         if (cam != null)
         {
