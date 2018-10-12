@@ -21,7 +21,7 @@ public class WindowCamera : NetworkBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(mainChar == null)
+        if (!mainChar)
         {
             return;
         }

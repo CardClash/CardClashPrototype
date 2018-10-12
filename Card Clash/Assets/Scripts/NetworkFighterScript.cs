@@ -20,6 +20,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public bool facingRight = false;
     [SyncVar]
     private bool corrected = false;
+    public bool readied;
+    public bool matchStarted;
     private Rigidbody2D rigid;
     private GameObject opponent;
     public int playerNumber;
@@ -42,6 +44,17 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         get { return playerState; }
     }
+
+    public bool Ready
+    {
+        get { return readied; }
+    }
+
+    public bool MatchStarted
+    {
+        get { return matchStarted; }
+        set { matchStarted = value; }
+    }
     
     void Start()
     {
@@ -60,7 +73,12 @@ public class NetworkFighterScript : NetworkBehaviour
         playerState = 0;
 
         endGameText = GameObject.Find("WinText");
-        endGameText.GetComponent<Text>().text = "";
+        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+
+        readied = false;
+        matchStarted = false;
+        
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public override void OnStartLocalPlayer()
@@ -74,9 +92,33 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!matchStarted)
+        {
+            transform.position = new Vector3(0, 0, transform.position.z);
+            if (readied)
+            {
+                endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
+                if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready)
+                {
+                    CmdStartMatch();
+                }
+            }
+            else
+            {
+                endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                readied = !readied;
+            }
+            return;
+        }
+
         //run all usual code if the player hasn't won or lost yet
         if(playerState == 0)
         {
+            endGameText.GetComponent<Text>().text = "";
             gameObject.SetActive(true);
 
             if (!isLocalPlayer)
@@ -403,5 +445,22 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             Application.Quit();
         }
+    }
+
+    [Command]
+    public void CmdStartMatch()
+    {
+        print(NetworkServer.active);
+
+        if (!NetworkServer.active)
+        {
+            return;
+        }
+        matchStarted = true;
+        opponent.GetComponent<NetworkFighterScript>().MatchStarted = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+        opponent.GetComponent<SpriteRenderer>().enabled = true;
+        transform.position = new Vector3(-5, 0, transform.position.z);
+        opponent.transform.position = new Vector3(5, 0, transform.position.z);
     }
 }
