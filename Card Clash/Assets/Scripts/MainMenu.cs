@@ -11,19 +11,22 @@ public class MainMenu : MonoBehaviour {
     public float spacingX;
     public float spacingY;
 
-    private enum menuState { mainMenu, connectionMenu };
+    private enum menuState { mainMenu, connectionMenu, confirmationMenu };
     private menuState myState;
+    private string networkAddress;
+    private bool host;
 
 	// Use this for initialization
 	void Start ()
     {
         myState = menuState.mainMenu;
+        networkAddress = "IP";
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+        //width = Screen.width / 10.0f;
 	}
 
     private void OnGUI()
@@ -35,17 +38,18 @@ public class MainMenu : MonoBehaviour {
                 myState = menuState.connectionMenu;
             }
         }
-        else if (myState == menuState.mainMenu)
+        else if (myState == menuState.connectionMenu)
         {
             if (GUI.Button(new Rect(xPos, yPos, width, height), "Host"))
             {
-
+                host = true;
             }
-            if (GUI.Button(new Rect(xPos + width, yPos + height + spacingY, width, height), "Connect"))
+            if (GUI.Button(new Rect(xPos, yPos + height + spacingY, width, height), "Connect"))
             {
-
+                host = false;
             }
-            if (GUI.Button(new Rect(xPos + (width * 2), yPos + ((height + spacingY) * 2), width, height), "Connect"))
+            networkAddress = GUI.TextField(new Rect(xPos, yPos + ((height + spacingY) * 2), width, (height * 0.75f)), networkAddress);
+            if (GUI.Button(new Rect(xPos, yPos + ((height * 2.75f) + (spacingY * 3.0f)), width, height), "Cancel"))
             {
                 myState = menuState.mainMenu;
             }

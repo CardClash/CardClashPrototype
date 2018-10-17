@@ -45,7 +45,8 @@ public class FighterHitBoxManager : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
 		
 	}
 }
