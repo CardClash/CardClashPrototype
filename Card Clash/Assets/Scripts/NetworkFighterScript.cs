@@ -25,6 +25,9 @@ public class NetworkFighterScript : NetworkBehaviour
     private Rigidbody2D rigid;
     private GameObject opponent;
     public int playerNumber;
+    private float playerMana;
+    public int manaDisplay;
+    public int actualMana;
 
     public Animator anim;
     public GameObject endGameText;
@@ -68,6 +71,9 @@ public class NetworkFighterScript : NetworkBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
 
         lives = 4;
+
+        playerMana = 1;
+        actualMana = 0;
 
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
@@ -168,6 +174,8 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckPlayerState();
 
             CheckInput();
+
+            ManaSystem();
         }
 
         //run this code if the player has won
@@ -277,6 +285,8 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<FighterHealthScript>().CmdReset();
 
         playerSpeed = 10;
+
+        playerMana = 1;
     }
 
     private void FullReset()
@@ -288,6 +298,8 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<FighterHealthScript>().CmdReset();
 
         playerSpeed = 10;
+
+        playerMana = 1;
 
         lives = 4;
 
@@ -409,6 +421,18 @@ public class NetworkFighterScript : NetworkBehaviour
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
+        }
+    }
+
+    public void ManaSystem()
+    {
+      manaDisplay = (int)playerMana;
+      playerMana = playerMana + Time.deltaTime;
+
+      if (playerMana >= 10)
+        {
+            actualMana = actualMana + 1;
+            playerMana = 1;
         }
     }
 
