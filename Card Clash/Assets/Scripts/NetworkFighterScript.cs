@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -25,6 +27,9 @@ public class NetworkFighterScript : NetworkBehaviour
     private Rigidbody2D rigid;
     private GameObject opponent;
     public int playerNumber;
+    private float playerMana;
+    public int manaDisplay;
+    public int actualMana;
 
     public Animator anim;
     public GameObject endGameText;
@@ -68,6 +73,9 @@ public class NetworkFighterScript : NetworkBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
 
         lives = 4;
+
+        playerMana = 1;
+        actualMana = 0;
 
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
@@ -164,10 +172,15 @@ public class NetworkFighterScript : NetworkBehaviour
             //Checks for jump
             CheckJump();
 
+            if (Input.GetButtonDown("Teleport"))
+                TeleportDir(inputX);
+
             //Checks player state
             CheckPlayerState();
 
             CheckInput();
+
+            ManaSystem();
         }
 
         //run this code if the player has won
@@ -277,6 +290,8 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<FighterHealthScript>().CmdReset();
 
         playerSpeed = 10;
+
+        playerMana = 1;
     }
 
     private void FullReset()
@@ -288,6 +303,8 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<FighterHealthScript>().CmdReset();
 
         playerSpeed = 10;
+
+        playerMana = 1;
 
         lives = 4;
 
@@ -412,6 +429,18 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
+    public void ManaSystem()
+    {
+      manaDisplay = (int)playerMana;
+      playerMana = playerMana + Time.deltaTime;
+
+      if (playerMana >= 10)
+        {
+            actualMana = actualMana + 1;
+            playerMana = 1;
+        }
+    }
+
     public void CheckPlayerState()
     {
         //if the player loses all their lives, they lose
@@ -466,5 +495,41 @@ public class NetworkFighterScript : NetworkBehaviour
         opponent.GetComponent<SpriteRenderer>().enabled = true;
         transform.position = new Vector3(-5, 0, transform.position.z);
         opponent.transform.position = new Vector3(5, 0, transform.position.z);
+    }
+
+    public void TeleportDir(float xDir)
+    {
+        float yDir = Input.GetAxis("Vertical");
+
+        //Calculate the direction of the input
+        Vector2 dir = new Vector2(xDir, yDir);
+        //Calculate the magnitude of the
+        float mag = dir.magnitude;
+
+        //Set the distance to 5 depending on direction
+        if (dir.x < 0)
+        {
+            dir.x = -5;
+        }
+        else if(dir.x > 0)
+        {
+            dir.x = 5;
+        }
+        else
+        {
+            dir.x = 0;
+        }
+
+        if (dir.y < 0)
+        {
+            dir.y = -5;
+        }
+        else
+        {
+            dir.y = 5;
+        }
+
+        //add the direction to the position with the max distance being 5, multiplied by the xDir and yDir (-1 to 1)
+        transform.position += new Vector3(dir.x, dir.y, 0) * mag;
     }
 }
