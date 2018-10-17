@@ -62,14 +62,20 @@ public class CardEffects : MonoBehaviour {
     void TakeDamage()
     {
         //use source.Opponent to reference enemy player
-        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
-        print("took damage");
+        if (source.Opponent)
+        {
+            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+            print("took damage");
+        }
     }
     
     void TakeBigDamage()
     {
-        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
-        print("took big damage");
+        if (source.Opponent)
+        {
+            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
+            print("took big damage");
+        }
     }
 
     void SpeedBoost()
