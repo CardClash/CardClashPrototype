@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -169,6 +171,9 @@ public class NetworkFighterScript : NetworkBehaviour
 
             //Checks for jump
             CheckJump();
+
+            if (Input.GetButtonDown("Teleport"))
+                TeleportDir(inputX);
 
             //Checks player state
             CheckPlayerState();
@@ -490,5 +495,41 @@ public class NetworkFighterScript : NetworkBehaviour
         opponent.GetComponent<SpriteRenderer>().enabled = true;
         transform.position = new Vector3(-5, 0, transform.position.z);
         opponent.transform.position = new Vector3(5, 0, transform.position.z);
+    }
+
+    public void TeleportDir(float xDir)
+    {
+        float yDir = Input.GetAxis("Vertical");
+
+        //Calculate the direction of the input
+        Vector2 dir = new Vector2(xDir, yDir);
+        //Calculate the magnitude of the
+        float mag = dir.magnitude;
+
+        //Set the distance to 5 depending on direction
+        if (dir.x < 0)
+        {
+            dir.x = -5;
+        }
+        else if(dir.x > 0)
+        {
+            dir.x = 5;
+        }
+        else
+        {
+            dir.x = 0;
+        }
+
+        if (dir.y < 0)
+        {
+            dir.y = -5;
+        }
+        else
+        {
+            dir.y = 5;
+        }
+
+        //add the direction to the position with the max distance being 5, multiplied by the xDir and yDir (-1 to 1)
+        transform.position += new Vector3(dir.x, dir.y, 0) * mag;
     }
 }

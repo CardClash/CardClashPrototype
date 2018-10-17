@@ -46,7 +46,7 @@ public class FighterHealthScript : NetworkBehaviour {
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
 
     }
-
+    
     //public void TakeDamage(int amount)
     //{
     //    //increase the percentage by the amount of damage taken
@@ -78,6 +78,10 @@ public class FighterHealthScript : NetworkBehaviour {
     {
         //increase the percentage by the amount of damage taken
         currentPercentage += amount;
+        if (currentPercentage < 0)
+        {
+            currentPercentage = 0;
+        }
     }
 
     [Command]
