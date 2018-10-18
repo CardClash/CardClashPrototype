@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114828331273894238}
   - component: {fileID: 114087851014382986}
   - component: {fileID: 114542487803262698}
+  - component: {fileID: 114229008170253814}
+  - component: {fileID: 114281568478168662}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -106,7 +108,13 @@ MonoBehaviour:
   card2: {fileID: 0}
   card3: {fileID: 0}
   card4: {fileID: 0}
-  cardArt: []
+  cardArt:
+  - {fileID: 21300000, guid: 3483166e260406645954a9b25c14d65c, type: 3}
+  - {fileID: 21300000, guid: 96bb07b2af1edcc4983f144feaf479c2, type: 3}
+  - {fileID: 21300000, guid: 9990c154c1128e34082be3df7228ff4f, type: 3}
+  - {fileID: 21300000, guid: 31be409df922a0043a1819d4856181b1, type: 3}
+  - {fileID: 21300000, guid: c27d6be6a29e6e249b4556308f031b10, type: 3}
+  - {fileID: 21300000, guid: a08ff72962319f6478d8c9f0714f8bd6, type: 3}
 --- !u!114 &114156815155707408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,7 +142,6 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 0}
   - {fileID: 1200660813637990, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
@@ -191,6 +198,35 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!114 &114229008170253814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016667006248372}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4481542baed92a14abf52c923b68f103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCount: 2
+  movable: {fileID: 0}
+  options:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114281568478168662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016667006248372}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853b5aadba2d0564caaf45420f74d433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 1200660813637990, guid: ca54129a8a1edec45a6e43214c7b784b,
+    type: 2}
 --- !u!114 &114427323272282882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,10 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
-  cam: {fileID: 0}
-  optionalCamMain: {fileID: 0}
-  optionalCamStart: {fileID: 0}
-  networkHUD: {fileID: 0}
 --- !u!114 &114612759029847184
 MonoBehaviour:
   m_ObjectHideFlags: 1

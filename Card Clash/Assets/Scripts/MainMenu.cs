@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
@@ -13,14 +14,12 @@ public class MainMenu : MonoBehaviour {
 
     private enum menuState { mainMenu, connectionMenu, confirmationMenu };
     private menuState myState;
-    private string networkAddress;
-    private bool host;
 
 	// Use this for initialization
 	void Start ()
     {
         myState = menuState.mainMenu;
-        networkAddress = "IP";
+        NetworkInfo.IP = "IP";
 	}
 	
 	// Update is called once per frame
@@ -42,13 +41,15 @@ public class MainMenu : MonoBehaviour {
         {
             if (GUI.Button(new Rect(xPos, yPos, width, height), "Host"))
             {
-                host = true;
+                NetworkInfo.Host = true;
+                SceneManager.LoadScene(2);
             }
             if (GUI.Button(new Rect(xPos, yPos + height + spacingY, width, height), "Connect"))
             {
-                host = false;
+                NetworkInfo.Host = false;
+                SceneManager.LoadScene(2);
             }
-            networkAddress = GUI.TextField(new Rect(xPos, yPos + ((height + spacingY) * 2), width, (height * 0.75f)), networkAddress);
+            NetworkInfo.IP = GUI.TextField(new Rect(xPos, yPos + ((height + spacingY) * 2), width, (height * 0.75f)), NetworkInfo.IP);
             if (GUI.Button(new Rect(xPos, yPos + ((height * 2.75f) + (spacingY * 3.0f)), width, height), "Cancel"))
             {
                 myState = menuState.mainMenu;
