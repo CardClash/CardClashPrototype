@@ -31,6 +31,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     public int actualMana;
 
+    private bool host;
+
     public Animator anim;
     public GameObject endGameText;
 
@@ -59,6 +61,12 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         get { return matchStarted; }
         set { matchStarted = value; }
+    }
+
+    public bool Host
+    {
+        get { return host; }
+        set { host = value; }
     }
     
     void Start()
@@ -91,7 +99,9 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
+        host = isServer;
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
+        CmdEnableRender();
         networkManager = GameObject.Find("Network Manager");
         networkManager.GetComponent<CardEffects>().Initialize();
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
@@ -100,31 +110,32 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //if (!matchStarted)
-        //{
-        //    transform.position = new Vector3(0, 0, transform.position.z);
-        //    if (readied)
-        //    {
-        //        endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
-        //        if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready)
-        //        {
-        //            CmdStartMatch();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
-        //    }
+        if (!matchStarted)
+        {
+            transform.position = new Vector3(0, 0, transform.position.z);
 
-        //    if (Input.GetKeyDown(KeyCode.Space))
-        //    {
-        //        readied = !readied;
-        //    }
-        //    return;
-        //}
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                readied = !readied;
+            }
+
+            if (readied)
+            {
+                endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
+                if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready && isServer)
+                {
+                    networkManager.GetComponent<NetworkSpawnHandler>().CmdStartMatch();
+                }
+            }
+            else
+            {
+                endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+            }
+            return;
+        }
 
         //run all usual code if the player hasn't won or lost yet
-        if(playerState == 0)
+        if (playerState == 0)
         {
             endGameText.GetComponent<Text>().text = "";
             gameObject.SetActive(true);
@@ -480,22 +491,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdStartMatch()
-    {
-        print(NetworkServer.active);
-
-        if (!NetworkServer.active)
-        {
-            return;
-        }
-        matchStarted = true;
-        opponent.GetComponent<NetworkFighterScript>().MatchStarted = true;
-        GetComponent<SpriteRenderer>().enabled = true;
-        opponent.GetComponent<SpriteRenderer>().enabled = true;
-        transform.position = new Vector3(-5, 0, transform.position.z);
-        opponent.transform.position = new Vector3(5, 0, transform.position.z);
-    }
+    
 
     public void TeleportDir(float xDir)
     {
@@ -531,5 +527,11 @@ public class NetworkFighterScript : NetworkBehaviour
 
         //add the direction to the position with the max distance being 5, multiplied by the xDir and yDir (-1 to 1)
         transform.position += new Vector3(dir.x, dir.y, 0) * mag;
+    }
+
+    [Command]
+    public void CmdEnableRender()
+    {
+        GetComponent<SpriteRenderer>().enabled = !GetComponent<SpriteRenderer>().enabled;
     }
 }

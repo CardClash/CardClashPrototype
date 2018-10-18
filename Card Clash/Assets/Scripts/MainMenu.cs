@@ -42,12 +42,12 @@ public class MainMenu : MonoBehaviour {
             if (GUI.Button(new Rect(xPos, yPos, width, height), "Host"))
             {
                 NetworkInfo.Host = true;
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(1);
             }
             if (GUI.Button(new Rect(xPos, yPos + height + spacingY, width, height), "Connect"))
             {
                 NetworkInfo.Host = false;
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(1);
             }
             NetworkInfo.IP = GUI.TextField(new Rect(xPos, yPos + ((height + spacingY) * 2), width, (height * 0.75f)), NetworkInfo.IP);
             if (GUI.Button(new Rect(xPos, yPos + ((height * 2.75f) + (spacingY * 3.0f)), width, height), "Cancel"))

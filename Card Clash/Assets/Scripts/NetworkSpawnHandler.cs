@@ -21,10 +21,34 @@ public class NetworkSpawnHandler : NetworkBehaviour {
             manager.StartClient();
         }
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    [Command]
+    public void CmdStartMatch()
     {
-		
-	}
+        print(NetworkServer.active);
+
+        if (!NetworkServer.active)
+        {
+            return;
+        }
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<NetworkFighterScript>().MatchStarted = true;
+            player.GetComponent<NetworkFighterScript>().CmdEnableRender();
+            if (player.GetComponent<NetworkFighterScript>().Host)
+            {
+                player.transform.position = new Vector3(-5, 3, player.transform.position.z);
+            }
+            else
+            {
+                player.transform.position = new Vector3(5, 3, player.transform.position.z);
+            }
+        }
+
+        //opponent.GetComponent<NetworkFighterScript>().MatchStarted = true;
+        //opponent.GetComponent<SpriteRenderer>().enabled = true;
+        //transform.position = new Vector3(-5, 0, transform.position.z);
+        //opponent.transform.position = new Vector3(5, 0, transform.position.z);
+    }
 }

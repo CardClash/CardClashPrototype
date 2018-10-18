@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Network Fight Scene.unity
     guid: 59f20a7a23edf3644a51ef4fbd8be23c
   - enabled: 1
