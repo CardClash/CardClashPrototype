@@ -28,7 +28,7 @@ public class CardSelect : MonoBehaviour {
         current = 0;
         select[0].Select();
         
-        cardDeck = GetComponent<CardDeck>();
+        cardDeck = gameObject.GetComponent<CardDeck>();
 
         cardList = new int[4]; 
 }
@@ -76,6 +76,11 @@ public class CardSelect : MonoBehaviour {
 
     private void ShownCards()
     {
+        if (!cardDeck)
+        {
+            return;
+        }
+
         //Gets ID's of cards in hand in order
         cardList = cardDeck.GetHand();
 
