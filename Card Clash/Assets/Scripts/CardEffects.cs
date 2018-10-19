@@ -64,24 +64,28 @@ public class CardEffects : MonoBehaviour {
         //use source.Opponent to reference enemy player
         source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
         print("took damage");
+        source.actualMana -= 1;
     }
     
     void TakeBigDamage()
     {
         source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
         print("took big damage");
+        source.actualMana -= 2;
     }
 
     void SpeedBoost()
     {
         source.playerSpeed = source.playerSpeed + 1;
         print("speed increased by 1");
+        source.actualMana -= 2;
     }
 
     void HealSelf()
     {
         health.CmdTakeDamage(-10);
         print("healed self");
+        source.actualMana -= 2;
     }
 
     void Teleport()
@@ -95,6 +99,7 @@ public class CardEffects : MonoBehaviour {
             source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
         }
         print("Teleported Forward");
+        source.actualMana -= 2;
     }
     void TeleportBackwards()
     {
@@ -107,5 +112,6 @@ public class CardEffects : MonoBehaviour {
             source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
         }
         print("Teleported Backwards");
+        source.actualMana -= 2;
     }
 }
