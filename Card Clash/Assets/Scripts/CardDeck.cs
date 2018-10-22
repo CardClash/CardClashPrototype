@@ -64,12 +64,17 @@ public class CardDeck : MonoBehaviour {
             
             if (key == current)
             {
-                
+
                 effects.PlayCard(hand[key]);
                 Debug.Log(hand[key]);
-                unusedCards.Enqueue(hand[key]);
-                //print(unusedCards.Peek());
-                hand[key] = (int)unusedCards.Dequeue();
+                
+                if (effects.played)
+                {
+                    unusedCards.Enqueue(hand[key]);
+                    //print(unusedCards.Peek());
+                    hand[key] = (int)unusedCards.Dequeue();
+                }
+                
                 break;
             }
         }

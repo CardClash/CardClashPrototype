@@ -8,9 +8,12 @@ public class CardEffects : MonoBehaviour {
     private FighterHealthScript health;
   
     private bool initialized = false;
+    public bool played;
 
     public Dictionary<int, System.Action> database;
     public int[] keyList;
+
+    public int manaCost;
 
     public void Initialize()
     {
@@ -38,6 +41,8 @@ public class CardEffects : MonoBehaviour {
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
         health = GameObject.Find("Main Character (Network)(Clone)").GetComponent<FighterHealthScript>();
+
+        //played = 0;
         
         initialized = true;
     }
@@ -62,56 +67,143 @@ public class CardEffects : MonoBehaviour {
     void TakeDamage()
     {
         //use source.Opponent to reference enemy player
-        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
-        print("took damage");
-        source.actualMana -= 1;
+        manaCost = 1;
+
+        if (manaCost <= source.actualMana)
+        {
+            played = true;
+            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+            print("took damage");
+            source.actualMana -= manaCost;
+        }
+        else
+        {
+            played = false;
+            print("can't play card");
+        }
+       
     }
     
     void TakeBigDamage()
     {
-        source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
-        print("took big damage");
-        source.actualMana -= 2;
+
+        manaCost = 2;
+
+        if (manaCost <= source.actualMana)
+        {
+            played = true;
+            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
+            print("took big damage");
+            source.actualMana -= manaCost;
+        }
+
+        else
+        {
+            played = false;
+            print("can't play card");
+        }
+
     }
 
     void SpeedBoost()
     {
-        source.playerSpeed = source.playerSpeed + 1;
-        print("speed increased by 1");
-        source.actualMana -= 2;
+        manaCost = 2;
+        if (manaCost <= source.actualMana)
+        {
+            played = true;
+            print(manaCost);
+            print(source.actualMana);
+            source.playerSpeed = source.playerSpeed + 1;
+            print("speed increased by 1");
+            source.actualMana -= manaCost;
+        }
+
+          else
+        {
+            played = false;
+            print("can't play card");
+        }
     }
 
     void HealSelf()
     {
-        health.CmdTakeDamage(-10);
-        print("healed self");
-        source.actualMana -= 2;
+        manaCost = 2;
+
+        if (manaCost <= source.actualMana)
+        {
+            played = true;
+            print(manaCost);
+            print(source.actualMana);
+            health.CmdTakeDamage(-10);
+            print("healed self");
+            source.actualMana -= manaCost;
+        }
+
+        else
+        {
+            played = false;
+            print("can't play card");
+        }
+
+
     }
 
     void Teleport()
     {
-        if (source.facingRight == false)
+        manaCost = 2;
+
+        if (manaCost <= source.actualMana)
+
         {
-            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+            played = true;
+            print(manaCost);
+            print(source.actualMana);
+            if (source.facingRight == false)
+            {
+                source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+            }
+            else if (source.facingRight == true)
+            {
+                source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+            }
+            print("Teleported Forward");
+            source.actualMana -= manaCost;
         }
-        else if (source.facingRight == true)
+
+        else
         {
-            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+            played = false;
+            print("can't play card");
         }
-        print("Teleported Forward");
-        source.actualMana -= 2;
+        
     }
     void TeleportBackwards()
     {
-        if (source.facingRight == true)
+        manaCost = 2;
+
+        if (manaCost <= source.actualMana)
+
         {
-            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+            played = true;
+            print(manaCost);
+            print(source.actualMana);
+            if (source.facingRight == true)
+            {
+                source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+            }
+            else if (source.facingRight == false)
+            {
+                source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+            }
+            print("Teleported Backwards");
+            source.actualMana -= manaCost;
         }
-        else if (source.facingRight == false)
+
+        else
         {
-            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+            played = false;
+            print("can't play card");
         }
-        print("Teleported Backwards");
-        source.actualMana -= 2;
+        
     }
 }
