@@ -10,6 +10,7 @@ public class NetworkFighterScript : NetworkBehaviour
 {
 
     public float playerSpeed;
+    [SyncVar]
     private int lives;
     public int playerState;
     [Range(5, 20)]
@@ -35,6 +36,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public Animator anim;
     public GameObject endGameText;
+
+    public GameObject deathExplosion;
 
     public GameObject Opponent
     {
@@ -68,6 +71,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return host; }
         set { host = value; }
     }
+
+    public int Lives
+    {
+        get { return lives; }
+        set { lives = value; }
+    }
     
     void Start()
     {
@@ -76,11 +85,13 @@ public class NetworkFighterScript : NetworkBehaviour
             playerNumber = 1;
         }
 
+        deathExplosion.SetActive(false);
+
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-
-        lives = 4;
+        
+        CmdSetLives(4);
 
         playerMana = 1;
         actualMana = 0;
@@ -318,7 +329,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         playerMana = 1;
 
-        lives = 4;
+        CmdSetLives(4);
 
         playerState = 0;
     }
@@ -328,23 +339,38 @@ public class NetworkFighterScript : NetworkBehaviour
         //If the player position is outside the boundaries of the stage, reset them to the stage
         if (transform.position.x < -40.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.forward, 90.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.x > 44.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.back, 90.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y < -18.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y > 24.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.forward, 180.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
     }
 
@@ -417,11 +443,13 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             //Set % of local player dmg
             GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString();
 
             if (opponent != null)
             {
                 //Set % of opponent dmg
                 GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString();
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -430,11 +458,13 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             //Set % of local player dmg
             GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString();
 
             if (opponent != null)
             {
                 //Set % of opponent dmg
                 GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString();
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -541,5 +571,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdEnableRender()
     {
         GetComponent<SpriteRenderer>().enabled = !GetComponent<SpriteRenderer>().enabled;
+    }
+
+    [Command]
+    public void CmdSetLives(int num)
+    {
+        Lives = num;
     }
 }
