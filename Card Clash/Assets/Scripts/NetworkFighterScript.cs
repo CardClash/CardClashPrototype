@@ -10,6 +10,7 @@ public class NetworkFighterScript : NetworkBehaviour
 {
 
     public float playerSpeed;
+    [SyncVar]
     private int lives;
     public int playerState;
     [Range(5, 20)]
@@ -68,6 +69,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return host; }
         set { host = value; }
     }
+
+    public int Lives
+    {
+        get { return lives; }
+        set { lives = value; }
+    }
     
     void Start()
     {
@@ -79,8 +86,8 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-
-        lives = 4;
+        
+        CmdSetLives(4);
 
         playerMana = 1;
         actualMana = 0;
@@ -101,7 +108,7 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         host = isServer;
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
-        CmdEnableRender();
+        //CmdEnableRender();
         networkManager = GameObject.Find("Network Manager");
         networkManager.GetComponent<CardEffects>().Initialize();
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
@@ -110,35 +117,36 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!matchStarted)
-        {
-            transform.position = new Vector3(0, 0, transform.position.z);
+        //if (!matchStarted)
+        //{
+        //    transform.position = new Vector3(0, 0, transform.position.z);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                readied = !readied;
-            }
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        readied = !readied;
+        //    }
 
-            if (readied)
-            {
-                endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
-                if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready && isServer)
-                {
-                    networkManager.GetComponent<NetworkSpawnHandler>().CmdStartMatch();
-                }
-            }
-            else
-            {
-                endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
-            }
-            return;
-        }
+        //    if (readied)
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
+        //        if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready && isServer)
+        //        {
+        //            networkManager.GetComponent<NetworkSpawnHandler>().CmdStartMatch();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+        //    }
+        //    return;
+        //}
 
         //run all usual code if the player hasn't won or lost yet
         if (playerState == 0)
         {
             endGameText.GetComponent<Text>().text = "";
             gameObject.SetActive(true);
+            //Debug.Log(playerMana);
 
             if (!isLocalPlayer)
             {
@@ -317,7 +325,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         playerMana = 1;
 
-        lives = 4;
+        CmdSetLives(4);
 
         playerState = 0;
     }
@@ -328,22 +336,22 @@ public class NetworkFighterScript : NetworkBehaviour
         if (transform.position.x < -40.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.x > 44.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y < -18.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y > 24.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
     }
 
@@ -444,11 +452,18 @@ public class NetworkFighterScript : NetworkBehaviour
     {
       manaDisplay = (int)playerMana;
       playerMana = playerMana + Time.deltaTime;
+      //Debug.Log("Under -1");
+
 
       if (playerMana >= 10)
         {
             actualMana = actualMana + 1;
             playerMana = 1;
+        }
+      while (actualMana <= -1)
+        {
+            
+            actualMana = 0;
         }
     }
 
@@ -533,5 +548,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdEnableRender()
     {
         GetComponent<SpriteRenderer>().enabled = !GetComponent<SpriteRenderer>().enabled;
+    }
+
+    [Command]
+    public void CmdSetLives(int num)
+    {
+        Lives = num;
     }
 }
