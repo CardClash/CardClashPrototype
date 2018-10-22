@@ -37,6 +37,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public Animator anim;
     public GameObject endGameText;
 
+    public GameObject deathExplosion;
+
     public GameObject Opponent
     {
         get { return opponent; }
@@ -82,6 +84,8 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             playerNumber = 1;
         }
+
+        deathExplosion.SetActive(false);
 
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -335,21 +339,36 @@ public class NetworkFighterScript : NetworkBehaviour
         //If the player position is outside the boundaries of the stage, reset them to the stage
         if (transform.position.x < -40.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.forward, 90.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
         }
         if (transform.position.x > 44.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.back, 90.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
         }
         if (transform.position.y < -18.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
         }
         if (transform.position.y > 24.0f)
         {
+            deathExplosion.transform.position = transform.position;
+            deathExplosion.transform.Rotate(Vector3.forward, 180.0f);
+            deathExplosion.SetActive(true);
+            deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
         }
