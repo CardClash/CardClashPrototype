@@ -101,7 +101,7 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         host = isServer;
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
-        CmdEnableRender();
+        //CmdEnableRender();
         networkManager = GameObject.Find("Network Manager");
         networkManager.GetComponent<CardEffects>().Initialize();
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
@@ -110,29 +110,29 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!matchStarted)
-        {
-            transform.position = new Vector3(0, 0, transform.position.z);
+        //if (!matchStarted)
+        //{
+        //    transform.position = new Vector3(0, 0, transform.position.z);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                readied = !readied;
-            }
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        readied = !readied;
+        //    }
 
-            if (readied)
-            {
-                endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
-                if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready && isServer)
-                {
-                    networkManager.GetComponent<NetworkSpawnHandler>().CmdStartMatch();
-                }
-            }
-            else
-            {
-                endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
-            }
-            return;
-        }
+        //    if (readied)
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Ready\nPress spacebar to not be ready";
+        //        if (opponent && opponent.GetComponent<NetworkFighterScript>().Ready && isServer)
+        //        {
+        //            networkManager.GetComponent<NetworkSpawnHandler>().CmdStartMatch();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
+        //    }
+        //    return;
+        //}
 
         //run all usual code if the player hasn't won or lost yet
         if (playerState == 0)
