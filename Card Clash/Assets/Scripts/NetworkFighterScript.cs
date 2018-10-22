@@ -139,6 +139,7 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             endGameText.GetComponent<Text>().text = "";
             gameObject.SetActive(true);
+            //Debug.Log(playerMana);
 
             if (!isLocalPlayer)
             {
@@ -444,11 +445,18 @@ public class NetworkFighterScript : NetworkBehaviour
     {
       manaDisplay = (int)playerMana;
       playerMana = playerMana + Time.deltaTime;
+      //Debug.Log("Under -1");
+
 
       if (playerMana >= 10)
         {
             actualMana = actualMana + 1;
             playerMana = 1;
+        }
+      while (actualMana <= -1)
+        {
+            
+            actualMana = 0;
         }
     }
 
