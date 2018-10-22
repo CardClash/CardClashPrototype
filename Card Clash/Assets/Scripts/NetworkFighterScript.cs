@@ -10,6 +10,7 @@ public class NetworkFighterScript : NetworkBehaviour
 {
 
     public float playerSpeed;
+    [SyncVar]
     private int lives;
     public int playerState;
     [Range(5, 20)]
@@ -68,6 +69,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return host; }
         set { host = value; }
     }
+
+    public int Lives
+    {
+        get { return lives; }
+        set { lives = value; }
+    }
     
     void Start()
     {
@@ -79,8 +86,8 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-
-        lives = 4;
+        
+        CmdSetLives(4);
 
         playerMana = 1;
         actualMana = 0;
@@ -318,7 +325,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         playerMana = 1;
 
-        lives = 4;
+        CmdSetLives(4);
 
         playerState = 0;
     }
@@ -329,22 +336,22 @@ public class NetworkFighterScript : NetworkBehaviour
         if (transform.position.x < -40.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.x > 44.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y < -18.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
         if (transform.position.y > 24.0f)
         {
             Reset();
-            lives--;
+            CmdSetLives(Lives - 1);
         }
     }
 
@@ -541,5 +548,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdEnableRender()
     {
         GetComponent<SpriteRenderer>().enabled = !GetComponent<SpriteRenderer>().enabled;
+    }
+
+    [Command]
+    public void CmdSetLives(int num)
+    {
+        Lives = num;
     }
 }
