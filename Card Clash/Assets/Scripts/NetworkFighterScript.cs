@@ -446,13 +446,15 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             //Set % of local player dmg
             GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString();
+            GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "L";
+            //GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "M";
 
             if (opponent != null)
             {
                 //Set % of opponent dmg
                 GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString();
+                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
+                //GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "M";
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -461,13 +463,15 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             //Set % of local player dmg
             GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString();
+            GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "L";
+            //GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "M";
 
             if (opponent != null)
             {
                 //Set % of opponent dmg
                 GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString();
+                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
+                //GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "M";
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
