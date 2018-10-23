@@ -69,12 +69,12 @@ public class CardEffects : MonoBehaviour {
         //use source.Opponent to reference enemy player
         manaCost = 1;
 
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana && source.Opponent)
         {
             played = true;
             source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
             print("took damage");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
         else
         {
@@ -89,12 +89,12 @@ public class CardEffects : MonoBehaviour {
 
         manaCost = 2;
 
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana)
         {
             played = true;
             source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
             print("took big damage");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
 
         else
@@ -108,14 +108,14 @@ public class CardEffects : MonoBehaviour {
     void SpeedBoost()
     {
         manaCost = 2;
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana)
         {
             played = true;
             print(manaCost);
-            print(source.actualMana);
+            print(source.Mana);
             source.playerSpeed = source.playerSpeed + 1;
             print("speed increased by 1");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
 
           else
@@ -129,14 +129,14 @@ public class CardEffects : MonoBehaviour {
     {
         manaCost = 2;
 
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana)
         {
             played = true;
             print(manaCost);
-            print(source.actualMana);
+            print(source.Mana);
             health.CmdTakeDamage(-10);
             print("healed self");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
 
         else
@@ -152,12 +152,12 @@ public class CardEffects : MonoBehaviour {
     {
         manaCost = 2;
 
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana)
 
         {
             played = true;
             print(manaCost);
-            print(source.actualMana);
+            print(source.Mana);
             if (source.facingRight == false)
             {
                 source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
@@ -167,7 +167,7 @@ public class CardEffects : MonoBehaviour {
                 source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
             }
             print("Teleported Forward");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
 
         else
@@ -181,12 +181,12 @@ public class CardEffects : MonoBehaviour {
     {
         manaCost = 2;
 
-        if (manaCost <= source.actualMana)
+        if (manaCost <= source.Mana)
 
         {
             played = true;
             print(manaCost);
-            print(source.actualMana);
+            print(source.Mana);
             if (source.facingRight == true)
             {
                 source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
@@ -196,7 +196,7 @@ public class CardEffects : MonoBehaviour {
                 source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
             }
             print("Teleported Backwards");
-            source.actualMana -= manaCost;
+            source.Mana -= manaCost;
         }
 
         else

@@ -30,7 +30,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public int playerNumber;
     private float playerMana;
     public int manaDisplay;
-    public int actualMana;
+    [SyncVar]
+    private int actualMana;
 
     private bool host;
 
@@ -77,6 +78,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return lives; }
         set { lives = value; }
     }
+
+    public int Mana
+    {
+        get { return actualMana; }
+        set { actualMana = value; }
+    }
     
     void Start()
     {
@@ -94,9 +101,6 @@ public class NetworkFighterScript : NetworkBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
         
         CmdSetLives(4);
-
-        playerMana = 1;
-        actualMana = 0;
 
         //set player state to 0, meaning they haven't lost or won
         playerState = 0;
@@ -118,6 +122,9 @@ public class NetworkFighterScript : NetworkBehaviour
         networkManager = GameObject.Find("Network Manager");
         networkManager.GetComponent<CardEffects>().Initialize();
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
+
+        playerMana = 1;
+        CmdSetMana(0);
     }
 
     // Update is called once per frame
@@ -347,6 +354,7 @@ public class NetworkFighterScript : NetworkBehaviour
             deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
+            print("1");
         }
         if (transform.position.x > 44.0f)
         {
@@ -356,6 +364,7 @@ public class NetworkFighterScript : NetworkBehaviour
             deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
+            print("12");
         }
         if (transform.position.y < -18.0f)
         {
@@ -365,6 +374,7 @@ public class NetworkFighterScript : NetworkBehaviour
             deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
+            print("123");
         }
         if (transform.position.y > 24.0f)
         {
@@ -374,6 +384,7 @@ public class NetworkFighterScript : NetworkBehaviour
             deathExplosion.GetComponent<Animator>().Play(0);
             Reset();
             CmdSetLives(Lives - 1);
+            print("1234");
         }
     }
 
@@ -445,16 +456,22 @@ public class NetworkFighterScript : NetworkBehaviour
         if (playerNumber == 1)
         {
             //Set % of local player dmg
-            GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "L";
-            //GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "M";
+            if (GameObject.Find("DamageTextPlayer1"))
+                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            if (GameObject.Find("LifeTextPlayer1"))
+                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "L";
+            if (GameObject.Find("ManaTextPlayer1"))
+                GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Mana.ToString() + "M";
 
-            if (opponent != null)
+            if (opponent)
             {
                 //Set % of opponent dmg
-                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
-                //GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "M";
+                if (GameObject.Find("DamageTextPlayer2"))
+                    GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                if (GameObject.Find("LifeTextPlayer2"))
+                    GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
+                if (GameObject.Find("ManaTextPlayer2"))
+                    GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Mana.ToString() + "M";
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -462,16 +479,22 @@ public class NetworkFighterScript : NetworkBehaviour
         else if (playerNumber == 2)
         {
             //Set % of local player dmg
-            GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "L";
-            //GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "M";
+            if (GameObject.Find("DamageTextPlayer2"))
+                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            if (GameObject.Find("LifeTextPlayer2"))
+                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "L";
+            if (GameObject.Find("ManaTextPlayer2"))
+                GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Mana.ToString() + "M";
 
-            if (opponent != null)
+            if (opponent)
             {
                 //Set % of opponent dmg
-                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
-                //GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "M";
+                if (GameObject.Find("DamageTextPlayer1"))
+                    GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                if (GameObject.Find("LifeTextPlayer1"))
+                    GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
+                if (GameObject.Find("ManaTextPlayer1"))
+                    GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Mana.ToString() + "M";
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -480,20 +503,20 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public void ManaSystem()
     {
-      manaDisplay = (int)playerMana;
-      playerMana = playerMana + Time.deltaTime;
-      //Debug.Log("Under -1");
-
-
-      if (playerMana >= 10)
+        if (Opponent)
         {
-            actualMana = actualMana + 1;
-            playerMana = 1;
-        }
-      while (actualMana <= -1)
-        {
-            
-            actualMana = 0;
+            manaDisplay = (int)playerMana;
+            playerMana += Time.deltaTime;
+
+            if (playerMana >= 10)
+            {
+                CmdSetMana(Mana + 1);
+                playerMana = 1;
+            }
+            while (Mana <= -1)
+            {
+                CmdSetMana(0);
+            }
         }
     }
 
@@ -584,5 +607,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdSetLives(int num)
     {
         Lives = num;
+    }
+
+    [Command]
+    public void CmdSetMana(int num)
+    {
+        Mana = num;
     }
 }
