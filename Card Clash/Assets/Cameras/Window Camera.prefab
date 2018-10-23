@@ -21,16 +21,16 @@ GameObject:
   - component: {fileID: 4893208692102228}
   - component: {fileID: 20386525050755852}
   - component: {fileID: 81461391543141616}
-  - component: {fileID: 114775542686725350}
   - component: {fileID: 114159051195378044}
   - component: {fileID: 114463310122255482}
+  - component: {fileID: 114507692585244452}
   m_Layer: 0
   m_Name: Window Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4893208692102228
 Transform:
   m_ObjectHideFlags: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114775542686725350
+--- !u!114 &114507692585244452
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,6 +152,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1534713854674418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcfaf99829594d4d95fd4dbb2d5adf0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a1e4b6371a24de40946f4eee256aac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainChar: {fileID: 0}
+  FocusLevel: {fileID: 0}
+  Players: []
+  DepthUpdateSpeed: 5
+  AngleUpdateSpeed: 7
+  PositionUpdateSpeed: 5
+  DepthMax: -10
+  DepthMin: -22
+  AngleMax: 11
+  AngleMin: 3
