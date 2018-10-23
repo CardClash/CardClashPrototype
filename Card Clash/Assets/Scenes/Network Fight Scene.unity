@@ -642,12 +642,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1534713854674418, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 114507692585244452, guid: a96a6cf4cd6bd654c933d1b3d6642a0d,
+        type: 2}
+      propertyPath: FocusLevel
+      value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114775542686725350, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1159656202
@@ -725,23 +725,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1159656202}
   m_CullTransparentMesh: 0
---- !u!1 &1201058180 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1534713854674418, guid: a96a6cf4cd6bd654c933d1b3d6642a0d,
-    type: 2}
-  m_PrefabInternal: {fileID: 859802786}
---- !u!114 &1201058181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1201058180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a1e4b6371a24de40946f4eee256aac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainChar: {fileID: 0}
 --- !u!1 &1561565796
 GameObject:
   m_ObjectHideFlags: 0
