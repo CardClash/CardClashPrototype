@@ -503,8 +503,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public void ManaSystem()
     {
+        print("calling ManaSystem()");
         if (Opponent)
         {
+            print("opponent valid");
             manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
@@ -517,6 +519,10 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 CmdSetMana(0);
             }
+        }
+        else
+        {
+            print("opponent invalid");
         }
     }
 
