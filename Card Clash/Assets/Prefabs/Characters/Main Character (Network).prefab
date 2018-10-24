@@ -189,7 +189,6 @@ MonoBehaviour:
   matchStarted: 0
   playerNumber: 0
   manaDisplay: 0
-  actualMana: 0
   anim: {fileID: 0}
   endGameText: {fileID: 0}
   deathExplosion: {fileID: 1326866584511650, guid: f08b0720e277a9e46919d7e062829154,
@@ -311,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPercentage: 0
   currentPercentage: 0
+  hitEffect: {fileID: 1769300090916074, guid: 3c65a59c6b7277b408290ad41580630b, type: 2}
 --- !u!212 &212105016586230486
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -12,6 +12,8 @@ public class FighterHealthScript : NetworkBehaviour {
     private Rigidbody2D rigid;
     //bool isDead;
 
+    public GameObject hitEffect;
+
     public int Damage
     {
         get
@@ -26,7 +28,12 @@ public class FighterHealthScript : NetworkBehaviour {
         //set current percentage to the starting percentage amount
         currentPercentage = startingPercentage;
         rigid = GetComponent<Rigidbody2D>();
-	}
+
+        GameObject hitObj = Instantiate(hitEffect);
+
+        hitEffect = hitObj;
+        hitEffect.GetComponent<SpriteRenderer>().enabled = false;
+    }
 
     public void TakeHitDamage(int amount, Vector2 dir)
     {
@@ -36,12 +43,14 @@ public class FighterHealthScript : NetworkBehaviour {
         //based off of the Smash Bros. series knockback calculation
         float knockback = (((((currentPercentage / 10) + ((currentPercentage * amount) / 20)) * 1.4f) + 18) * 75);
 
-        
+
 
         //rigid.AddForce(new Vector2(100, 100) * direction, ForceMode2D.Force);
         //rigid.AddForce(new Vector2(0, 6.5f * currentPercentage), ForceMode2D.Force);
 
         //rigid.velocity = new Vector2(0, 100);
+        hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+        hitEffect.GetComponent<Animator>().Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
 
@@ -76,6 +85,8 @@ public class FighterHealthScript : NetworkBehaviour {
     [Command]
     public void CmdTakeDamage(int amount)
     {
+        hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+        hitEffect.GetComponent<Animator>().Play(0);
         //increase the percentage by the amount of damage taken
         currentPercentage += amount;
         if (currentPercentage < 0)
