@@ -12,6 +12,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public float playerSpeed;
     [SyncVar]
     private int lives;
+    [SyncVar]
     public int playerState;
     [Range(5, 20)]
     public float jumpVelocity;
@@ -125,6 +126,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         playerMana = 1;
         CmdSetMana(0);
+        //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
     }
 
     // Update is called once per frame
@@ -503,10 +505,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public void ManaSystem()
     {
-        print("calling ManaSystem()");
+        //print("calling ManaSystem()");
         if (Opponent)
         {
-            print("opponent valid");
+            //print("opponent valid");
             manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
@@ -522,7 +524,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
         else
         {
-            print("opponent invalid");
+            //print("opponent invalid");
         }
     }
 
@@ -533,12 +535,14 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             //set player state to 2, meaning they lost
             playerState = 2;
+            print("check player state - loss");
         }
 
         //if your opponent loses, you win
-        if (opponent && opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
+        if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
             playerState = 1;
+            print("check player state - win");
         }
     }
 

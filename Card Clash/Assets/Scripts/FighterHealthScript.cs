@@ -50,6 +50,7 @@ public class FighterHealthScript : NetworkBehaviour {
 
         //rigid.velocity = new Vector2(0, 100);
         hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+        hitEffect.transform.position = transform.position;
         hitEffect.GetComponent<Animator>().Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
@@ -86,6 +87,7 @@ public class FighterHealthScript : NetworkBehaviour {
     public void CmdTakeDamage(int amount)
     {
         hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+        hitEffect.transform.position = transform.position;
         hitEffect.GetComponent<Animator>().Play(0);
         //increase the percentage by the amount of damage taken
         currentPercentage += amount;
