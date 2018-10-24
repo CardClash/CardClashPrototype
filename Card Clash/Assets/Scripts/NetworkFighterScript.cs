@@ -55,6 +55,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public int PlayerState
     {
         get { return playerState; }
+        set { playerState = value; }
     }
 
     public bool Ready
@@ -104,7 +105,7 @@ public class NetworkFighterScript : NetworkBehaviour
         CmdSetLives(4);
 
         //set player state to 0, meaning they haven't lost or won
-        playerState = 0;
+        CmdSetPlayerState(0);
 
         endGameText = GameObject.Find("EndGameText");
         //endGameText.GetComponent<Text>().text = "Not Ready\nPress spacebar to be ready";
@@ -342,7 +343,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         CmdSetLives(4);
 
-        playerState = 0;
+        CmdSetPlayerState(0);
     }
 
     private void CheckBoundaries()
@@ -534,14 +535,14 @@ public class NetworkFighterScript : NetworkBehaviour
         if (lives <= 0)
         {
             //set player state to 2, meaning they lost
-            playerState = 2;
+            CmdSetPlayerState(2);
             print("check player state - loss");
         }
 
         //if your opponent loses, you win
         if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
-            playerState = 1;
+            CmdSetPlayerState(1);
             print("check player state - win");
         }
     }
@@ -623,5 +624,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdSetMana(int num)
     {
         Mana = num;
+    }
+
+    [Command]
+    public void CmdSetPlayerState(int num)
+    {
+        PlayerState = num;
     }
 }
