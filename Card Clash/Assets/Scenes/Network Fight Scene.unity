@@ -647,7 +647,9 @@ Prefab:
       propertyPath: FocusLevel
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114463310122255482, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
+    - {fileID: 114159051195378044, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1159656202

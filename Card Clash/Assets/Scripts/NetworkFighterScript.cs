@@ -173,7 +173,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
             networkManager.GetComponent<CardEffects>().SetSources(gameObject);
 
-            SetCamera();
+            //SetCamera();
 
             DisplayHealth();
 
@@ -228,9 +228,6 @@ public class NetworkFighterScript : NetworkBehaviour
         //run this code if the player has won
         if (gameStarted && playerState == 1)
         {
-            print("You Won!");
-            print("Press Any Button to Exit");
-
             endGameText.SetActive(true);
 
             endGameText.GetComponent<Text>().text = "You Win!\nPress Any Button to Exit";
@@ -245,9 +242,6 @@ public class NetworkFighterScript : NetworkBehaviour
         //run this code if the player has lost
         if (gameStarted && playerState == 2)
         {
-            print("You Lost...");
-            print("Press Any Button to Exit");
-
             endGameText.SetActive(true);
 
             endGameText.GetComponent<Text>().text = "You Lose...\nPress Any Button to Exit";
@@ -433,18 +427,18 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
     }
 
-    private void SetCamera()
-    {
-        if(!isLocalPlayer)
-        {
-            return;
-        }
-        GameObject cam = GameObject.Find("Window Camera");
-        if (cam != null)
-        {
-            cam.GetComponent<WindowCamera>().SetMainCharacter(gameObject);
-        }
-    }
+    //private void SetCamera()
+    //{
+    //    if(!isLocalPlayer)
+    //    {
+    //        return;
+    //    }
+    //    GameObject cam = GameObject.Find("Window Camera");
+    //    if (cam != null)
+    //    {
+    //        cam.GetComponent<WindowCamera>().SetMainCharacter(gameObject);
+    //    }
+    //}
 
     public void CorrectFlip()
     {
@@ -547,7 +541,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //if your opponent loses, you win
-        if (opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
+        if (opponent && opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
         {
             CmdSetPlayerState(1);
             print("check player state - win");

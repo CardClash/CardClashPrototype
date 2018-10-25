@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class WindowCamera : NetworkBehaviour {
-
-    public GameObject mainChar;
+public class WindowCamera : MonoBehaviour {
 
     public float m_DampTime = 0.2f;                 // Approximate time for the camera to refocus.
     public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
@@ -128,10 +126,5 @@ public class WindowCamera : NetworkBehaviour {
 
         // Find and set the required size of the camera.
         m_Camera.orthographicSize = FindRequiredSize();
-    }
-
-    public void SetMainCharacter(GameObject player)
-    {
-        mainChar = player;
     }
 }
