@@ -15,7 +15,8 @@ public class CardDeck : MonoBehaviour {
     public Queue unusedCards;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         cardList = new int[6];
         cardList[0] = 10;

@@ -20,21 +20,22 @@ public class CardSelect : MonoBehaviour {
 
     private int[] cardList;
 
-
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         select = new Selectable[] { card1, card2, card3, card4 };
         //Selects a card at the start       
         current = 0;
         select[0].Select();
         
-        cardDeck = gameObject.GetComponent<CardDeck>();
+        cardDeck = GetComponent<CardDeck>();
 
-        cardList = new int[4]; 
-}
+        cardList = new int[4];
+    }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+    {
 
         //Update card sprites
         ShownCards();
@@ -69,8 +70,6 @@ public class CardSelect : MonoBehaviour {
             Debug.Log("Using Card! " + current);
             cardDeck.CardPick(current);
         }
-
-        
       }
 
 
