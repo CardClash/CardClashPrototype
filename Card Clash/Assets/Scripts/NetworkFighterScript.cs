@@ -33,6 +33,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
+    private bool gameStarted = false;
 
     private bool host;
 
@@ -133,6 +134,7 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        print(Time.timeSinceLevelLoad.ToString() + " - " + playerState);
         //if (!matchStarted)
         //{
         //    transform.position = new Vector3(0, 0, transform.position.z);
@@ -216,10 +218,15 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckInput();
 
             ManaSystem();
+
+            if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
+            {
+                gameStarted = true;
+            }
         }
 
         //run this code if the player has won
-        if (playerState == 1)
+        if (gameStarted && playerState == 1)
         {
             print("You Won!");
             print("Press Any Button to Exit");
@@ -236,7 +243,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //run this code if the player has lost
-        if (playerState == 2)
+        if (gameStarted && playerState == 2)
         {
             print("You Lost...");
             print("Press Any Button to Exit");
@@ -532,7 +539,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CheckPlayerState()
     {
         //if the player loses all their lives, they lose
-        if (lives <= 0)
+        if (gameStarted && lives <= 0)
         {
             //set player state to 2, meaning they lost
             CmdSetPlayerState(2);
