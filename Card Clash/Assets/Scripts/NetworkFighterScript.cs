@@ -211,8 +211,8 @@ public class NetworkFighterScript : NetworkBehaviour
             //Checks for jump
             CheckJump();
 
-            if (Input.GetButtonDown("Teleport"))
-                TeleportDir(inputX);
+            //if (Input.GetButtonDown("Teleport"))
+            //    TeleportDir(inputX);
 
             //Checks player state
             CheckPlayerState();
