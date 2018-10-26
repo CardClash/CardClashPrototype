@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114542487803262698}
   - component: {fileID: 114229008170253814}
   - component: {fileID: 114281568478168662}
+  - component: {fileID: 114176029344511874}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -108,13 +109,37 @@ MonoBehaviour:
   card2: {fileID: 0}
   card3: {fileID: 0}
   card4: {fileID: 0}
+  backs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   cardArt:
-  - {fileID: 21300000, guid: 3483166e260406645954a9b25c14d65c, type: 3}
-  - {fileID: 21300000, guid: 96bb07b2af1edcc4983f144feaf479c2, type: 3}
-  - {fileID: 21300000, guid: 9990c154c1128e34082be3df7228ff4f, type: 3}
-  - {fileID: 21300000, guid: 31be409df922a0043a1819d4856181b1, type: 3}
-  - {fileID: 21300000, guid: c27d6be6a29e6e249b4556308f031b10, type: 3}
-  - {fileID: 21300000, guid: a08ff72962319f6478d8c9f0714f8bd6, type: 3}
+  - {fileID: 21300000, guid: 5bec7edd249a732499962f76e67b06ad, type: 3}
+  - {fileID: 21300000, guid: 5cc7992302fc5a44e8c7aac353925c89, type: 3}
+  - {fileID: 21300000, guid: 247c37d6e86ef0a49a3a4e13f2708bbd, type: 3}
+  - {fileID: 21300000, guid: 7cea1605b2da4364dacc1de2f9118c09, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 82e76cc8b214e314c95995d9c44be403, type: 3}
+  template: {fileID: 21300000, guid: dbdfc4bd70524a74e9902b660bf9ee41, type: 3}
+  manaCostTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardNames:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  manaCostTextHeight: -181
+  cardNamesTextHeight: -272
+  cardTextsTextHeight: -316
 --- !u!114 &114156815155707408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +223,22 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!114 &114176029344511874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016667006248372}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4481542baed92a14abf52c923b68f103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCount: 2
+  movable: {fileID: 0}
+  options:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114229008170253814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -225,8 +266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853b5aadba2d0564caaf45420f74d433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 1200660813637990, guid: ca54129a8a1edec45a6e43214c7b784b,
-    type: 2}
 --- !u!114 &114427323272282882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,7 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3cb9897965308b4aa207ce279be1af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  played: 0
   keyList: 
+  manaCost: 0
 --- !u!212 &212799798508936734
 SpriteRenderer:
   m_ObjectHideFlags: 1

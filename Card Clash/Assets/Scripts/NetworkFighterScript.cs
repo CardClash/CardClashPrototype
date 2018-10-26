@@ -514,10 +514,10 @@ public class NetworkFighterScript : NetworkBehaviour
             manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
-            if (playerMana >= 10)
+            if (playerMana >= 5)
             {
                 CmdSetMana(Mana + 1);
-                playerMana = 1;
+                playerMana = 0;
             }
             while (Mana <= -1)
             {
