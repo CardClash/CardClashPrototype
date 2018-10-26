@@ -9,8 +9,9 @@ public class CardSelect : MonoBehaviour {
     public Selectable card2;
     public Selectable card3;
     public Selectable card4;
-
     public Sprite[] cardArt;
+    public Text[] manaCostTexts;
+    public float manaCostTextHeight;
 
     private CardDeck cardDeck;
 
@@ -20,21 +21,31 @@ public class CardSelect : MonoBehaviour {
 
     private int[] cardList;
 
-
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         select = new Selectable[] { card1, card2, card3, card4 };
         //Selects a card at the start       
         current = 0;
         select[0].Select();
         
-        cardDeck = gameObject.GetComponent<CardDeck>();
+        cardDeck = GetComponent<CardDeck>();
 
-        cardList = new int[4]; 
-}
+        cardList = new int[4];
+
+        foreach(Text txt in manaCostTexts)
+        {
+            txt.text = "";
+            RectTransform rect = txt.GetComponent<RectTransform>();
+            rect.anchoredPosition = (new Vector3(rect.anchoredPosition.x, manaCostTextHeight, rect.position.z));
+        }
+
+        PopulateManaCosts();
+    }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+    {
 
         //Update card sprites
         ShownCards();
@@ -70,8 +81,8 @@ public class CardSelect : MonoBehaviour {
             cardDeck.CardPick(current);
         }
 
-        
-      }
+        PopulateManaCosts();
+    }
 
 
     private void ShownCards()
@@ -96,6 +107,14 @@ public class CardSelect : MonoBehaviour {
         select[2].GetComponent<Image>().sprite = cardArt[cardList[2]];
         select[3].GetComponent<Image>().sprite = cardArt[cardList[3]];
 
+    }
+
+    private void PopulateManaCosts()
+    {
+        foreach (Text txt in manaCostTexts)
+        {
+
+        }
     }
 
 }
