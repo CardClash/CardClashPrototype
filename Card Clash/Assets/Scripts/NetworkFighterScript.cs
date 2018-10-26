@@ -185,6 +185,8 @@ public class NetworkFighterScript : NetworkBehaviour
                     if (player != this.gameObject)
                     {
                         opponent = player;
+                        //GetComponent<NetworkIdentity>().AssignClientAuthority(opponent.GetComponent<NetworkIdentity>().connectionToServer);
+                        //opponent.GetComponent<NetworkIdentity>().AssignClientAuthority(opponent.GetComponent<NetworkIdentity>().connectionToServer);
                     }
                 }
             }
@@ -514,7 +516,7 @@ public class NetworkFighterScript : NetworkBehaviour
             manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
-            if (playerMana >= 5)
+            if (playerMana >= 7.5)
             {
                 CmdSetMana(Mana + 1);
                 playerMana = 0;
