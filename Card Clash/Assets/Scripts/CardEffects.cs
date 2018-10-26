@@ -11,9 +11,27 @@ public class CardEffects : MonoBehaviour {
     public bool played;
 
     public Dictionary<int, System.Action> database;
+    private Dictionary<int, string> cardNames;
+    private Dictionary<int, string> cardTexts;
+    private Dictionary<int, string> manaCosts;
     public int[] keyList;
 
     public int manaCost;
+
+    public Dictionary<int, string> CardNames
+    {
+        get { return cardNames; }
+    }
+
+    public Dictionary<int, string> CardTexts
+    {
+        get { return cardTexts; }
+    }
+
+    public Dictionary<int, string> ManaCosts
+    {
+        get { return manaCosts; }
+    }
 
     public void Initialize()
     {
@@ -26,7 +44,7 @@ public class CardEffects : MonoBehaviour {
         keyList[1] = 11;
         keyList[2] = 12;
         keyList[3] = 13;
-        keyList[4] = 14;
+        //keyList[4] = 14;
         keyList[5] = 15;
 
         database = new Dictionary<int, System.Action>
@@ -35,8 +53,35 @@ public class CardEffects : MonoBehaviour {
             { 11, SpeedBoost },
             { 12, HealSelf },
             { 13, Teleport },
-            { 14, TeleportBackwards },
+            //{ 14, TeleportBackwards },
             { 15, TakeBigDamage }
+        };
+
+        cardNames = new Dictionary<int, string>
+        {
+            { 10, "Damage 10" },
+            { 11, "Speed Up" },
+            { 12, "Heal Up" },
+            { 13, "Teleport Forward" },
+            { 15, "Damage 25" }
+        };
+
+        cardTexts = new Dictionary<int, string>
+        {
+            { 10, "Opponent takes 10 damage." },
+            { 11, "Your speed increases slightly." },
+            { 12, "You heal for up to 10 damage." },
+            { 13, "You teleport in the direction you're moving when you cast this card." },
+            { 15, "Opponent takes 25 damage." }
+        };
+
+        manaCosts = new Dictionary<int, string>
+        {
+            { 10, "1" },
+            { 11, "2" },
+            { 12, "2" },
+            { 13, "2" },
+            { 15, "2" }
         };
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
@@ -144,8 +189,6 @@ public class CardEffects : MonoBehaviour {
             played = false;
             print("can't play card");
         }
-
-
     }
 
     void Teleport()
@@ -153,20 +196,9 @@ public class CardEffects : MonoBehaviour {
         manaCost = 2;
 
         if (manaCost <= source.Mana)
-
         {
             played = true;
-            print(manaCost);
-            print(source.Mana);
-            if (source.facingRight == false)
-            {
-                source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
-            }
-            else if (source.facingRight == true)
-            {
-                source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
-            }
-            print("Teleported Forward");
+            source.TeleportDir(Input.GetAxis("Horizontal"));
             source.Mana -= manaCost;
         }
 
@@ -175,35 +207,66 @@ public class CardEffects : MonoBehaviour {
             played = false;
             print("can't play card");
         }
-        
+
     }
-    void TeleportBackwards()
-    {
-        manaCost = 2;
 
-        if (manaCost <= source.Mana)
+    //void Teleport()
+    //{
+    //    manaCost = 2;
 
-        {
-            played = true;
-            print(manaCost);
-            print(source.Mana);
-            if (source.facingRight == true)
-            {
-                source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
-            }
-            else if (source.facingRight == false)
-            {
-                source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
-            }
-            print("Teleported Backwards");
-            source.Mana -= manaCost;
-        }
+    //    if (manaCost <= source.Mana)
 
-        else
-        {
-            played = false;
-            print("can't play card");
-        }
-        
-    }
+    //    {
+    //        played = true;
+    //        print(manaCost);
+    //        print(source.Mana);
+    //        if (source.facingRight == false)
+    //        {
+    //            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+    //        }
+    //        else if (source.facingRight == true)
+    //        {
+    //            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+    //        }
+    //        print("Teleported Forward");
+    //        source.Mana -= manaCost;
+    //    }
+
+    //    else
+    //    {
+    //        played = false;
+    //        print("can't play card");
+    //    }
+
+    //}
+
+    //void TeleportBackwards()
+    //{
+    //    manaCost = 2;
+
+    //    if (manaCost <= source.Mana)
+
+    //    {
+    //        played = true;
+    //        print(manaCost);
+    //        print(source.Mana);
+    //        if (source.facingRight == true)
+    //        {
+    //            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
+    //        }
+    //        else if (source.facingRight == false)
+    //        {
+    //            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
+    //        }
+    //        print("Teleported Backwards");
+    //        source.Mana -= manaCost;
+    //    }
+
+    //    else
+    //    {
+    //        played = false;
+    //        print("can't play card");
+    //    }
+
+    //}
 }

@@ -9,11 +9,18 @@ public class CardSelect : MonoBehaviour {
     public Selectable card2;
     public Selectable card3;
     public Selectable card4;
+    public Selectable[] backs;
     public Sprite[] cardArt;
+    public Sprite template;
     public Text[] manaCostTexts;
+    public Text[] cardNames;
+    public Text[] cardTexts;
     public float manaCostTextHeight;
+    public float cardNamesTextHeight;
+    public float cardTextsTextHeight;
 
     private CardDeck cardDeck;
+    private CardEffects cardEffects;
 
     private int current;
     private int next;
@@ -30,23 +37,39 @@ public class CardSelect : MonoBehaviour {
         select[0].Select();
         
         cardDeck = GetComponent<CardDeck>();
+        cardEffects = GetComponent<CardEffects>();
 
         cardList = new int[4];
 
-        foreach(Text txt in manaCostTexts)
+        foreach (Text txt in manaCostTexts)
         {
             txt.text = "";
             RectTransform rect = txt.GetComponent<RectTransform>();
             rect.anchoredPosition = (new Vector3(rect.anchoredPosition.x, manaCostTextHeight, rect.position.z));
         }
 
+        foreach (Text txt in cardNames)
+        {
+            txt.text = "";
+            RectTransform rect = txt.GetComponent<RectTransform>();
+            rect.anchoredPosition = (new Vector3(rect.anchoredPosition.x, cardNamesTextHeight, rect.position.z));
+        }
+
+        foreach (Text txt in cardTexts)
+        {
+            txt.text = "";
+            RectTransform rect = txt.GetComponent<RectTransform>();
+            rect.anchoredPosition = (new Vector3(rect.anchoredPosition.x, cardTextsTextHeight, rect.position.z));
+        }
+
         PopulateManaCosts();
+        PopulateCardNames();
+        PopulateCardText();
     }
 	
 	// Update is called once per frame
 	void Update()
     {
-
         //Update card sprites
         ShownCards();
 
@@ -82,6 +105,8 @@ public class CardSelect : MonoBehaviour {
         }
 
         PopulateManaCosts();
+        PopulateCardNames();
+        PopulateCardText();
     }
 
 
@@ -98,7 +123,11 @@ public class CardSelect : MonoBehaviour {
         for (int i = 0; i < cardList.Length; i++)
         {
             cardList[i] = cardList[i] - 10;
-            
+        }
+
+        foreach (Selectable back in backs)
+        {
+            back.GetComponent<Image>().sprite = template;
         }
 
         //Changes sprite on card to corresponding image
@@ -106,14 +135,40 @@ public class CardSelect : MonoBehaviour {
         select[1].GetComponent<Image>().sprite = cardArt[cardList[1]];
         select[2].GetComponent<Image>().sprite = cardArt[cardList[2]];
         select[3].GetComponent<Image>().sprite = cardArt[cardList[3]];
-
     }
 
     private void PopulateManaCosts()
     {
-        foreach (Text txt in manaCostTexts)
+        if (cardEffects.ManaCosts != null)
         {
+            for (int i = 0; i < manaCostTexts.Length; i++)
+            {
+                print("i = " + i);
+                print(cardDeck.GetHand()[i]);
+                manaCostTexts[i].text = cardEffects.ManaCosts[cardDeck.GetHand()[i]];
+            }
+        }
+    }
 
+    private void PopulateCardNames()
+    {
+        if (cardEffects.CardNames != null)
+        {
+            for (int i = 0; i < cardNames.Length; i++)
+            {
+                cardNames[i].text = cardEffects.CardNames[cardDeck.GetHand()[i]];
+            }
+        }
+    }
+
+    private void PopulateCardText()
+    {
+        if (cardEffects.CardTexts != null)
+        {
+            for (int i = 0; i < cardTexts.Length; i++)
+            {
+                cardTexts[i].text = cardEffects.CardTexts[cardDeck.GetHand()[i]];
+            }
         }
     }
 

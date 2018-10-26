@@ -18,13 +18,12 @@ public class CardDeck : MonoBehaviour {
     void Start()
     {
 
-        cardList = new int[6];
+        cardList = new int[5];
         cardList[0] = 10;
         cardList[1] = 11;
         cardList[2] = 12;
         cardList[3] = 13;
-        cardList[4] = 14;
-        cardList[5] = 15;
+        cardList[4] = 15;
 
         keyList = new int[4];
         keyList[0] = 0;
@@ -33,7 +32,7 @@ public class CardDeck : MonoBehaviour {
         keyList[3] = 3;
 
         //Shuffle the deck
-        Shuffle(cardList);
+        //Shuffle(cardList);
 
         //Currently held cards
         hand = new Dictionary<int, int>
@@ -44,10 +43,15 @@ public class CardDeck : MonoBehaviour {
             { 3, cardList[3] }
         };
 
+        print("hand[0]: " + hand[0]);
+        print("hand[1]: " + hand[1]);
+        print("hand[2]: " + hand[2]);
+        print("hand[3]: " + hand[3]);
+
         unusedCards = new Queue();
 
         unusedCards.Enqueue(cardList[4]);
-        unusedCards.Enqueue(cardList[5]);
+        //unusedCards.Enqueue(cardList[5]);
 
         print(unusedCards.Peek());
 
@@ -59,7 +63,6 @@ public class CardDeck : MonoBehaviour {
     //When card is selected (Used in CardSelect)
     public void CardPick(int current)
     {
-        
         foreach(int key in keyList)
         {
             
