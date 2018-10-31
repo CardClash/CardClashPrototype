@@ -10,6 +10,7 @@ public class NetworkFighterScript : NetworkBehaviour
 {
 
     public float playerSpeed;
+    public float playerHitSpeed;
     [SyncVar]
     private int lives;
     [SyncVar]
