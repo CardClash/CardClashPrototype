@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
+  playerHitSpeed: 0.5
   playerState: 0
   jumpVelocity: 9
   fallMultiplier: 2.5
