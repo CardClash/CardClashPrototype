@@ -34,6 +34,7 @@ public class NetworkFighterScript : NetworkBehaviour
     [SyncVar]
     private int actualMana;
     private bool gameStarted = false;
+    private bool isHit = false;
 
     private bool host;
 
@@ -88,6 +89,11 @@ public class NetworkFighterScript : NetworkBehaviour
         set { actualMana = value; }
     }
     
+    public bool IsHit
+    {
+        get { return isHit; }
+        set { isHit = value; }
+    }
     void Start()
     {
         if (playerNumber > 2 || playerNumber < 1)
@@ -298,6 +304,7 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             anim.SetBool("isGrounded", true);
             anim.SetBool("isFalling", false);
+            IsHit = false;
         }
 
         // Ignores collision between player colliders
@@ -423,7 +430,14 @@ public class NetworkFighterScript : NetworkBehaviour
 
     private void Move(float inputX)
     {
-        rigid.velocity = new Vector2(playerSpeed * inputX, rigid.velocity.y);
+        if(isHit)
+        {
+            rigid.AddForce(new Vector3(playerHitSpeed * inputX, 0, 0), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigid.velocity = new Vector2(playerSpeed * inputX, rigid.velocity.y);
+        }
 
         //clamps player's velocity to the playerSpeed 1.5x
         rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
