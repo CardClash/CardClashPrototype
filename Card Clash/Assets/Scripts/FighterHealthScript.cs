@@ -41,9 +41,9 @@ public class FighterHealthScript : NetworkBehaviour {
         CmdTakeDamage(amount);
         
         //based off of the Smash Bros. series knockback calculation
-        float knockback = (((((currentPercentage / 10) + ((currentPercentage * amount) / 20)) * 1.4f) + 18) * 75);
+        float knockback = (((((currentPercentage / 10) + ((currentPercentage * amount) / 20)) * 1.4f) + 18) * 15);
 
-
+        GetComponent<NetworkFighterScript>().IsHit = true;
 
         //rigid.AddForce(new Vector2(100, 100) * direction, ForceMode2D.Force);
         //rigid.AddForce(new Vector2(0, 6.5f * currentPercentage), ForceMode2D.Force);
@@ -54,7 +54,6 @@ public class FighterHealthScript : NetworkBehaviour {
         hitEffect.GetComponent<Animator>().Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
-
     }
     
     //public void TakeDamage(int amount)
@@ -85,6 +84,12 @@ public class FighterHealthScript : NetworkBehaviour {
 
     [Command]
     public void CmdTakeDamage(int amount)
+    {
+        RpcTakeDamage(amount);
+    }
+
+    [ClientRpc]
+    public void RpcTakeDamage(int amount)
     {
         hitEffect.GetComponent<SpriteRenderer>().enabled = true;
         hitEffect.transform.position = transform.position;

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CardEffects : MonoBehaviour {
+public class CardEffects : NetworkBehaviour {
 
     private NetworkFighterScript source;
     private FighterHealthScript health;
@@ -113,20 +114,16 @@ public class CardEffects : MonoBehaviour {
     {
         //use source.Opponent to reference enemy player
         manaCost = 1;
-
         if (manaCost <= source.Mana && source.Opponent)
         {
             played = true;
             source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
-            print("took damage");
             source.Mana -= manaCost;
         }
         else
         {
             played = false;
-            print("can't play card");
         }
-       
     }
     
     void TakeBigDamage()
@@ -138,16 +135,12 @@ public class CardEffects : MonoBehaviour {
         {
             played = true;
             source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
-            print("took big damage");
             source.Mana -= manaCost;
         }
-
         else
         {
             played = false;
-            print("can't play card");
         }
-
     }
 
     void SpeedBoost()
@@ -159,14 +152,11 @@ public class CardEffects : MonoBehaviour {
             print(manaCost);
             print(source.Mana);
             source.playerSpeed = source.playerSpeed + 1;
-            print("speed increased by 1");
             source.Mana -= manaCost;
         }
-
-          else
+        else
         {
             played = false;
-            print("can't play card");
         }
     }
 
@@ -180,14 +170,11 @@ public class CardEffects : MonoBehaviour {
             print(manaCost);
             print(source.Mana);
             health.CmdTakeDamage(-10);
-            print("healed self");
             source.Mana -= manaCost;
         }
-
         else
         {
             played = false;
-            print("can't play card");
         }
     }
 
@@ -201,13 +188,10 @@ public class CardEffects : MonoBehaviour {
             source.TeleportDir(Input.GetAxis("Horizontal"));
             source.Mana -= manaCost;
         }
-
         else
         {
             played = false;
-            print("can't play card");
         }
-
     }
 
     //void Teleport()

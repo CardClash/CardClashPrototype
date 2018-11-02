@@ -143,8 +143,6 @@ public class CardSelect : MonoBehaviour {
         {
             for (int i = 0; i < manaCostTexts.Length; i++)
             {
-                print("i = " + i);
-                print(cardDeck.GetHand()[i]);
                 manaCostTexts[i].text = cardEffects.ManaCosts[cardDeck.GetHand()[i]];
             }
         }

@@ -43,17 +43,12 @@ public class CardDeck : MonoBehaviour {
             { 3, cardList[3] }
         };
 
-        print("hand[0]: " + hand[0]);
-        print("hand[1]: " + hand[1]);
-        print("hand[2]: " + hand[2]);
-        print("hand[3]: " + hand[3]);
-
         unusedCards = new Queue();
 
         unusedCards.Enqueue(cardList[4]);
         //unusedCards.Enqueue(cardList[5]);
 
-        print(unusedCards.Peek());
+        //print(unusedCards.Peek());
 
         effects = GetComponent<CardEffects>();
 
