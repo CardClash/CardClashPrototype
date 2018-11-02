@@ -258,6 +258,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
             endGameText.GetComponent<Text>().text = "You Lose...\nPress Any Button to Exit";
 
+            Reset();
+
+            rigid.bodyType = RigidbodyType2D.Static;
+
             if (Input.anyKey)
             {
                 Debug.Break();
