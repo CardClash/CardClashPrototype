@@ -54,7 +54,6 @@ public class FighterHealthScript : NetworkBehaviour {
         hitEffect.GetComponent<Animator>().Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
-
     }
     
     //public void TakeDamage(int amount)
@@ -85,6 +84,12 @@ public class FighterHealthScript : NetworkBehaviour {
 
     [Command]
     public void CmdTakeDamage(int amount)
+    {
+        RpcTakeDamage(amount);
+    }
+
+    [ClientRpc]
+    public void RpcTakeDamage(int amount)
     {
         hitEffect.GetComponent<SpriteRenderer>().enabled = true;
         hitEffect.transform.position = transform.position;

@@ -141,7 +141,8 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        print(Time.timeSinceLevelLoad.ToString() + " - " + playerState);
+        //print(Time.timeSinceLevelLoad.ToString() + " - " + playerState);
+        
         //if (!matchStarted)
         //{
         //    transform.position = new Vector3(0, 0, transform.position.z);
