@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class GameManagerScript : NetworkBehaviour
 {
     
-   public float timeStopTimer = 5.0f;
+   public float timeStopTimer = 1.5f;
 
     public void TimeStop()
     {

@@ -549,11 +549,15 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 CmdSetMana(0);
             }
+            while (Mana >= 11)
+            {
+                CmdSetMana(10);
+            }
         }
         else
         {
             //print("opponent invalid");
-            manaDisplay = (int)playerMana;
+            /*manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
             if (playerMana >= 7.5)
@@ -565,7 +569,7 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 CmdSetMana(0);
             }
-
+            */
         }
     }
 
