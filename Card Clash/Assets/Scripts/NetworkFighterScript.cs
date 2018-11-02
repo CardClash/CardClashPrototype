@@ -33,6 +33,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
+    public float timeStopTimer = 5.0f;
     private bool gameStarted = false;
 
     private bool host;
@@ -220,6 +221,7 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckInput();
 
             ManaSystem();
+            TimeStop();
 
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
@@ -529,6 +531,22 @@ public class NetworkFighterScript : NetworkBehaviour
         else
         {
             //print("opponent invalid");
+        }
+    }
+
+    public void TimeStop()
+    {
+        timeStopTimer -= Time.deltaTime;
+
+        if (timeStopTimer <= 0.0f)
+        {
+            Time.timeScale = 1.0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //Time.timeScale = 0.0f;
+            timeStopTimer = 5.0f;
         }
     }
 
