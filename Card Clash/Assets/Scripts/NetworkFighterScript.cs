@@ -30,11 +30,11 @@ public class NetworkFighterScript : NetworkBehaviour
     private Rigidbody2D rigid;
     private GameObject opponent;
     public int playerNumber;
-    private float playerMana;
+    public float playerMana;
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
-    public float timeStopTimer = 5.0f;
+    public float timeStopTimer = 3.0f;
     private bool gameStarted = false;
     private bool isHit = false;
 
@@ -229,7 +229,13 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckInput();
 
             ManaSystem();
-            TimeStop();
+            //TimeStop();
+
+            timeStopTimer -= Time.deltaTime;
+            if (timeStopTimer <= 0.0f)
+            {
+                Time.timeScale = 1.0f;
+            }
 
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
@@ -547,13 +553,30 @@ public class NetworkFighterScript : NetworkBehaviour
         else
         {
             //print("opponent invalid");
+            manaDisplay = (int)playerMana;
+            playerMana += Time.deltaTime;
+
+            if (playerMana >= 7.5)
+            {
+                CmdSetMana(Mana + 1);
+                playerMana = 0;
+            }
+            while (Mana <= -1)
+            {
+                CmdSetMana(0);
+            }
+
         }
     }
 
     public void TimeStop()
     {
-        timeStopTimer -= Time.deltaTime;
+       
 
+        Time.timeScale = 0.5f;
+        timeStopTimer = 1.5f;
+
+        /*
         if (timeStopTimer <= 0.0f)
         {
             Time.timeScale = 1.0f;
@@ -561,9 +584,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //Time.timeScale = 0.0f;
-            timeStopTimer = 5.0f;
+            Time.timeScale = 0.5f;
+            timeStopTimer = 1.5f;
         }
+        */
     }
 
     public void CheckPlayerState()

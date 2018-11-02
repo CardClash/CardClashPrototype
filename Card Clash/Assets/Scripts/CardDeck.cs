@@ -63,7 +63,7 @@ public class CardDeck : MonoBehaviour {
             
             if (key == current)
             {
-
+                
                 effects.PlayCard(hand[key]);
                 Debug.Log(hand[key]);
                 

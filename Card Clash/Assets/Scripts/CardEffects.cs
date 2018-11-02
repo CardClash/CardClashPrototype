@@ -101,6 +101,8 @@ public class CardEffects : NetworkBehaviour {
 
     public void PlayCard(int id)
     {
+        source.TimeStop();
+
         foreach (int key in keyList)
         {
             if (key == id)

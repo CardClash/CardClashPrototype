@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class GameManagerScript : NetworkBehaviour
 {
     
-    public float timeStopTimer = 5.0f;
+   // public float timeStopTimer = 5.0f;
 
     public void TimeStop()
     {
@@ -19,6 +19,7 @@ public class GameManagerScript : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
+            Time.timeScale = 0.5f;
             timeStopTimer = 5.0f;
         }
     }
