@@ -6,11 +6,11 @@ using UnityEngine.Networking;
 public class GameManagerScript : NetworkBehaviour
 {
     
-   // public float timeStopTimer = 5.0f;
+   public float timeStopTimer = 5.0f;
 
     public void TimeStop()
     {
-        timeStopTimer -= Time.deltaTime;
+        
 
         if (timeStopTimer <= 0.0f)
         {
