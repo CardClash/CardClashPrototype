@@ -35,10 +35,7 @@ public class NetworkFighterScript : NetworkBehaviour
     [SyncVar]
     private int actualMana;
     public float timeStopTimer = 0.0f;
-<<<<<<< HEAD
 
-=======
->>>>>>> 6e3aec1f01277ae8728704cfd6df0e6c673d8e0c
     private bool gameStarted = false;
     private bool isHit = false;
 
