@@ -16,6 +16,7 @@ public class CardEffects : NetworkBehaviour {
     private Dictionary<int, string> cardTexts;
     private Dictionary<int, string> manaCosts;
     public int[] keyList;
+    private GameObject damageBall;
 
     public int manaCost;
 
@@ -40,6 +41,9 @@ public class CardEffects : NetworkBehaviour {
         {
             return;
         }
+
+        damageBall = GameObject.Find("DamageBall");
+
         keyList = new int[6];
         keyList[0] = 10;
         keyList[1] = 11;
@@ -118,9 +122,22 @@ public class CardEffects : NetworkBehaviour {
         manaCost = 1;
         if (manaCost <= source.Mana && source.Opponent)
         {
-            played = true;
-            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
-            source.Mana -= manaCost;
+            //played = true;
+            //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+            //source.Mana -= manaCost;
+            if (source.isServer)
+            {
+                played = true;
+                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+                source.Mana -= manaCost;
+            }
+            else
+            {
+                played = true;
+                damageBall.GetComponent<DamageBallScript>().Damage = 10;
+                damageBall.transform.position = source.Opponent.transform.position;
+                source.Mana -= manaCost;
+            }
         }
         else
         {
@@ -135,9 +152,22 @@ public class CardEffects : NetworkBehaviour {
 
         if (manaCost <= source.Mana)
         {
-            played = true;
-            source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
-            source.Mana -= manaCost;
+            //played = true;
+            //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
+            //source.Mana -= manaCost;
+            if (source.isServer)
+            {
+                played = true;
+                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
+                source.Mana -= manaCost;
+            }
+            else
+            {
+                played = true;
+                damageBall.GetComponent<DamageBallScript>().Damage = 25;
+                damageBall.transform.position = source.Opponent.transform.position;
+                source.Mana -= manaCost;
+            }
         }
         else
         {

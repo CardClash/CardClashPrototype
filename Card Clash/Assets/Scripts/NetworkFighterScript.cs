@@ -96,12 +96,14 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return isHit; }
         set { isHit = value; }
     }
+
     void Start()
     {
         if (playerNumber > 2 || playerNumber < 1)
         {
             playerNumber = 1;
         }
+
         GameObject deathObj = Instantiate(deathExplosion);
 
         deathExplosion = deathObj;
@@ -121,7 +123,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         readied = false;
         matchStarted = false;
-        
+
         //GetComponent<SpriteRenderer>().enabled = false;
     }
 
@@ -264,6 +266,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
             endGameText.GetComponent<Text>().text = "You Lose...\nPress Any Button to Exit";
 
+            Reset();
+
+            rigid.bodyType = RigidbodyType2D.Static;
+
             if (Input.anyKey)
             {
                 Debug.Break();
@@ -330,6 +336,16 @@ public class NetworkFighterScript : NetworkBehaviour
         if (collision.transform.tag == "Ground")
         {
             anim.SetBool("isGrounded", false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("DamageBall"))
+        {
+            GetComponent<FighterHealthScript>().CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
+            collision.GetComponent<DamageBallScript>().Damage = 0;
+            collision.gameObject.transform.position = collision.GetComponent<DamageBallScript>().Origin;
         }
     }
 

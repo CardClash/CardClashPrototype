@@ -55,12 +55,12 @@ public class FighterHealthScript : NetworkBehaviour {
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
     }
-    
-    //public void TakeDamage(int amount)
-    //{
-    //    //increase the percentage by the amount of damage taken
-    //    currentPercentage += amount;
-    //}
+
+    public void TakeDamage(int amount)
+    {
+        //increase the percentage by the amount of damage taken
+        currentPercentage += amount;
+    }
 
     //[Command]
     //public void CmdTakeHitDamage(int amount)
@@ -85,7 +85,20 @@ public class FighterHealthScript : NetworkBehaviour {
     [Command]
     public void CmdTakeDamage(int amount)
     {
+        TakeDamage(amount);
+    }
+
+    [Command]
+    public void CmdClientTakeDamage(int amount)
+    {
+        //TargetTakeDamage(GetComponent<NetworkConnection>(), amount);
         RpcTakeDamage(amount);
+    }
+
+    [TargetRpc]
+    public void TargetTakeDamage(NetworkConnection net, int amount)
+    {
+        TakeDamage(amount);
     }
 
     [ClientRpc]
