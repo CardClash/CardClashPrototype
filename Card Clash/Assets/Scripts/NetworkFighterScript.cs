@@ -34,7 +34,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
-    public float timeStopTimer = 3.0f;
+    public float timeStopTimer = 0.0f;
     private bool gameStarted = false;
     private bool isHit = false;
 
@@ -573,7 +573,7 @@ public class NetworkFighterScript : NetworkBehaviour
         else
         {
             //print("opponent invalid");
-            /*manaDisplay = (int)playerMana;
+            manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
 
             if (playerMana >= 7.5)
@@ -585,18 +585,18 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 CmdSetMana(0);
             }
-            */
+            
         }
     }
 
-    public void TimeStop()
+    /*public void TimeStop()
     {
        
 
         Time.timeScale = 0.5f;
         timeStopTimer = 1.5f;
 
-        /*
+        
         if (timeStopTimer <= 0.0f)
         {
             Time.timeScale = 1.0f;
@@ -607,8 +607,8 @@ public class NetworkFighterScript : NetworkBehaviour
             Time.timeScale = 0.5f;
             timeStopTimer = 1.5f;
         }
-        */
-    }
+        
+    }*/
 
     public void CheckPlayerState()
     {
