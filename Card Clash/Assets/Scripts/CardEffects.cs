@@ -107,6 +107,7 @@ public class CardEffects : NetworkBehaviour {
     {
         Time.timeScale = 0.5f;
         source.timeStopTimer = 1.5f;
+        source.telegraph.enabled = true;
 
 
        /* if (source.timeStopTimer <= 0.0f)

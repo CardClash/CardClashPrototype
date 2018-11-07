@@ -40,6 +40,7 @@ public class NetworkFighterScript : NetworkBehaviour
     private bool isHit = false;
 
     private Image[] manaGems;
+    public Image telegraph;
     private Slider manaBar;
 
     private Image[] lifePlayer1;
@@ -161,6 +162,10 @@ public class NetworkFighterScript : NetworkBehaviour
         lifePlayer2[2] = GameObject.Find("Life3Player2").GetComponent<Image>();
         lifePlayer2[3] = GameObject.Find("Life4Player2").GetComponent<Image>();
 
+        telegraph = GameObject.Find("TelegraphImage").GetComponent<Image>();
+
+        telegraph.enabled = false;
+
         damageTextPlayer1 = GameObject.Find("DamageTextPlayer1").GetComponent<Text>();
         damageTextPlayer2 = GameObject.Find("DamageTextPlayer2").GetComponent<Text>();
 
@@ -276,6 +281,7 @@ public class NetworkFighterScript : NetworkBehaviour
             if (timeStopTimer <= 0.0f)
             {
                 Time.timeScale = 1.0f;
+                telegraph.enabled = false;
             }
 
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
