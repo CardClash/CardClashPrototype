@@ -189,7 +189,16 @@ MonoBehaviour:
   readied: 0
   matchStarted: 0
   playerNumber: 0
+  playerMana: 0
   manaDisplay: 0
+  timeStopTimer: 3
+  manaGems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  manaBar: {fileID: 0}
   anim: {fileID: 0}
   endGameText: {fileID: 0}
   deathExplosion: {fileID: 1326866584511650, guid: f08b0720e277a9e46919d7e062829154,

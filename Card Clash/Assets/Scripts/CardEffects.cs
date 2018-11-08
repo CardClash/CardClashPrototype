@@ -104,8 +104,30 @@ public class CardEffects : NetworkBehaviour {
         health = player.GetComponent<FighterHealthScript>();
     }
 
+    public void TimeStop()
+    {
+        Time.timeScale = 0.5f;
+        source.timeStopTimer = 1.5f;
+        source.telegraph.enabled = true;
+
+
+       /* if (source.timeStopTimer <= 0.0f)
+        {
+            Time.timeScale = 1.0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Time.timeScale = 0.5f;
+            source.timeStopTimer = 1.5f;
+        }
+        */
+    }
+
     public void PlayCard(int id)
     {
+        //source.TimeStop();
+
         foreach (int key in keyList)
         {
             if (key == id)

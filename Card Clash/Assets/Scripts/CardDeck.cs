@@ -14,6 +14,8 @@ public class CardDeck : MonoBehaviour {
     public static System.Random rand;
     public Queue unusedCards;
 
+    public float timeStopTimer = 0.0f;
+
     // Use this for initialization
     void Start()
     {
@@ -63,12 +65,13 @@ public class CardDeck : MonoBehaviour {
             
             if (key == current)
             {
-
+                
                 effects.PlayCard(hand[key]);
                 Debug.Log(hand[key]);
                 
                 if (effects.played)
                 {
+                    effects.TimeStop();
                     unusedCards.Enqueue(hand[key]);
                     //print(unusedCards.Peek());
                     hand[key] = (int)unusedCards.Dequeue();
@@ -78,6 +81,8 @@ public class CardDeck : MonoBehaviour {
             }
         }
     }
+
+    
 
     public static void Shuffle(int[] a)
     {

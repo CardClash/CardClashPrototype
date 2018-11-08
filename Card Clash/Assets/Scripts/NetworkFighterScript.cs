@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class NetworkFighterScript : NetworkBehaviour
 {
-
+    #region Variables
     public float playerSpeed;
     public float playerHitSpeed;
     [SyncVar]
@@ -30,13 +30,24 @@ public class NetworkFighterScript : NetworkBehaviour
     private Rigidbody2D rigid;
     private GameObject opponent;
     public int playerNumber;
-    private float playerMana;
+    public float playerMana;
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
-    public float timeStopTimer = 5.0f;
+    public float timeStopTimer = 0.0f;
+
     private bool gameStarted = false;
     private bool isHit = false;
+
+    private Image[] manaGems;
+    public Image telegraph;
+    private Slider manaBar;
+
+    private Image[] lifePlayer1;
+    private Image[] lifePlayer2;
+
+    private Text damageTextPlayer1;
+    private Text damageTextPlayer2;
 
     private bool host;
 
@@ -44,7 +55,9 @@ public class NetworkFighterScript : NetworkBehaviour
     public GameObject endGameText;
 
     public GameObject deathExplosion;
+    #endregion
 
+    #region Get/Set functions
     public GameObject Opponent
     {
         get { return opponent; }
@@ -96,6 +109,8 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return isHit; }
         set { isHit = value; }
     }
+    #endregion
+
 
     void Start()
     {
@@ -125,6 +140,35 @@ public class NetworkFighterScript : NetworkBehaviour
         matchStarted = false;
 
         //GetComponent<SpriteRenderer>().enabled = false;
+
+        manaGems = new Image[5];
+        manaGems[0] = GameObject.Find("ManaGem1").GetComponent<Image>();
+        manaGems[1] = GameObject.Find("ManaGem2").GetComponent<Image>();
+        manaGems[2] = GameObject.Find("ManaGem3").GetComponent<Image>();
+        manaGems[3] = GameObject.Find("ManaGem4").GetComponent<Image>();
+        manaGems[4] = GameObject.Find("ManaGem5").GetComponent<Image>();
+
+        manaBar = GameObject.Find("ManaPower").GetComponent<Slider>();
+
+        lifePlayer1 = new Image[4];
+        lifePlayer1[0] = GameObject.Find("Life1Player1").GetComponent<Image>();
+        lifePlayer1[1] = GameObject.Find("Life2Player1").GetComponent<Image>();
+        lifePlayer1[2] = GameObject.Find("Life3Player1").GetComponent<Image>();
+        lifePlayer1[3] = GameObject.Find("Life4Player1").GetComponent<Image>();
+
+        lifePlayer2 = new Image[4];
+        lifePlayer2[0] = GameObject.Find("Life1Player2").GetComponent<Image>();
+        lifePlayer2[1] = GameObject.Find("Life2Player2").GetComponent<Image>();
+        lifePlayer2[2] = GameObject.Find("Life3Player2").GetComponent<Image>();
+        lifePlayer2[3] = GameObject.Find("Life4Player2").GetComponent<Image>();
+
+        telegraph = GameObject.Find("TelegraphImage").GetComponent<Image>();
+
+        telegraph.enabled = false;
+
+        damageTextPlayer1 = GameObject.Find("DamageTextPlayer1").GetComponent<Text>();
+        damageTextPlayer2 = GameObject.Find("DamageTextPlayer2").GetComponent<Text>();
+
     }
 
     public override void OnStartLocalPlayer()
@@ -231,7 +275,14 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckInput();
 
             ManaSystem();
-            TimeStop();
+            //TimeStop();
+
+            timeStopTimer -= Time.deltaTime;
+            if (timeStopTimer <= 0.0f)
+            {
+                Time.timeScale = 1.0f;
+                telegraph.enabled = false;
+            }
 
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
@@ -496,22 +547,151 @@ public class NetworkFighterScript : NetworkBehaviour
         if (playerNumber == 1)
         {
             //Set % of local player dmg
-            if (GameObject.Find("DamageTextPlayer1"))
-                GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            if (GameObject.Find("LifeTextPlayer1"))
-                GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Lives.ToString() + "L";
-            if (GameObject.Find("ManaTextPlayer1"))
-                GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Mana.ToString() + "M";
+            damageTextPlayer1.text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            //Enables/Disables Image component based on how many lives player has
+            switch (Lives)
+            {
+                case 0:
+                    lifePlayer1[0].enabled = false;
+                    lifePlayer1[1].enabled = false;
+                    lifePlayer1[2].enabled = false;
+                    lifePlayer1[3].enabled = false;
+                    
+                    break;
+
+                case 1:
+                    lifePlayer1[0].enabled = true;
+                    lifePlayer1[1].enabled = false;
+                    lifePlayer1[2].enabled = false;
+                    lifePlayer1[3].enabled = false;
+                    
+                    break;
+
+                case 2:
+                    lifePlayer1[0].enabled = true;
+                    lifePlayer1[1].enabled = true;
+                    lifePlayer1[2].enabled = false;
+                    lifePlayer1[3].enabled = false;
+                    
+                    break;
+                case 3:
+                    lifePlayer1[0].enabled = true;
+                    lifePlayer1[1].enabled = true;
+                    lifePlayer1[2].enabled = true;
+                    lifePlayer1[3].enabled = false;
+
+                    break;
+
+                case 4:
+                    lifePlayer1[0].enabled = true;
+                    lifePlayer1[1].enabled = true;
+                    lifePlayer1[2].enabled = true;
+                    lifePlayer1[3].enabled = true;
+
+                    break;
+            }
+        
+
+            //Mana "Power" Bar
+            manaBar.value = playerMana;
+            //Enables/Disables Image component based on how much mana the player has
+            switch(Mana)
+            {
+                case 0:
+                    manaGems[0].enabled = false;
+                    manaGems[1].enabled = false;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 1:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = false;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 2:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 3:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 4:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = true;
+                    manaGems[4].enabled = false;
+                    break;
+                case 5:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = true;
+                    manaGems[4].enabled = true;
+                    break;
+            }
+
+
 
             if (opponent)
             {
                 //Set % of opponent dmg
-                if (GameObject.Find("DamageTextPlayer2"))
-                    GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                if (GameObject.Find("LifeTextPlayer2"))
-                    GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
-                if (GameObject.Find("ManaTextPlayer2"))
-                    GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Mana.ToString() + "M";
+                damageTextPlayer2.text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                //Enables/Disables Image component based on how many lives player has
+                switch (Lives)
+                {
+                    case 0:
+                        lifePlayer2[0].enabled = false;
+                        lifePlayer2[1].enabled = false;
+                        lifePlayer2[2].enabled = false;
+                        lifePlayer2[3].enabled = false;
+
+                        break;
+
+                    case 1:
+                        lifePlayer2[0].enabled = true;
+                        lifePlayer2[1].enabled = false;
+                        lifePlayer2[2].enabled = false;
+                        lifePlayer2[3].enabled = false;
+
+                        break;
+
+                    case 2:
+                        lifePlayer2[0].enabled = true;
+                        lifePlayer2[1].enabled = true;
+                        lifePlayer2[2].enabled = false;
+                        lifePlayer2[3].enabled = false;
+
+                        break;
+                    case 3:
+                        lifePlayer2[0].enabled = true;
+                        lifePlayer2[1].enabled = true;
+                        lifePlayer2[2].enabled = true;
+                        lifePlayer2[3].enabled = false;
+
+                        break;
+
+                    case 4:
+                        lifePlayer2[0].enabled = true;
+                        lifePlayer2[1].enabled = true;
+                        lifePlayer2[2].enabled = true;
+                        lifePlayer2[3].enabled = true;
+
+                        break;
+                }
+
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -519,22 +699,150 @@ public class NetworkFighterScript : NetworkBehaviour
         else if (playerNumber == 2)
         {
             //Set % of local player dmg
-            if (GameObject.Find("DamageTextPlayer2"))
-                GameObject.Find("DamageTextPlayer2").GetComponent<Text>().text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-            if (GameObject.Find("LifeTextPlayer2"))
-                GameObject.Find("LifeTextPlayer2").GetComponent<Text>().text = Lives.ToString() + "L";
-            if (GameObject.Find("ManaTextPlayer2"))
-                GameObject.Find("ManaTextPlayer2").GetComponent<Text>().text = Mana.ToString() + "M";
+            damageTextPlayer2.text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+            //Enables/Disables Image component based on how many lives player has
+            switch (Lives)
+            {
+                case 0:
+                    lifePlayer2[0].enabled = false;
+                    lifePlayer2[1].enabled = false;
+                    lifePlayer2[2].enabled = false;
+                    lifePlayer2[3].enabled = false;
+
+                    break;
+
+                case 1:
+                    lifePlayer2[0].enabled = true;
+                    lifePlayer2[1].enabled = false;
+                    lifePlayer2[2].enabled = false;
+                    lifePlayer2[3].enabled = false;
+
+                    break;
+
+                case 2:
+                    lifePlayer2[0].enabled = true;
+                    lifePlayer2[1].enabled = true;
+                    lifePlayer2[2].enabled = false;
+                    lifePlayer2[3].enabled = false;
+
+                    break;
+                case 3:
+                    lifePlayer2[0].enabled = true;
+                    lifePlayer2[1].enabled = true;
+                    lifePlayer2[2].enabled = true;
+                    lifePlayer2[3].enabled = false;
+
+                    break;
+
+                case 4:
+                    lifePlayer2[0].enabled = true;
+                    lifePlayer2[1].enabled = true;
+                    lifePlayer2[2].enabled = true;
+                    lifePlayer2[3].enabled = true;
+
+                    break;
+            }
+
+
+            //Mana "Power" Bar
+            manaBar.value = playerMana;
+            //Enables/Disables Image component base on how much mana the player has
+            switch (Mana)
+            {
+                case 0:
+                    manaGems[0].enabled = false;
+                    manaGems[1].enabled = false;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 1:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = false;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 2:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = false;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 3:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = false;
+                    manaGems[4].enabled = false;
+                    break;
+                case 4:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = true;
+                    manaGems[4].enabled = false;
+                    break;
+                case 5:
+                    manaGems[0].enabled = true;
+                    manaGems[1].enabled = true;
+                    manaGems[2].enabled = true;
+                    manaGems[3].enabled = true;
+                    manaGems[4].enabled = true;
+                    break;
+            }
+
 
             if (opponent)
             {
                 //Set % of opponent dmg
-                if (GameObject.Find("DamageTextPlayer1"))
-                    GameObject.Find("DamageTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-                if (GameObject.Find("LifeTextPlayer1"))
-                    GameObject.Find("LifeTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Lives.ToString() + "L";
-                if (GameObject.Find("ManaTextPlayer1"))
-                    GameObject.Find("ManaTextPlayer1").GetComponent<Text>().text = Opponent.GetComponent<NetworkFighterScript>().Mana.ToString() + "M";
+                damageTextPlayer1.text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+
+                //Enables/Disables Image component based on how many lives player has
+                switch (Lives)
+                {
+                    case 0:
+                        lifePlayer1[0].enabled = false;
+                        lifePlayer1[1].enabled = false;
+                        lifePlayer1[2].enabled = false;
+                        lifePlayer1[3].enabled = false;
+
+                        break;
+
+                    case 1:
+                        lifePlayer1[0].enabled = true;
+                        lifePlayer1[1].enabled = false;
+                        lifePlayer1[2].enabled = false;
+                        lifePlayer1[3].enabled = false;
+
+                        break;
+
+                    case 2:
+                        lifePlayer1[0].enabled = true;
+                        lifePlayer1[1].enabled = true;
+                        lifePlayer1[2].enabled = false;
+                        lifePlayer1[3].enabled = false;
+
+                        break;
+                    case 3:
+                        lifePlayer1[0].enabled = true;
+                        lifePlayer1[1].enabled = true;
+                        lifePlayer1[2].enabled = true;
+                        lifePlayer1[3].enabled = false;
+
+                        break;
+
+                    case 4:
+                        lifePlayer1[0].enabled = true;
+                        lifePlayer1[1].enabled = true;
+                        lifePlayer1[2].enabled = true;
+                        lifePlayer1[3].enabled = true;
+
+                        break;
+                }
+
 
                 opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
             }
@@ -559,17 +867,38 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 CmdSetMana(0);
             }
+            while (Mana >= 6)
+            {
+                CmdSetMana(5);
+            }
         }
         else
         {
             //print("opponent invalid");
+            manaDisplay = (int)playerMana;
+            playerMana += Time.deltaTime;
+
+            if (playerMana >= 7.5)
+            {
+                CmdSetMana(Mana + 1);
+                playerMana = 0;
+            }
+            while (Mana <= -1)
+            {
+                CmdSetMana(0);
+            }
+            
         }
     }
 
-    public void TimeStop()
+    /*public void TimeStop()
     {
-        timeStopTimer -= Time.deltaTime;
+       
 
+        Time.timeScale = 0.5f;
+        timeStopTimer = 1.5f;
+
+        
         if (timeStopTimer <= 0.0f)
         {
             Time.timeScale = 1.0f;
@@ -577,10 +906,11 @@ public class NetworkFighterScript : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //Time.timeScale = 0.0f;
-            timeStopTimer = 5.0f;
+            Time.timeScale = 0.5f;
+            timeStopTimer = 1.5f;
         }
-    }
+        
+    }*/
 
     public void CheckPlayerState()
     {
