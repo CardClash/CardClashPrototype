@@ -60,6 +60,10 @@ public class FighterHealthScript : NetworkBehaviour {
     {
         //increase the percentage by the amount of damage taken
         currentPercentage += amount;
+        if (currentPercentage < 0)
+        {
+            currentPercentage = 0;
+        }
     }
 
     //[Command]

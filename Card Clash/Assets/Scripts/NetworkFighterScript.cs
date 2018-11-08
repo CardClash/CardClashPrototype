@@ -28,6 +28,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public bool readied;
     public bool matchStarted;
     private Rigidbody2D rigid;
+    private FighterHealthScript localPlayerHealthScript;
     private GameObject opponent;
     public int playerNumber;
     public float playerMana;
@@ -55,6 +56,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public GameObject endGameText;
 
     public GameObject deathExplosion;
+    private GameObject deathObj;
     #endregion
 
     #region Get/Set functions
@@ -119,7 +121,7 @@ public class NetworkFighterScript : NetworkBehaviour
             playerNumber = 1;
         }
 
-        GameObject deathObj = Instantiate(deathExplosion);
+        deathObj = Instantiate(deathExplosion);
 
         deathExplosion = deathObj;
         deathExplosion.GetComponent<SpriteRenderer>().enabled = false;
@@ -127,7 +129,8 @@ public class NetworkFighterScript : NetworkBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-        
+        localPlayerHealthScript = GetComponent<FighterHealthScript>();
+
         CmdSetLives(4);
 
         //set player state to 0, meaning they haven't lost or won
@@ -388,7 +391,7 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         if (collision.CompareTag("DamageBall"))
         {
-            GetComponent<FighterHealthScript>().CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
+            localPlayerHealthScript.CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
             collision.GetComponent<DamageBallScript>().Damage = 0;
             collision.gameObject.transform.position = collision.GetComponent<DamageBallScript>().Origin;
         }
@@ -403,7 +406,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         //GetComponent<FighterHealthScript>().currentPercentage = 0;
 
-        GetComponent<FighterHealthScript>().CmdReset();
+        localPlayerHealthScript.CmdReset();
 
         playerSpeed = 10;
 
@@ -416,7 +419,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         rigid.velocity = new Vector2();
 
-        GetComponent<FighterHealthScript>().CmdReset();
+        localPlayerHealthScript.CmdReset();
 
         playerSpeed = 10;
 
@@ -546,8 +549,10 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         if (playerNumber == 1)
         {
+            GameObject damageTextPlayer1 = GameObject.Find("DamageTextPlayer1");
             //Set % of local player dmg
-            damageTextPlayer1.text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+            if (damageTextPlayer1)
+                damageTextPlayer1.GetComponent<Text>().text = localPlayerHealthScript.Damage.ToString() + "%";
 
             //Enables/Disables Image component based on how many lives player has
             switch (Lives)
@@ -642,12 +647,12 @@ public class NetworkFighterScript : NetworkBehaviour
                     break;
             }
 
-
-
             if (opponent)
             {
+                GameObject damageTextPlayer2 = GameObject.Find("DamageTextPlayer2");
                 //Set % of opponent dmg
-                damageTextPlayer2.text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                if (damageTextPlayer2)
+                    damageTextPlayer2.GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
                 switch (Lives)
@@ -698,9 +703,11 @@ public class NetworkFighterScript : NetworkBehaviour
         }
         else if (playerNumber == 2)
         {
+            GameObject damageTextPlayer2 = GameObject.Find("DamageTextPlayer2");
             //Set % of local player dmg
-            damageTextPlayer2.text = gameObject.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
-
+            if (damageTextPlayer2)
+                damageTextPlayer2.GetComponent<Text>().text = localPlayerHealthScript.Damage.ToString() + "%";
+           
             //Enables/Disables Image component based on how many lives player has
             switch (Lives)
             {
@@ -797,8 +804,10 @@ public class NetworkFighterScript : NetworkBehaviour
 
             if (opponent)
             {
+                GameObject damageTextPlayer1 = GameObject.Find("DamageTextPlayer1");
                 //Set % of opponent dmg
-                damageTextPlayer1.text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
+                if (damageTextPlayer1)
+                    damageTextPlayer1.GetComponent<Text>().text = localPlayerHealthScript.Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
                 switch (Lives)
