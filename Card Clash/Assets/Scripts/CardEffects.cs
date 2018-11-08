@@ -49,7 +49,7 @@ public class CardEffects : NetworkBehaviour {
         keyList[1] = 11;
         keyList[2] = 12;
         keyList[3] = 13;
-        //keyList[4] = 14;
+        keyList[4] = 14;
         keyList[5] = 15;
 
         database = new Dictionary<int, System.Action>
@@ -58,7 +58,7 @@ public class CardEffects : NetworkBehaviour {
             { 11, SpeedBoost },
             { 12, HealSelf },
             { 13, Teleport },
-            //{ 14, TeleportBackwards },
+            { 14, GravityIncrease },
             { 15, TakeBigDamage }
         };
 
@@ -67,7 +67,7 @@ public class CardEffects : NetworkBehaviour {
             { 10, "Damage 10" },
             { 11, "Speed Up" },
             { 12, "Heal Up" },
-            { 13, "Teleport Forward" },
+            { 13, "Gravity Increase" },
             { 15, "Damage 25" }
         };
 
@@ -76,7 +76,7 @@ public class CardEffects : NetworkBehaviour {
             { 10, "Opponent takes 10 damage." },
             { 11, "Your speed increases slightly." },
             { 12, "You heal for up to 10 damage." },
-            { 13, "You teleport in the direction you're moving when you cast this card." },
+            { 13, "Your opponent's gravity is now higher." },
             { 15, "Opponent takes 25 damage." }
         };
 
@@ -86,6 +86,7 @@ public class CardEffects : NetworkBehaviour {
             { 11, "2" },
             { 12, "2" },
             { 13, "2" },
+            { 14, "1" },
             { 15, "2" }
         };
 
@@ -221,6 +222,18 @@ public class CardEffects : NetworkBehaviour {
         else
         {
             played = false;
+        }
+    }
+
+    //Sets gravity scale from 1 to 2 for a set amount of time to the opponent
+    void GravityIncrease()
+    {
+        float timer = 0;
+
+        while(timer <= 5)
+        {
+
+            timer += Time.deltaTime;
         }
     }
 
