@@ -20,12 +20,13 @@ public class CardDeck : MonoBehaviour {
     void Start()
     {
 
-        cardList = new int[5];
+        cardList = new int[6];
         cardList[0] = 10;
         cardList[1] = 11;
         cardList[2] = 12;
         cardList[3] = 13;
-        cardList[4] = 15;
+        cardList[4] = 14;
+        cardList[5] = 15;
 
         keyList = new int[4];
         keyList[0] = 0;
@@ -34,7 +35,7 @@ public class CardDeck : MonoBehaviour {
         keyList[3] = 3;
 
         //Shuffle the deck
-        //Shuffle(cardList);
+        Shuffle(cardList);
 
         //Currently held cards
         hand = new Dictionary<int, int>

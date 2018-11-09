@@ -19,6 +19,7 @@ public class NetworkFighterScript : NetworkBehaviour
     public float jumpVelocity;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2.0f;
+    private float gravityScale;
     private bool isGrounded;
     private GameObject networkManager;
     [SyncVar]
@@ -111,6 +112,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return isHit; }
         set { isHit = value; }
     }
+
+    public float GravityScale
+    {
+        get { return gravityScale; }
+        set { gravityScale = value; }
+    }
     #endregion
 
 
@@ -185,6 +192,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
         playerMana = 1;
         CmdSetMana(0);
+        gravityScale = 1;
         //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
     }
 

@@ -67,7 +67,8 @@ public class CardEffects : NetworkBehaviour {
             { 10, "Damage 10" },
             { 11, "Speed Up" },
             { 12, "Heal Up" },
-            { 13, "Gravity Increase" },
+            { 13, "Teleport" },
+            { 14, "Gravity Increase" },
             { 15, "Damage 25" }
         };
 
@@ -76,7 +77,8 @@ public class CardEffects : NetworkBehaviour {
             { 10, "Opponent takes 10 damage." },
             { 11, "Your speed increases slightly." },
             { 12, "You heal for up to 10 damage." },
-            { 13, "Your opponent's gravity is now higher." },
+            { 13, "You can teleport in any direction you point towards." },
+            { 14, "Your opponent's gravity is now higher." },
             { 15, "Opponent takes 25 damage." }
         };
 
@@ -250,12 +252,29 @@ public class CardEffects : NetworkBehaviour {
     //Sets gravity scale from 1 to 2 for a set amount of time to the opponent
     void GravityIncrease()
     {
-        float timer = 0;
+        manaCost = 1;
 
-        while(timer <= 5)
+        if (manaCost <= source.Mana)
         {
+            played = true;
 
-            timer += Time.deltaTime;
+            float timer = 0;
+            float timeInSeconds = 0;
+
+            while (timeInSeconds <= 5)
+            {
+                source.Opponent.GetComponent<NetworkFighterScript>().GravityScale = 2;
+                timer += Time.deltaTime;
+                timeInSeconds = timer % 60;
+            }
+
+            source.Opponent.GetComponent<NetworkFighterScript>().GravityScale = 1;
+
+            source.Mana -= manaCost;
+        }
+        else
+        {
+            played = false;
         }
     }
 
