@@ -514,6 +514,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114156815155707408, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4293655969532310, guid: 4bf16fe1c8121bc45a18331c1610621f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -666,6 +671,12 @@ Prefab:
       propertyPath: cardTexts.Array.data[3]
       value: 
       objectReference: {fileID: 1309476422}
+    - target: {fileID: 114156815155707408, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1151271779715924, guid: 96c1dbb0c34f1b344a2a1c654a49be09,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf16fe1c8121bc45a18331c1610621f, type: 2}
   m_IsPrefabAsset: 0
@@ -1589,6 +1600,10 @@ Prefab:
     - target: {fileID: 114491750307202156, guid: 96c1dbb0c34f1b344a2a1c654a49be09,
         type: 2}
       propertyPath: m_LocalPlayerAuthority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151271779715924, guid: 96c1dbb0c34f1b344a2a1c654a49be09, type: 2}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
