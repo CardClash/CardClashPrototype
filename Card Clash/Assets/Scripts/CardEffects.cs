@@ -106,9 +106,9 @@ public class CardEffects : NetworkBehaviour {
 
     public void TimeStop()
     {
-        Time.timeScale = 0.5f;
-        source.timeStopTimer = 1.5f;
-        source.telegraph.enabled = true;
+        //Time.timeScale = 0.5f;
+        //source.timeStopTimer = 1.5f;
+        //source.telegraph.enabled = true;
 
 
        /* if (source.timeStopTimer <= 0.0f)
@@ -155,8 +155,14 @@ public class CardEffects : NetworkBehaviour {
             else
             {
                 played = true;
+                //Replace the following lines with a Cmd method call in the NetworkFighterScript
+
+                /*
                 damageBall.GetComponent<DamageBallScript>().Damage = 10;
                 damageBall.transform.position = source.Opponent.transform.position;
+                */
+                print("Take Damage");
+                source.ApplyCardDamage(10);
                 source.Mana -= manaCost;
             }
         }

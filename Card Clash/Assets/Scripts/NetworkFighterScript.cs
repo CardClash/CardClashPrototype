@@ -57,6 +57,11 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public GameObject deathExplosion;
     private GameObject deathObj;
+
+    [SerializeField]
+    private GameObject damageBall;
+
+    //public GameObject damageBallPrefab;
     #endregion
 
     #region Get/Set functions
@@ -171,7 +176,6 @@ public class NetworkFighterScript : NetworkBehaviour
 
         damageTextPlayer1 = GameObject.Find("DamageTextPlayer1").GetComponent<Text>();
         damageTextPlayer2 = GameObject.Find("DamageTextPlayer2").GetComponent<Text>();
-
     }
 
     public override void OnStartLocalPlayer()
@@ -186,6 +190,8 @@ public class NetworkFighterScript : NetworkBehaviour
         playerMana = 1;
         CmdSetMana(0);
         //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
+
+        damageBall = GameObject.FindGameObjectWithTag("DamageBall");
     }
 
     // Update is called once per frame
@@ -291,6 +297,11 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 gameStarted = true;
             }
+
+            if (!damageBall)
+            {
+                damageBall = GameObject.FindGameObjectWithTag("DamageBall");
+            }
         }
 
         //run this code if the player has won
@@ -389,11 +400,16 @@ public class NetworkFighterScript : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("DamageBall"))
+        if (collision.CompareTag("DamageBall") /* && collision.gameObject.GetComponent<DamageBallScript>().Target == this */)
         {
+            print("Trigger with DamageBall");
             localPlayerHealthScript.CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
+
             collision.GetComponent<DamageBallScript>().Damage = 0;
-            collision.gameObject.transform.position = collision.GetComponent<DamageBallScript>().Origin;
+            collision.GetComponent<DamageBallScript>().CmdSetDamage(0);
+            //collision.GetComponent<DamageBallScript>().Target = null;
+            collision.GetComponent<DamageBallScript>().ResetLoc();
+            collision.GetComponent<DamageBallScript>().CmdResetLoc();
         }
     }
 
@@ -1022,5 +1038,21 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdSetPlayerState(int num)
     {
         PlayerState = num;
+    }
+    
+    public void ApplyCardDamage(int damage)
+    {
+        //Called to deal damage;
+        print("Cmd Apply Card Damage");
+        //GameObject damageBall = Instantiate(damageBallPrefab, new Vector3(2000, 2000, 0), Quaternion.identity);
+
+        damageBall.GetComponent<DamageBallScript>().Damage = damage;
+        damageBall.GetComponent<DamageBallScript>().CmdSetDamage(damage);
+
+        damageBall.GetComponent<DamageBallScript>().SetLocation(Opponent.transform.position);
+        damageBall.GetComponent<DamageBallScript>().CmdSetLocation(Opponent.transform.position);
+
+
+        //NetworkServer.Spawn(damageBall);
     }
 }
