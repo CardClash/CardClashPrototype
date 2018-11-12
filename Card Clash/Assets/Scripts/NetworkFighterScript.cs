@@ -411,7 +411,7 @@ public class NetworkFighterScript : NetworkBehaviour
         if (collision.CompareTag("DamageBall") /* && collision.gameObject.GetComponent<DamageBallScript>().Target == this */)
         {
             print("Trigger with DamageBall");
-            localPlayerHealthScript.CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
+            localPlayerHealthScript.TakeDamage(collision.GetComponent<DamageBallScript>().Damage);
 
             collision.GetComponent<DamageBallScript>().Damage = 0;
             collision.GetComponent<DamageBallScript>().CmdSetDamage(0);

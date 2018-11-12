@@ -31,10 +31,20 @@ public class FighterHitBoxManager : NetworkBehaviour
 
         //If the collider is a punch, it will deal damage to the opponent
         if (col.tag == "Punch")
-        { 
-            Debug.Log("Punched something");
+        {
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
+        }
+        else if (col.tag == "DamageBall")
+        {
+            print(col.GetComponent<DamageBallScript>().Damage);
+            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(col.GetComponent<DamageBallScript>().Damage, Vector3.zero);
+            print("me");
+            col.GetComponent<DamageBallScript>().Damage = 0;
+            col.GetComponent<DamageBallScript>().CmdSetDamage(0);
+            //collision.GetComponent<DamageBallScript>().Target = null;
+            col.GetComponent<DamageBallScript>().ResetLoc();
+            col.GetComponent<DamageBallScript>().CmdResetLoc();
         }
     }
 }

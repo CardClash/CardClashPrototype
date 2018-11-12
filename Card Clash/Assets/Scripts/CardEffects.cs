@@ -151,14 +151,15 @@ public class CardEffects : NetworkBehaviour {
             if (source.isServer)
             {
                 played = true;
-                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+                source.Opponent.GetComponent<FighterHealthScript>().RpcTakeDamage(10);
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
                 source.Mana -= manaCost;
             }
             else
             {
                 played = true;
                 //Replace the following lines with a Cmd method call in the NetworkFighterScript
-
+                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
                 /*
                 damageBall.GetComponent<DamageBallScript>().Damage = 10;
                 damageBall.transform.position = source.Opponent.transform.position;

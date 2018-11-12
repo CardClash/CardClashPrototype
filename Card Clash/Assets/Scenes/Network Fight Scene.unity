@@ -659,15 +659,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114491750307202156, guid: 96c1dbb0c34f1b344a2a1c654a49be09,
-        type: 2}
-      propertyPath: m_LocalPlayerAuthority
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1151271779715924, guid: 96c1dbb0c34f1b344a2a1c654a49be09, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96c1dbb0c34f1b344a2a1c654a49be09, type: 2}
   m_IsPrefabAsset: 0
