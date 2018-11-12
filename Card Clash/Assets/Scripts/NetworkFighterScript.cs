@@ -679,7 +679,7 @@ public class NetworkFighterScript : NetworkBehaviour
                     damageTextPlayer2.GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
-                switch (Lives)
+                switch (opponent.GetComponent<NetworkFighterScript>().Lives)
                 {
                     case 0:
                         lifePlayer2[0].enabled = false;
@@ -834,7 +834,7 @@ public class NetworkFighterScript : NetworkBehaviour
                     damageTextPlayer1.GetComponent<Text>().text = localPlayerHealthScript.Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
-                switch (Lives)
+                switch (opponent.GetComponent<NetworkFighterScript>().Lives)
                 {
                     case 0:
                         lifePlayer1[0].enabled = false;
