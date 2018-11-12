@@ -108,12 +108,12 @@ public class CardEffects : NetworkBehaviour {
 
     public void TimeStop()
     {
-        //Time.timeScale = 0.5f;
-        //source.timeStopTimer = 1.5f;
-        //source.telegraph.enabled = true;
+        Time.timeScale = 0.5f;
+        source.timeStopTimer = 1.5f;
+        source.telegraph.enabled = true;
 
 
-       /* if (source.timeStopTimer <= 0.0f)
+       if (source.timeStopTimer <= 0.0f)
         {
             Time.timeScale = 1.0f;
         }
@@ -123,7 +123,7 @@ public class CardEffects : NetworkBehaviour {
             Time.timeScale = 0.5f;
             source.timeStopTimer = 1.5f;
         }
-        */
+        
     }
 
     public void PlayCard(int id)
