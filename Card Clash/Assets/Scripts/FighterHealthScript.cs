@@ -74,6 +74,12 @@ public class FighterHealthScript : NetworkBehaviour {
     }
 
     [Command]
+    public void CmdMakeDamage(int amount)
+    {
+        currentPercentage = amount;
+    }
+
+    [Command]
     public void CmdUpdateDamage()
     {
         int hp = currentPercentage;
@@ -114,6 +120,7 @@ public class FighterHealthScript : NetworkBehaviour {
     [Command]
     public void CmdTakeDamage(int amount)
     {
+        print(amount);
         TakeDamage(amount);
     }
 
@@ -122,6 +129,7 @@ public class FighterHealthScript : NetworkBehaviour {
     {
         if (isServer)
         {
+            print("meh");
             return;
         }
         CmdTakeDamage(amount);

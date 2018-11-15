@@ -38,7 +38,8 @@ public class FighterHitBoxManager : NetworkBehaviour
         else if (col.tag == "DamageBall")
         {
             print(col.GetComponent<DamageBallScript>().Damage);
-            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(col.GetComponent<DamageBallScript>().Damage, Vector3.zero);
+            GetComponent<FighterHealthScript>().TakeHitDamage(col.GetComponent<DamageBallScript>().Damage, Vector3.zero);
+            GetComponent<FighterHealthScript>().CmdMakeDamage(GetComponent<FighterHealthScript>().Damage + col.GetComponent<DamageBallScript>().Damage);
             print("me");
             col.GetComponent<DamageBallScript>().Damage = 0;
             col.GetComponent<DamageBallScript>().CmdSetDamage(0);

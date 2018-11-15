@@ -46,8 +46,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4035784994800156}
   - component: {fileID: 61700633360264932}
-  - component: {fileID: 114591244968952520}
-  - component: {fileID: 114714781800980304}
   m_Layer: 0
   m_Name: Punch
   m_TagString: Punch
@@ -251,38 +249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   punch: {fileID: 61418858846208874}
   kick: {fileID: 0}
---- !u!114 &114591244968952520
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1491418562689334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 202
-    i1: 84
-    i2: 18
-    i3: 154
-    i4: 138
-    i5: 30
-    i6: 222
-    i7: 196
-    i8: 90
-    i9: 110
-    i10: 67
-    i11: 33
-    i12: 76
-    i13: 123
-    i14: 120
-    i15: 75
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114639318334275792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -336,18 +302,6 @@ MonoBehaviour:
     i15: 75
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114714781800980304
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1491418562689334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1377248bdcd933d40b06d108ea08bcc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 13
 --- !u!114 &114918361793834050
 MonoBehaviour:
   m_ObjectHideFlags: 1

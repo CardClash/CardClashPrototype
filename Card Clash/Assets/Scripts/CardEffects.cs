@@ -159,13 +159,17 @@ public class CardEffects : NetworkBehaviour {
             {
                 played = true;
                 //Replace the following lines with a Cmd method call in the NetworkFighterScript
-                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdMakeDamage(source.GetComponent<FighterHealthScript>().Damage + 10);
+                source.CmdAddOpponentDamage(10);
+                source.OpponentDamage = source.OpponentDamage + 10;
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdUpdateDamage();
                 /*
                 damageBall.GetComponent<DamageBallScript>().Damage = 10;
                 damageBall.transform.position = source.Opponent.transform.position;
                 */
-                print("Take Damage");
-                source.ApplyCardDamage(10);
+                //source.ApplyCardDamage(10);
                 source.Mana -= manaCost;
             }
         }
@@ -177,25 +181,22 @@ public class CardEffects : NetworkBehaviour {
     
     void TakeBigDamage()
     {
-
         manaCost = 2;
 
-        if (manaCost <= source.Mana)
+        if (manaCost <= source.Mana && source.Opponent)
         {
-            //played = true;
-            //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
-            //source.Mana -= manaCost;
             if (source.isServer)
             {
                 played = true;
-                source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(25);
+                source.Opponent.GetComponent<FighterHealthScript>().RpcTakeDamage(25);
+                //source.Opponent.GetComponent<FighterHealthScript>().CmdTakeDamage(10);
                 source.Mana -= manaCost;
             }
             else
             {
                 played = true;
-                damageBall.GetComponent<DamageBallScript>().Damage = 25;
-                damageBall.transform.position = source.Opponent.transform.position;
+                source.CmdAddOpponentDamage(10);
+                source.OpponentDamage = source.OpponentDamage + 25;
                 source.Mana -= manaCost;
             }
         }
