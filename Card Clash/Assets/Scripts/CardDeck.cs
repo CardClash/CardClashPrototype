@@ -20,19 +20,24 @@ public class CardDeck : MonoBehaviour {
     void Start()
     {
 
-        cardList = new int[6];
-        cardList[0] = 10;
-        cardList[1] = 11;
-        cardList[2] = 12;
-        cardList[3] = 13;
-        cardList[4] = 14;
-        cardList[5] = 15;
+        cardList = new int[7]
+        {
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+        };
 
-        keyList = new int[4];
-        keyList[0] = 0;
-        keyList[1] = 1;
-        keyList[2] = 2;
-        keyList[3] = 3;
+        keyList = new int[4]
+        {
+            0,
+            1,
+            2,
+            3
+        };
 
         //Shuffle the deck
         Shuffle(cardList);

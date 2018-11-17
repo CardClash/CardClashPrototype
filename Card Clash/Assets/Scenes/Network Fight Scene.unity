@@ -201,6 +201,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114087851014382986, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: cardArt.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 114156815155707408, guid: 4bf16fe1c8121bc45a18331c1610621f,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.size
@@ -363,6 +368,18 @@ Prefab:
       propertyPath: m_SpawnPrefabs.Array.data[1]
       value: 
       objectReference: {fileID: 1151271779715924, guid: 96c1dbb0c34f1b344a2a1c654a49be09,
+        type: 2}
+    - target: {fileID: 114087851014382986, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: cardArt.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 82e76cc8b214e314c95995d9c44be403,
+        type: 3}
+    - target: {fileID: 114828331273894238, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: arrow
+      value: 
+      objectReference: {fileID: 1168623492927880, guid: b8cc98d0e33583d45931396f13a43f34,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf16fe1c8121bc45a18331c1610621f, type: 2}

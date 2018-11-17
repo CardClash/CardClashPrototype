@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 212125498747131758}
   - component: {fileID: 95801321408202736}
   - component: {fileID: 61352241613003040}
+  - component: {fileID: 114237974590625178}
+  - component: {fileID: 50757600149999646}
   m_Layer: 0
   m_Name: ArrowProjectile
   m_TagString: Projectile
@@ -36,12 +38,32 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1168623492927880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.8083, y: 117.83821, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.6843596, y: 0.10981703, z: -1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50757600149999646
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168623492927880}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!61 &61352241613003040
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -85,6 +107,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114237974590625178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168623492927880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a472d1539b819624a8d68d08c53a08d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowSpeed: 50
 --- !u!212 &212125498747131758
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -17,7 +17,7 @@ public class CardEffects : NetworkBehaviour {
     private Dictionary<int, string> manaCosts;
     public int[] keyList;
     private GameObject damageBall;
-
+    public GameObject arrow;
     public int manaCost;
 
     public Dictionary<int, string> CardNames
@@ -49,13 +49,16 @@ public class CardEffects : NetworkBehaviour {
 
         damageBall = GameObject.Find("DamageBall");
 
-        keyList = new int[6];
-        keyList[0] = 10;
-        keyList[1] = 11;
-        keyList[2] = 12;
-        keyList[3] = 13;
-        keyList[4] = 14;
-        keyList[5] = 15;
+        keyList = new int[7]
+        {
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+        };
 
         database = new Dictionary<int, System.Action>
         {
@@ -64,7 +67,8 @@ public class CardEffects : NetworkBehaviour {
             { 12, HealSelf },
             { 13, Teleport },
             { 14, GravityIncrease },
-            { 15, TakeBigDamage }
+            { 15, TakeBigDamage },
+            { 16, Arrow }
         };
 
         cardNames = new Dictionary<int, string>
@@ -74,7 +78,8 @@ public class CardEffects : NetworkBehaviour {
             { 12, "Heal Up" },
             { 13, "Teleport" },
             { 14, "Gravity Increase" },
-            { 15, "Damage 25" }
+            { 15, "Damage 25" },
+            { 16, "Arrow" }
         };
 
         cardTexts = new Dictionary<int, string>
@@ -84,7 +89,8 @@ public class CardEffects : NetworkBehaviour {
             { 12, "You heal for up to 10 damage." },
             { 13, "You can teleport in any direction you point towards." },
             { 14, "Your opponent's gravity is now higher." },
-            { 15, "Opponent takes 25 damage." }
+            { 15, "Opponent takes 25 damage." },
+            { 16, "You shoot an arrow."}
         };
 
         manaCosts = new Dictionary<int, string>
@@ -94,7 +100,8 @@ public class CardEffects : NetworkBehaviour {
             { 12, "2" },
             { 13, "2" },
             { 14, "1" },
-            { 15, "2" }
+            { 15, "2" },
+            { 16, "1" }
         };
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
@@ -291,11 +298,24 @@ public class CardEffects : NetworkBehaviour {
         }
     }
 
+    //shoots an arrow (currently at a set strength and arc)
     void Arrow()
     {
-        GameObject arrow = new GameObject();
-        arrow.AddComponent<ArrowScript>();
-        arrow.GetComponent<ArrowScript>().SetSource(source);
+        manaCost = 1;
+        if(manaCost <= source.Mana)
+        {
+            played = true;
+
+            Instantiate(arrow, source.transform.position, Quaternion.identity);
+            arrow.GetComponent<ArrowScript>().SetSource(source);
+            arrow.GetComponent<ArrowScript>().Shoot();
+
+            source.Mana -= manaCost;
+        }
+        else
+        {
+            played = false;
+        }
     }
 
     //void Teleport()

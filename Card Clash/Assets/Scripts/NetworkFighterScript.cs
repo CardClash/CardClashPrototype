@@ -207,7 +207,7 @@ public class NetworkFighterScript : NetworkBehaviour
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
 
         playerMana = 1;
-        CmdSetMana(0);
+        CmdSetMana(10);
         gravityScale = 1;
         //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
 
