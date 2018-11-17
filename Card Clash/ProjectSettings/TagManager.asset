@@ -8,6 +8,7 @@ TagManager:
   - Punch
   - DamageBall
   - ManaBar
+  - Projectile
   layers:
   - Default
   - TransparentFX

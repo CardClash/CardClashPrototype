@@ -35,6 +35,11 @@ public class CardEffects : NetworkBehaviour {
         get { return manaCosts; }
     }
 
+    public NetworkFighterScript Source
+    {
+        get { return source; }
+    }
+
     public void Initialize()
     {
         if (initialized)
@@ -282,6 +287,13 @@ public class CardEffects : NetworkBehaviour {
         {
             played = false;
         }
+    }
+
+    void Arrow()
+    {
+        GameObject arrow = new GameObject();
+        arrow.AddComponent<ArrowScript>();
+        arrow.GetComponent<ArrowScript>().SetSource(source);
     }
 
     //void Teleport()
