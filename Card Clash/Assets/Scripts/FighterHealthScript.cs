@@ -35,8 +35,15 @@ public class FighterHealthScript : NetworkBehaviour {
         hitEffect.GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    private void Update()
+    {
+        //CmdUpdateDamage();
+        //RpcUpdateDamage();
+    }
+
     public void TakeHitDamage(int amount, Vector2 dir)
     {
+        print(amount);
         //increase the percentage by the amount of damage taken
         CmdTakeDamage(amount);
         
@@ -66,6 +73,30 @@ public class FighterHealthScript : NetworkBehaviour {
         }
     }
 
+    [Command]
+    public void CmdMakeDamage(int amount)
+    {
+        currentPercentage = amount;
+    }
+
+    [Command]
+    public void CmdUpdateDamage()
+    {
+        int hp = currentPercentage;
+        currentPercentage = hp;
+    }
+
+    [ClientRpc]
+    public void RpcUpdateDamage()
+    {
+        if (isServer)
+        {
+            return;
+        }
+        int hp = currentPercentage;
+        currentPercentage = hp;
+    }
+
     //[Command]
     //public void CmdTakeHitDamage(int amount)
     //{
@@ -89,7 +120,19 @@ public class FighterHealthScript : NetworkBehaviour {
     [Command]
     public void CmdTakeDamage(int amount)
     {
+        print(amount);
         TakeDamage(amount);
+    }
+
+    [ClientRpc]
+    public void RpcTakeDamage(int amount)
+    {
+        if (isServer)
+        {
+            print("meh");
+            return;
+        }
+        CmdTakeDamage(amount);
     }
 
     [Command]
@@ -105,19 +148,19 @@ public class FighterHealthScript : NetworkBehaviour {
         TakeDamage(amount);
     }
 
-    [ClientRpc]
-    public void RpcTakeDamage(int amount)
-    {
-        hitEffect.GetComponent<SpriteRenderer>().enabled = true;
-        hitEffect.transform.position = transform.position;
-        hitEffect.GetComponent<Animator>().Play(0);
-        //increase the percentage by the amount of damage taken
-        currentPercentage += amount;
-        if (currentPercentage < 0)
-        {
-            currentPercentage = 0;
-        }
-    }
+    //[ClientRpc]
+    //public void RpcTakeDamage(int amount)
+    //{
+    //    hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+    //    hitEffect.transform.position = transform.position;
+    //    hitEffect.GetComponent<Animator>().Play(0);
+    //    //increase the percentage by the amount of damage taken
+    //    currentPercentage += amount;
+    //    if (currentPercentage < 0)
+    //    {
+    //        currentPercentage = 0;
+    //    }
+    //}
 
     [Command]
     public void CmdReset()

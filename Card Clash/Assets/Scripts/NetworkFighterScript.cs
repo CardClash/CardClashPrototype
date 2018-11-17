@@ -62,6 +62,10 @@ public class NetworkFighterScript : NetworkBehaviour
     [SerializeField]
     private GameObject damageBall;
 
+    [SyncVar]
+    private int opponentDamage;
+    private int lastDamage;
+
     //public GameObject damageBallPrefab;
     #endregion
 
@@ -123,6 +127,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return gravityScale; }
         set { gravityScale = value; }
     }
+
+    public int OpponentDamage
+    {
+        get { return opponentDamage; }
+        set { opponentDamage = value; }
+    }
     #endregion
 
 
@@ -183,6 +193,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
         damageTextPlayer1 = GameObject.Find("DamageTextPlayer1").GetComponent<Text>();
         damageTextPlayer2 = GameObject.Find("DamageTextPlayer2").GetComponent<Text>();
+
+        lastDamage = 0;
     }
 
     public override void OnStartLocalPlayer()
@@ -310,6 +322,17 @@ public class NetworkFighterScript : NetworkBehaviour
             {
                 damageBall = GameObject.FindGameObjectWithTag("DamageBall");
             }
+
+            if (Opponent)
+            {
+                int dmg = Opponent.GetComponent<NetworkFighterScript>().OpponentDamage - lastDamage;
+
+                if (dmg > 0)
+                {
+                    localPlayerHealthScript.CmdTakeDamage(dmg);
+                    lastDamage += dmg;
+                }
+            }
         }
 
         //run this code if the player has won
@@ -411,7 +434,7 @@ public class NetworkFighterScript : NetworkBehaviour
         if (collision.CompareTag("DamageBall") /* && collision.gameObject.GetComponent<DamageBallScript>().Target == this */)
         {
             print("Trigger with DamageBall");
-            localPlayerHealthScript.CmdTakeDamage(collision.GetComponent<DamageBallScript>().Damage);
+            localPlayerHealthScript.TakeDamage(collision.GetComponent<DamageBallScript>().Damage);
 
             collision.GetComponent<DamageBallScript>().Damage = 0;
             collision.GetComponent<DamageBallScript>().CmdSetDamage(0);
@@ -884,43 +907,27 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public void ManaSystem()
     {
-        //print("calling ManaSystem()");
         if (Opponent)
         {
-            //print("opponent valid");
-            manaDisplay = (int)playerMana;
             playerMana += Time.deltaTime;
+            manaDisplay = (int)playerMana;
 
+            //print("playerMana: " + playerMana);
             if (playerMana >= 7.5)
             {
+                print("Mana: " + Mana);
                 CmdSetMana(Mana + 1);
+                print("Mana: " + Mana);
                 playerMana = 0;
             }
-            while (Mana <= -1)
+            if (Mana <= -1)
             {
                 CmdSetMana(0);
             }
-            while (Mana >= 6)
+            if (Mana >= 6)
             {
                 CmdSetMana(5);
             }
-        }
-        else
-        {
-            //print("opponent invalid");
-            manaDisplay = (int)playerMana;
-            playerMana += Time.deltaTime;
-
-            if (playerMana >= 7.5)
-            {
-                CmdSetMana(Mana + 1);
-                playerMana = 0;
-            }
-            while (Mana <= -1)
-            {
-                CmdSetMana(0);
-            }
-            
         }
     }
 
@@ -1062,5 +1069,11 @@ public class NetworkFighterScript : NetworkBehaviour
 
 
         //NetworkServer.Spawn(damageBall);
+    }
+
+    [Command]
+    public void CmdAddOpponentDamage(int amount)
+    {
+        OpponentDamage = OpponentDamage + amount;
     }
 }
