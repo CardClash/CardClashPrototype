@@ -24,14 +24,9 @@ public class ArrowScript : MonoBehaviour {
         {
             //shoots arrow at arrowSpeed
             GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(arrowSpeed, 0));
-            if (!flipped)
+            if (arrowSpeed < 0)
             {
-                if (GetComponent<Rigidbody2D>().velocity.x < 0)
-                {
-                    print("flip");
-                    transform.rotation = Quaternion.Euler(0, 180f, 0);
-                }
-                flipped = true;
+                transform.rotation = Quaternion.Euler(0, 180f, 0);
             }
         }
 

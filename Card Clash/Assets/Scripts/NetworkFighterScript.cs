@@ -357,6 +357,11 @@ public class NetworkFighterScript : NetworkBehaviour
             ManaSystem();
             //TimeStop();
 
+            //if (myArrow && !isServer)
+            //{
+            //    myArrow.transform.rotation = Quaternion.Euler(new Vector3(0, 180f, 0));
+            //}
+
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
                 gameStarted = true;
