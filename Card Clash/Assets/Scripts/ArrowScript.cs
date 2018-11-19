@@ -8,11 +8,13 @@ public class ArrowScript : MonoBehaviour {
     public float arrowSpeed;
     private bool shot;
     private bool amServer;
+    private bool flipped;
 
     // Use this for initialization
     void Start ()
     {
         shot = false;
+        flipped = false;
 	}
 	
 	// Update is called once per frame
@@ -22,6 +24,15 @@ public class ArrowScript : MonoBehaviour {
         {
             //shoots arrow at arrowSpeed
             GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(arrowSpeed, 0));
+            if (!flipped)
+            {
+                if (GetComponent<Rigidbody2D>().velocity.x < 0)
+                {
+                    print("flip");
+                    transform.rotation = Quaternion.Euler(0, 180f, 0);
+                }
+                flipped = true;
+            }
         }
 
         //Destroys the arrow if it leaves the stage
@@ -54,7 +65,7 @@ public class ArrowScript : MonoBehaviour {
             arrowSpeed *= -1;
         }
         shot = true;
-        print("true");
+        //print("true");
     }
 
     public void SetSource(NetworkFighterScript _source)
@@ -87,16 +98,16 @@ public class ArrowScript : MonoBehaviour {
                 //Vector2 direction = transform.position - collision.transform.position;
                 //direction = direction.normalized;
                 //collision.gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(4, direction);
-                
-                //if (amServer)
-                //{
-                //    collision.gameObject.GetComponent<FighterHealthScript>().CmdTakeDamage(20);
-                //}
-                //else
-                //{
-                //    source.GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
-                //}
-                //Destroy(gameObject);
+
+                if (amServer)
+                {
+                    //collision.gameObject.GetComponent<FighterHealthScript>().CmdTakeDamage(20);
+                }
+                else
+                {
+                    source.GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
+                    Destroy(gameObject);
+                }
             }
         }
     }

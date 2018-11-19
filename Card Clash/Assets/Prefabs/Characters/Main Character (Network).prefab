@@ -199,6 +199,7 @@ MonoBehaviour:
   deathExplosion: {fileID: 1326866584511650, guid: f08b0720e277a9e46919d7e062829154,
     type: 2}
   gravScale: 5
+  arrow: {fileID: 1168623492927880, guid: b8cc98d0e33583d45931396f13a43f34, type: 2}
 --- !u!114 &114109821585446956
 MonoBehaviour:
   m_ObjectHideFlags: 1

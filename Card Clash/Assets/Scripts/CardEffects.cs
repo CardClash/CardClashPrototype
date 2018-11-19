@@ -16,8 +16,6 @@ public class CardEffects : NetworkBehaviour {
     private Dictionary<int, string> cardTexts;
     private Dictionary<int, string> manaCosts;
     public int[] keyList;
-    private GameObject damageBall;
-    public GameObject arrow;
     public int manaCost;
 
     public Dictionary<int, string> CardNames
@@ -46,8 +44,6 @@ public class CardEffects : NetworkBehaviour {
         {
             return;
         }
-
-        damageBall = GameObject.Find("DamageBall");
 
         keyList = new int[7]
         {
@@ -306,11 +302,11 @@ public class CardEffects : NetworkBehaviour {
         {
             played = true;
 
-            var myArrow = Instantiate(arrow, source.transform.position, Quaternion.identity);
-            myArrow.GetComponent<ArrowScript>().SetSource(source);
-            myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
-            NetworkServer.Spawn(myArrow);
-            CmdSpawnArrow();
+            //var myArrow = Instantiate(arrow, source.transform.position, Quaternion.identity);
+            //myArrow.GetComponent<ArrowScript>().SetSource(source);
+            //myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
+            //NetworkServer.Spawn(myArrow);
+            source.CmdSpawnArrow();
 
             source.Mana -= manaCost;
         }
@@ -318,15 +314,6 @@ public class CardEffects : NetworkBehaviour {
         {
             played = false;
         }
-    }
-
-    [Command]
-    private void CmdSpawnArrow()
-    {
-        var myArrow = Instantiate(arrow, source.transform.position, Quaternion.identity);
-        myArrow.GetComponent<ArrowScript>().SetSource(source);
-        myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
-        NetworkServer.Spawn(myArrow);
     }
 
     //void Teleport()

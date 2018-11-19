@@ -46,13 +46,15 @@ public class FighterHitBoxManager : NetworkBehaviour
             if (isServer)
             {
                 GetComponent<FighterHealthScript>().CmdTakeDamage(20);
+                Destroy(col.gameObject);
             }
             else
             {
-                GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
-                GetComponent<NetworkFighterScript>().OpponentDamage = GetComponent<NetworkFighterScript>().OpponentDamage + 20;
+                //GetComponent<FighterHealthScript>().CmdTakeDamage(20);
+                
+                //GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
+                //GetComponent<NetworkFighterScript>().OpponentDamage = GetComponent<NetworkFighterScript>().OpponentDamage + 20;
             }
-            Destroy(col.gameObject);
         }
     }
 }

@@ -24,17 +24,10 @@ public class CardDeck : MonoBehaviour {
         int deckSize = 0;
         for (int i = 0; i < deck.Length; i++)
         {
-            print(deck[i]);
             deckSize += deck[i];
         }
         cardList = new int[deckSize];
-        //for (int i = 0; i < cardList.Length; i++)
-        //{
-        //    for (int j = 0; j < deck[i]; j++)
-        //    {
 
-        //    }
-        //}
         int count = 0;
         for (int i = 0; i < deck.Length; i++)
         {
@@ -42,7 +35,6 @@ public class CardDeck : MonoBehaviour {
             {
                 cardList[count] = i + 10;
                 ++count;
-                print(i + 10);
             }
         }
 
@@ -137,7 +129,6 @@ public class CardDeck : MonoBehaviour {
 
     public static void Shuffle(int[] a)
     {
-        print("shuffle");
         int n = a.Length;
         rand = new System.Random();
 

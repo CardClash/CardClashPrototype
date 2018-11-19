@@ -77,7 +77,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
     public float gravScale = 2.0f;
     private float baseGravScale;
-
+    
+    public GameObject arrow;
     private GameObject myArrow;
     #endregion
 
@@ -1149,8 +1150,18 @@ public class NetworkFighterScript : NetworkBehaviour
         GravTimer = myTimer;
     }
 
+    [Command]
     public void CmdAddOppGravTimer(float myTimer)
     {
         OpponentGravTimer += myTimer;
+    }
+
+    [Command]
+    public void CmdSpawnArrow()
+    {
+        var myArrow = Instantiate(arrow, transform.position, Quaternion.identity);
+        myArrow.GetComponent<ArrowScript>().SetSource(this);
+        myArrow.GetComponent<ArrowScript>().Shoot(facingRight);
+        NetworkServer.Spawn(myArrow);
     }
 }
