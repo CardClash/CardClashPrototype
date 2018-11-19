@@ -124,15 +124,14 @@ public class CardEffects : NetworkBehaviour {
         source.timeStopTimer = 1.5f;
         source.telegraph.enabled = true;
 
-
-       if (source.timeStopTimer <= 0.0f)
+        if (source.timeStopTimer <= 0.0f)
         {
             Time.timeScale = 1.0f;
         }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Time.timeScale = 0.5f;
+            source.CmdSetStopTimer(1.5f);
             source.timeStopTimer = 1.5f;
         }
         
@@ -207,7 +206,7 @@ public class CardEffects : NetworkBehaviour {
             else
             {
                 played = true;
-                source.CmdAddOpponentDamage(10);
+                source.CmdAddOpponentDamage(25);
                 source.OpponentDamage = source.OpponentDamage + 25;
                 source.Mana -= manaCost;
             }
@@ -306,9 +305,10 @@ public class CardEffects : NetworkBehaviour {
         {
             played = true;
 
-            Instantiate(arrow, source.transform.position, Quaternion.identity);
-            arrow.GetComponent<ArrowScript>().SetSource(source);
-            arrow.GetComponent<ArrowScript>().Shoot();
+            var myArrow = Instantiate(arrow, source.transform.position, Quaternion.identity);
+            myArrow.GetComponent<ArrowScript>().SetSource(source);
+            myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
+            NetworkServer.Spawn(myArrow);
 
             source.Mana -= manaCost;
         }

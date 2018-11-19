@@ -17,8 +17,11 @@ public class ArrowScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        //shoots arrow at arrowSpeed
-        GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(arrowSpeed, 0));
+        if (source)
+        {
+            //shoots arrow at arrowSpeed
+            GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(arrowSpeed, 0));
+        }
 
         //Destroys the arrow if it leaves the stage
         if (transform.position.x < -40.0f)
@@ -43,18 +46,29 @@ public class ArrowScript : MonoBehaviour {
         }
     }
 
-    public void Shoot()
+    public void Shoot(bool facingRight)
     {
+        if (facingRight)
+        {
+            arrowSpeed *= -1;
+        }
         shot = true;
         print("true");
     }
 
     public void SetSource(NetworkFighterScript _source)
     {
+        _source.MyArrow = gameObject;
         source = _source;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Old place of OnTriggerEnter2D code.
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Destroys the arrow if it touches the ground
         if (collision.transform.tag == "Ground")
@@ -64,12 +78,15 @@ public class ArrowScript : MonoBehaviour {
         }
 
         //Damages the player that touches the arrow
-        if (collision.transform.tag == "Player")
-        {
-            Vector2 direction = transform.position - collision.transform.position;
-            direction = direction.normalized;
-            source.GetComponent<FighterHealthScript>().TakeHitDamage(4, direction);
-            //Destroy(gameObject);
-        }
+        //if (collision.transform.tag == "Player")
+        //{
+        //    if (collision.gameObject != source)
+        //    {
+        //        Vector2 direction = transform.position - collision.transform.position;
+        //        direction = direction.normalized;
+        //        collision.gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(4, direction);
+        //        Destroy(gameObject);
+        //    }
+        //}
     }
 }

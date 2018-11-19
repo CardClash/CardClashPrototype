@@ -36,7 +36,14 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     [SyncVar]
     private int actualMana;
+    [SyncVar]
     public float timeStopTimer = 0.0f;
+    public float cardTimeScale = 0.5f;
+    private float defaultTime;
+
+    [SyncVar]
+    public int artArrayNum;
+    private int lastArtArrayNum;
 
     private bool gameStarted = false;
     private bool isHit = false;
@@ -59,14 +66,11 @@ public class NetworkFighterScript : NetworkBehaviour
     public GameObject deathExplosion;
     private GameObject deathObj;
 
-    [SerializeField]
-    private GameObject damageBall;
-
     [SyncVar]
     private int opponentDamage;
     private int lastDamage;
 
-    //public GameObject damageBallPrefab;
+    private GameObject myArrow;
     #endregion
 
     #region Get/Set functions
@@ -133,6 +137,12 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return opponentDamage; }
         set { opponentDamage = value; }
     }
+
+    public GameObject MyArrow
+    {
+        get { return myArrow; }
+        set { myArrow = value; }
+    }
     #endregion
 
 
@@ -142,6 +152,9 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             playerNumber = 1;
         }
+
+        defaultTime = Time.timeScale;
+        timeStopTimer = 0.0f;
 
         deathObj = Instantiate(deathExplosion);
 
@@ -210,8 +223,6 @@ public class NetworkFighterScript : NetworkBehaviour
         CmdSetMana(10);
         gravityScale = 1;
         //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
-
-        damageBall = GameObject.FindGameObjectWithTag("DamageBall");
     }
 
     // Update is called once per frame
@@ -306,25 +317,46 @@ public class NetworkFighterScript : NetworkBehaviour
             ManaSystem();
             //TimeStop();
 
-            timeStopTimer -= Time.deltaTime;
-            if (timeStopTimer <= 0.0f)
-            {
-                Time.timeScale = 1.0f;
-                telegraph.enabled = false;
-            }
-
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
                 gameStarted = true;
             }
 
-            if (!damageBall)
-            {
-                damageBall = GameObject.FindGameObjectWithTag("DamageBall");
-            }
-
             if (Opponent)
             {
+                float opponentTimer = Opponent.GetComponent<NetworkFighterScript>().timeStopTimer;
+                print("Opponent:   " + opponentTimer);
+                if (opponentTimer >= 1.4f)
+                {
+                    timeStopTimer = opponentTimer;
+                    CmdSetStopTimer(opponentTimer);
+
+                }
+
+                float nextTimeStopTimer = timeStopTimer - Time.deltaTime;
+
+                timeStopTimer = nextTimeStopTimer;
+                CmdSetStopTimer(nextTimeStopTimer);
+                print("Me:   " + timeStopTimer);
+                if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
+                {
+                    Time.timeScale = defaultTime;
+                    telegraph.enabled = false;
+                    lastArtArrayNum = artArrayNum;
+                }
+                else if (!isServer && timeStopTimer <= 0.0f)
+                {
+                    Time.timeScale = defaultTime;
+                    telegraph.enabled = false;
+                    lastArtArrayNum = artArrayNum;
+                }
+                else
+                {
+                    Time.timeScale = cardTimeScale;
+                    telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
+                    telegraph.enabled = true;
+                }
+
                 int dmg = Opponent.GetComponent<NetworkFighterScript>().OpponentDamage - lastDamage;
 
                 if (dmg > 0)
@@ -426,21 +458,6 @@ public class NetworkFighterScript : NetworkBehaviour
         if (collision.transform.tag == "Ground")
         {
             anim.SetBool("isGrounded", false);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("DamageBall") /* && collision.gameObject.GetComponent<DamageBallScript>().Target == this */)
-        {
-            print("Trigger with DamageBall");
-            localPlayerHealthScript.TakeDamage(collision.GetComponent<DamageBallScript>().Damage);
-
-            collision.GetComponent<DamageBallScript>().Damage = 0;
-            collision.GetComponent<DamageBallScript>().CmdSetDamage(0);
-            //collision.GetComponent<DamageBallScript>().Target = null;
-            collision.GetComponent<DamageBallScript>().ResetLoc();
-            collision.GetComponent<DamageBallScript>().CmdResetLoc();
         }
     }
 
@@ -1054,26 +1071,16 @@ public class NetworkFighterScript : NetworkBehaviour
     {
         PlayerState = num;
     }
-    
-    public void ApplyCardDamage(int damage)
-    {
-        //Called to deal damage;
-        print("Cmd Apply Card Damage");
-        //GameObject damageBall = Instantiate(damageBallPrefab, new Vector3(2000, 2000, 0), Quaternion.identity);
-
-        damageBall.GetComponent<DamageBallScript>().Damage = damage;
-        damageBall.GetComponent<DamageBallScript>().CmdSetDamage(damage);
-
-        damageBall.GetComponent<DamageBallScript>().SetLocation(Opponent.transform.position);
-        damageBall.GetComponent<DamageBallScript>().CmdSetLocation(Opponent.transform.position);
-
-
-        //NetworkServer.Spawn(damageBall);
-    }
 
     [Command]
     public void CmdAddOpponentDamage(int amount)
     {
         OpponentDamage = OpponentDamage + amount;
+    }
+
+    [Command]
+    public void CmdSetStopTimer(float time)
+    {
+        timeStopTimer = time;
     }
 }

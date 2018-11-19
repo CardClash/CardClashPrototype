@@ -35,17 +35,22 @@ public class FighterHitBoxManager : NetworkBehaviour
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
         }
-        else if (col.tag == "DamageBall")
+        else if (col.CompareTag("Projectile") /*&& col.gameObject != GetComponent<NetworkFighterScript>().MyArrow*/)
         {
-            print(col.GetComponent<DamageBallScript>().Damage);
-            GetComponent<FighterHealthScript>().TakeHitDamage(col.GetComponent<DamageBallScript>().Damage, Vector3.zero);
-            GetComponent<FighterHealthScript>().CmdMakeDamage(GetComponent<FighterHealthScript>().Damage + col.GetComponent<DamageBallScript>().Damage);
-            print("me");
-            col.GetComponent<DamageBallScript>().Damage = 0;
-            col.GetComponent<DamageBallScript>().CmdSetDamage(0);
-            //collision.GetComponent<DamageBallScript>().Target = null;
-            col.GetComponent<DamageBallScript>().ResetLoc();
-            col.GetComponent<DamageBallScript>().CmdResetLoc();
+            print(GetComponent<NetworkFighterScript>().MyArrow);
+            Vector2 direct = col.transform.position - transform.position;
+            direct.Normalize();
+            gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(20, direct);
+            //if (isServer)
+            //{
+            //    GetComponent<FighterHealthScript>().CmdTakeDamage(20);
+            //}
+            //else
+            //{
+            //    GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
+            //    GetComponent<NetworkFighterScript>().OpponentDamage = GetComponent<NetworkFighterScript>().OpponentDamage + 20;
+            //}
+            //Destroy(col.gameObject);
         }
     }
 }

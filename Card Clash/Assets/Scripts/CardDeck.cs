@@ -13,6 +13,7 @@ public class CardDeck : MonoBehaviour {
     public int[] cardList;
     public static System.Random rand;
     public Queue unusedCards;
+    public Queue<int> discardPile;
 
     public float timeStopTimer = 0.0f;
 
@@ -53,10 +54,12 @@ public class CardDeck : MonoBehaviour {
 
         unusedCards = new Queue();
 
-        unusedCards.Enqueue(cardList[4]);
-        //unusedCards.Enqueue(cardList[5]);
+        for (int i = 4; i < cardList.Length; i++)
+        {
+            unusedCards.Enqueue(cardList[i]);
+        }
 
-        //print(unusedCards.Peek());
+        discardPile = new Queue<int>(unusedCards.Count);
 
         effects = GetComponent<CardEffects>();
 
@@ -78,8 +81,21 @@ public class CardDeck : MonoBehaviour {
                 if (effects.played)
                 {
                     effects.TimeStop();
-                    unusedCards.Enqueue(hand[key]);
+                    discardPile.Enqueue(hand[key]);
                     //print(unusedCards.Peek());
+                    if (unusedCards.Count <= 0)
+                    {
+                        int[] shuffleMe = new int[discardPile.Count];
+                        for (int i = 0; i < discardPile.Count; i++)
+                        {
+                            shuffleMe[i] = discardPile.Dequeue();
+                        }
+                        Shuffle(shuffleMe);
+                        for (int i = 0; i < shuffleMe.Length; i++)
+                        {
+                            unusedCards.Enqueue(shuffleMe[i]);
+                        }
+                    }
                     hand[key] = (int)unusedCards.Dequeue();
                 }
                 

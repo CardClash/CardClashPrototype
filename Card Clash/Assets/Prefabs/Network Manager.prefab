@@ -119,8 +119,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5cc7992302fc5a44e8c7aac353925c89, type: 3}
   - {fileID: 21300000, guid: 247c37d6e86ef0a49a3a4e13f2708bbd, type: 3}
   - {fileID: 21300000, guid: 7cea1605b2da4364dacc1de2f9118c09, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: e609bc5ad5bdc8a4d90671859199f6f6, type: 3}
   - {fileID: 21300000, guid: 82e76cc8b214e314c95995d9c44be403, type: 3}
+  - {fileID: 21300000, guid: d459c1c5ffa0d5347b90beae32244232, type: 3}
   template: {fileID: 21300000, guid: dbdfc4bd70524a74e9902b660bf9ee41, type: 3}
   manaCostTexts:
   - {fileID: 0}
@@ -168,6 +169,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1200660813637990, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
+  - {fileID: 1168623492927880, guid: b8cc98d0e33583d45931396f13a43f34, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -280,6 +282,7 @@ MonoBehaviour:
   handList: 00000000000000000000000000000000
   keyList: 00000000000000000000000000000000
   cardList: 00000000000000000000000000000000
+  timeStopTimer: 0
 --- !u!114 &114542487803262698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -291,6 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29492d3eec8c0d24597b38d69822f83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeStopTimer: 1.5
   canvas: {fileID: 0}
 --- !u!114 &114612759029847184
 MonoBehaviour:
@@ -320,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   played: 0
   keyList: 
+  arrow: {fileID: 1168623492927880, guid: b8cc98d0e33583d45931396f13a43f34, type: 2}
   manaCost: 0
 --- !u!212 &212799798508936734
 SpriteRenderer:
