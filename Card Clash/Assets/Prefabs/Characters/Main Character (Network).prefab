@@ -192,12 +192,13 @@ MonoBehaviour:
   playerMana: 0
   manaDisplay: 0
   timeStopTimer: 3
+  cardTimeScale: 0.5
   telegraph: {fileID: 0}
   anim: {fileID: 0}
   endGameText: {fileID: 0}
   deathExplosion: {fileID: 1326866584511650, guid: f08b0720e277a9e46919d7e062829154,
     type: 2}
-  damageBall: {fileID: 0}
+  gravScale: 5
 --- !u!114 &114109821585446956
 MonoBehaviour:
   m_ObjectHideFlags: 1

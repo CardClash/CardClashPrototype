@@ -34,7 +34,6 @@ public class NetworkFighterScript : NetworkBehaviour
     public int playerNumber;
     public float playerMana;
     public int manaDisplay;
-    [SyncVar]
     private int actualMana;
     [SyncVar]
     public float timeStopTimer = 0.0f;
@@ -69,6 +68,15 @@ public class NetworkFighterScript : NetworkBehaviour
     [SyncVar]
     private int opponentDamage;
     private int lastDamage;
+
+    [SyncVar]
+    private float gravTimer;
+    [SyncVar]
+    private float opponentGravTimer;
+    private float totalGravTimer;
+
+    public float gravScale = 2.0f;
+    private float baseGravScale;
 
     private GameObject myArrow;
     #endregion
@@ -149,10 +157,22 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return artArrayNum; }
         set
         {
-            print(value);
+            //print(value);
             if (0 <= value && value <= 6)
                 artArrayNum = value;
         }
+    }
+
+    public float GravTimer
+    {
+        get { return gravTimer; }
+        set { gravTimer = value; }
+    }
+
+    public float OpponentGravTimer
+    {
+        get { return opponentGravTimer; }
+        set { opponentGravTimer = value; }
     }
     #endregion
 
@@ -166,6 +186,11 @@ public class NetworkFighterScript : NetworkBehaviour
 
         defaultTime = Time.timeScale;
         timeStopTimer = 0.0f;
+
+        baseGravScale = GetComponent<Rigidbody2D>().gravityScale;
+        totalGravTimer = 0;
+        opponentGravTimer = 0;
+        gravTimer = 0;
 
         artArrayNum = -1;
         lastArtArrayNum = -2;
@@ -234,7 +259,7 @@ public class NetworkFighterScript : NetworkBehaviour
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
 
         playerMana = 1;
-        CmdSetMana(10);
+        Mana = 3;
         gravityScale = 1;
         //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
     }
@@ -342,8 +367,8 @@ public class NetworkFighterScript : NetworkBehaviour
                 //print("Opponent:   " + opponentTimer);
                 if (opponentTimer >= 1.4f)
                 {
-                    timeStopTimer = opponentTimer;
                     CmdSetStopTimer(opponentTimer);
+                    timeStopTimer = opponentTimer;
                     if (Opponent.GetComponent<NetworkFighterScript>().artArrayNum != lastArtArrayNum)
                     {
                         ArtArrayNum = Opponent.GetComponent<NetworkFighterScript>().artArrayNum;
@@ -352,8 +377,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
                 float nextTimeStopTimer = timeStopTimer - Time.deltaTime;
 
-                timeStopTimer = nextTimeStopTimer;
                 CmdSetStopTimer(nextTimeStopTimer);
+                timeStopTimer = nextTimeStopTimer;
                 //print("Me:   " + timeStopTimer);
                 if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
                 {
@@ -370,7 +395,7 @@ public class NetworkFighterScript : NetworkBehaviour
                 else
                 {
                     Time.timeScale = cardTimeScale;
-                    print("Art: " + artArrayNum);
+                    //print("Art: " + artArrayNum);
                     if (artArrayNum != -1)
                     {
                         telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
@@ -385,6 +410,25 @@ public class NetworkFighterScript : NetworkBehaviour
                     localPlayerHealthScript.CmdTakeDamage(dmg);
                     lastDamage += dmg;
                 }
+                
+                //float myOppGravTimer = Opponent.GetComponent<NetworkFighterScript>().OpponentGravTimer;
+                //print("oppgravtime: " + myOppGravTimer);
+                //if (myOppGravTimer > totalGravTimer)
+                //{
+                //    print("triggered grav start");
+                //    gravTimer = myOppGravTimer - totalGravTimer;
+                //    totalGravTimer = myOppGravTimer;
+                //}
+                //if (gravTimer > 0)
+                //{
+                //    print("grav increased");
+                //    GetComponent<Rigidbody2D>().gravityScale = gravityScale;
+                //    gravTimer -= Time.deltaTime;
+                //    if (gravTimer <= 0)
+                //    {
+                //        GetComponent<Rigidbody2D>().gravityScale = baseGravScale;
+                //    }
+                //}
             }
         }
 
@@ -954,17 +998,17 @@ public class NetworkFighterScript : NetworkBehaviour
             if (playerMana >= 7.5)
             {
                 //print("Mana: " + Mana);
-                CmdSetMana(Mana + 1);
+                Mana = Mana + 1;
                 //print("Mana: " + Mana);
                 playerMana = 0;
             }
             if (Mana <= -1)
             {
-                CmdSetMana(0);
+                Mana = 0;
             }
             if (Mana >= 6)
             {
-                CmdSetMana(5);
+                Mana = 5;
             }
         }
     }
@@ -1082,12 +1126,6 @@ public class NetworkFighterScript : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetMana(int num)
-    {
-        Mana = num;
-    }
-
-    [Command]
     public void CmdSetPlayerState(int num)
     {
         PlayerState = num;
@@ -1103,5 +1141,16 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdSetStopTimer(float time)
     {
         timeStopTimer = time;
+    }
+
+    [Command]
+    public void CmdSetGravTimer(float myTimer)
+    {
+        GravTimer = myTimer;
+    }
+
+    public void CmdAddOppGravTimer(float myTimer)
+    {
+        OpponentGravTimer += myTimer;
     }
 }

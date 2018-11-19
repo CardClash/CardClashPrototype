@@ -7,6 +7,7 @@ public class ArrowScript : MonoBehaviour {
     private NetworkFighterScript source;
     public float arrowSpeed;
     private bool shot;
+    private bool amServer;
 
     // Use this for initialization
     void Start ()
@@ -59,6 +60,7 @@ public class ArrowScript : MonoBehaviour {
     public void SetSource(NetworkFighterScript _source)
     {
         _source.MyArrow = gameObject;
+        amServer = _source.isServer;
         source = _source;
         GetComponent<BoxCollider2D>().enabled = true;
     }
@@ -78,15 +80,24 @@ public class ArrowScript : MonoBehaviour {
         }
 
         //Damages the player that touches the arrow
-        //if (collision.transform.tag == "Player")
-        //{
-        //    if (collision.gameObject != source)
-        //    {
-        //        Vector2 direction = transform.position - collision.transform.position;
-        //        direction = direction.normalized;
-        //        collision.gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(4, direction);
-        //        Destroy(gameObject);
-        //    }
-        //}
+        if (collision.transform.tag == "Player")
+        {
+            if (collision.gameObject != source)
+            {
+                //Vector2 direction = transform.position - collision.transform.position;
+                //direction = direction.normalized;
+                //collision.gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(4, direction);
+                
+                //if (amServer)
+                //{
+                //    collision.gameObject.GetComponent<FighterHealthScript>().CmdTakeDamage(20);
+                //}
+                //else
+                //{
+                //    source.GetComponent<NetworkFighterScript>().CmdAddOpponentDamage(20);
+                //}
+                //Destroy(gameObject);
+            }
+        }
     }
 }

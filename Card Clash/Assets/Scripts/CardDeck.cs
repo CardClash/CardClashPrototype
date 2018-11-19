@@ -20,17 +20,43 @@ public class CardDeck : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
-        cardList = new int[7]
+        int[] deck = MyDeckOfCards.deck;
+        int deckSize = 0;
+        for (int i = 0; i < deck.Length; i++)
         {
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16
-        };
+            print(deck[i]);
+            deckSize += deck[i];
+        }
+        cardList = new int[deckSize];
+        //for (int i = 0; i < cardList.Length; i++)
+        //{
+        //    for (int j = 0; j < deck[i]; j++)
+        //    {
+
+        //    }
+        //}
+        int count = 0;
+        for (int i = 0; i < deck.Length; i++)
+        {
+            for (int j = 0; j < deck[i]; j++)
+            {
+                cardList[count] = i + 10;
+                ++count;
+                print(i + 10);
+            }
+        }
+
+        //cardList = new int[6]
+        //{
+        //    10,
+        //    11,
+        //    12,
+        //    13,
+        //    //14,
+        //    15
+        //    ,
+        //    16
+        //};
 
         keyList = new int[4]
         {
@@ -80,7 +106,7 @@ public class CardDeck : MonoBehaviour {
                 
                 if (effects.played)
                 {
-                    print(hand[key]);
+                    //print(hand[key]);
                     effects.SetCardID(hand[key] - 10);
                     effects.TimeStop();
                     //print(unusedCards.Peek());
@@ -98,8 +124,8 @@ public class CardDeck : MonoBehaviour {
                             unusedCards.Enqueue(shuffleMe[i]);
                         }
                     }
-                    hand[key] = (int)unusedCards.Dequeue();
                     discardPile.Enqueue(hand[key]);
+                    hand[key] = (int)unusedCards.Dequeue();
                 }
                 
                 break;

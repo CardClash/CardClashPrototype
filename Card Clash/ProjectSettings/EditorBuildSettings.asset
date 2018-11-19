@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Deckbuilding Scene.unity
+    guid: f252cc20ad4a4fd469ff87ab7c464e6c
+  - enabled: 1
     path: Assets/Scenes/Network Fight Scene.unity
     guid: 59f20a7a23edf3644a51ef4fbd8be23c
   - enabled: 0

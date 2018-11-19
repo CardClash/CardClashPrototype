@@ -233,21 +233,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
-        type: 2}
-      propertyPath: movable
-      value: 
-      objectReference: {fileID: 349854741}
-    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
-        type: 2}
-      propertyPath: options.Array.data[0]
-      value: 
-      objectReference: {fileID: 404583118}
-    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
-        type: 2}
-      propertyPath: options.Array.data[1]
-      value: 
-      objectReference: {fileID: 136120845}
     - target: {fileID: 114087851014382986, guid: 4bf16fe1c8121bc45a18331c1610621f,
         type: 2}
       propertyPath: card1
@@ -348,6 +333,21 @@ Prefab:
       propertyPath: cardTexts.Array.data[3]
       value: 
       objectReference: {fileID: 1309476422}
+    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: movable
+      value: 
+      objectReference: {fileID: 349854741}
+    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: options.Array.data[0]
+      value: 
+      objectReference: {fileID: 404583118}
+    - target: {fileID: 114176029344511874, guid: 4bf16fe1c8121bc45a18331c1610621f,
+        type: 2}
+      propertyPath: options.Array.data[1]
+      value: 
+      objectReference: {fileID: 136120845}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf16fe1c8121bc45a18331c1610621f, type: 2}
   m_IsPrefabAsset: 0

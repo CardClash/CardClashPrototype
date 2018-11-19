@@ -119,9 +119,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5cc7992302fc5a44e8c7aac353925c89, type: 3}
   - {fileID: 21300000, guid: 247c37d6e86ef0a49a3a4e13f2708bbd, type: 3}
   - {fileID: 21300000, guid: 7cea1605b2da4364dacc1de2f9118c09, type: 3}
-  - {fileID: 21300000, guid: e609bc5ad5bdc8a4d90671859199f6f6, type: 3}
   - {fileID: 21300000, guid: 82e76cc8b214e314c95995d9c44be403, type: 3}
   - {fileID: 21300000, guid: d459c1c5ffa0d5347b90beae32244232, type: 3}
+  - {fileID: 21300000, guid: e609bc5ad5bdc8a4d90671859199f6f6, type: 3}
   template: {fileID: 21300000, guid: dbdfc4bd70524a74e9902b660bf9ee41, type: 3}
   manaCostTexts:
   - {fileID: 0}

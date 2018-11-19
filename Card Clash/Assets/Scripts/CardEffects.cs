@@ -66,9 +66,9 @@ public class CardEffects : NetworkBehaviour {
             { 11, SpeedBoost },
             { 12, HealSelf },
             { 13, Teleport },
-            { 14, GravityIncrease },
-            { 15, TakeBigDamage },
-            { 16, Arrow }
+            { 14, TakeBigDamage },
+            { 15, Arrow },
+            { 16, GravityIncrease }
         };
 
         cardNames = new Dictionary<int, string>
@@ -77,9 +77,9 @@ public class CardEffects : NetworkBehaviour {
             { 11, "Speed Up" },
             { 12, "Heal Up" },
             { 13, "Teleport" },
-            { 14, "Gravity Increase" },
-            { 15, "Damage 25" },
-            { 16, "Arrow" }
+            { 14, "Damage 25" },
+            { 15, "Arrow" },
+            { 16, "Gravity Increase" }
         };
 
         cardTexts = new Dictionary<int, string>
@@ -88,9 +88,9 @@ public class CardEffects : NetworkBehaviour {
             { 11, "Your speed increases slightly." },
             { 12, "You heal for up to 10 damage." },
             { 13, "You can teleport in any direction you point towards." },
-            { 14, "Your opponent's gravity is now higher." },
-            { 15, "Opponent takes 25 damage." },
-            { 16, "You shoot an arrow."}
+            { 14, "Opponent takes 25 damage." },
+            { 15, "You shoot an arrow." },
+            { 16, "Your opponent's gravity is now higher." }
         };
 
         manaCosts = new Dictionary<int, string>
@@ -99,8 +99,8 @@ public class CardEffects : NetworkBehaviour {
             { 11, "2" },
             { 12, "2" },
             { 13, "2" },
-            { 14, "1" },
-            { 15, "2" },
+            { 14, "2" },
+            { 15, "1" },
             { 16, "1" }
         };
 
@@ -120,20 +120,20 @@ public class CardEffects : NetworkBehaviour {
 
     public void TimeStop()
     {
-        Time.timeScale = 0.5f;
+        //Time.timeScale = 0.5f;
         source.timeStopTimer = 1.5f;
-        source.telegraph.enabled = true;
+        //source.telegraph.enabled = true;
 
-        if (source.timeStopTimer <= 0.0f)
-        {
-            Time.timeScale = 1.0f;
-        }
+        //if (source.timeStopTimer <= 0.0f)
+        //{
+        //    Time.timeScale = 1.0f;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            source.CmdSetStopTimer(1.5f);
-            source.timeStopTimer = 1.5f;
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    source.CmdSetStopTimer(1.5f);
+        //    source.timeStopTimer = 1.5f;
+        //}
         
     }
 
@@ -226,8 +226,8 @@ public class CardEffects : NetworkBehaviour {
         if (manaCost <= source.Mana)
         {
             played = true;
-            print(manaCost);
-            print(source.Mana);
+            //print(manaCost);
+            //print(source.Mana);
             source.playerSpeed = source.playerSpeed + 1;
             source.Mana -= manaCost;
         }
@@ -280,17 +280,15 @@ public class CardEffects : NetworkBehaviour {
         {
             played = true;
 
-            float timer = 0;
-            float timeInSeconds = 0;
-
-            while (timeInSeconds <= 5)
+            if (source.isServer)
             {
-                source.Opponent.GetComponent<NetworkFighterScript>().GravityScale = 2;
-                timer += Time.deltaTime;
-                timeInSeconds = timer % 60;
+                source.CmdSetGravTimer(10.0f);
             }
-
-            source.Opponent.GetComponent<NetworkFighterScript>().GravityScale = 1;
+            else
+            {
+                source.CmdAddOppGravTimer(10.0f);
+                source.OpponentGravTimer += 10.0f;
+            }
 
             source.Mana -= manaCost;
         }
@@ -312,6 +310,7 @@ public class CardEffects : NetworkBehaviour {
             myArrow.GetComponent<ArrowScript>().SetSource(source);
             myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
             NetworkServer.Spawn(myArrow);
+            CmdSpawnArrow();
 
             source.Mana -= manaCost;
         }
@@ -319,6 +318,15 @@ public class CardEffects : NetworkBehaviour {
         {
             played = false;
         }
+    }
+
+    [Command]
+    private void CmdSpawnArrow()
+    {
+        var myArrow = Instantiate(arrow, source.transform.position, Quaternion.identity);
+        myArrow.GetComponent<ArrowScript>().SetSource(source);
+        myArrow.GetComponent<ArrowScript>().Shoot(source.facingRight);
+        NetworkServer.Spawn(myArrow);
     }
 
     //void Teleport()
