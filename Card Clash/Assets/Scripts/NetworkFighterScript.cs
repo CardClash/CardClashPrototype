@@ -42,7 +42,7 @@ public class NetworkFighterScript : NetworkBehaviour
     private float defaultTime;
 
     [SyncVar]
-    public int artArrayNum;
+    private int artArrayNum;
     private int lastArtArrayNum;
 
     private bool gameStarted = false;
@@ -143,6 +143,17 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return myArrow; }
         set { myArrow = value; }
     }
+
+    public int ArtArrayNum
+    {
+        get { return artArrayNum; }
+        set
+        {
+            print(value);
+            if (0 <= value && value <= 6)
+                artArrayNum = value;
+        }
+    }
     #endregion
 
 
@@ -155,6 +166,9 @@ public class NetworkFighterScript : NetworkBehaviour
 
         defaultTime = Time.timeScale;
         timeStopTimer = 0.0f;
+
+        artArrayNum = -1;
+        lastArtArrayNum = -2;
 
         deathObj = Instantiate(deathExplosion);
 
@@ -325,19 +339,22 @@ public class NetworkFighterScript : NetworkBehaviour
             if (Opponent)
             {
                 float opponentTimer = Opponent.GetComponent<NetworkFighterScript>().timeStopTimer;
-                print("Opponent:   " + opponentTimer);
+                //print("Opponent:   " + opponentTimer);
                 if (opponentTimer >= 1.4f)
                 {
                     timeStopTimer = opponentTimer;
                     CmdSetStopTimer(opponentTimer);
-
+                    if (Opponent.GetComponent<NetworkFighterScript>().artArrayNum != lastArtArrayNum)
+                    {
+                        ArtArrayNum = Opponent.GetComponent<NetworkFighterScript>().artArrayNum;
+                    }
                 }
 
                 float nextTimeStopTimer = timeStopTimer - Time.deltaTime;
 
                 timeStopTimer = nextTimeStopTimer;
                 CmdSetStopTimer(nextTimeStopTimer);
-                print("Me:   " + timeStopTimer);
+                //print("Me:   " + timeStopTimer);
                 if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
                 {
                     Time.timeScale = defaultTime;
@@ -353,8 +370,12 @@ public class NetworkFighterScript : NetworkBehaviour
                 else
                 {
                     Time.timeScale = cardTimeScale;
-                    telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
-                    telegraph.enabled = true;
+                    print("Art: " + artArrayNum);
+                    if (artArrayNum != -1)
+                    {
+                        telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
+                        telegraph.enabled = true;
+                    }
                 }
 
                 int dmg = Opponent.GetComponent<NetworkFighterScript>().OpponentDamage - lastDamage;
@@ -932,9 +953,9 @@ public class NetworkFighterScript : NetworkBehaviour
             //print("playerMana: " + playerMana);
             if (playerMana >= 7.5)
             {
-                print("Mana: " + Mana);
+                //print("Mana: " + Mana);
                 CmdSetMana(Mana + 1);
-                print("Mana: " + Mana);
+                //print("Mana: " + Mana);
                 playerMana = 0;
             }
             if (Mana <= -1)

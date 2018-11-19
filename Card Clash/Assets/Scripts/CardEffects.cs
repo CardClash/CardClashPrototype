@@ -139,8 +139,6 @@ public class CardEffects : NetworkBehaviour {
 
     public void PlayCard(int id)
     {
-        //source.TimeStop();
-
         foreach (int key in keyList)
         {
             if (key == id)
@@ -148,6 +146,11 @@ public class CardEffects : NetworkBehaviour {
                 database[key]();
             }
         }
+    }
+
+    public void SetCardID(int id)
+    {
+        source.ArtArrayNum = id;
     }
 
     void TakeDamage()
@@ -241,8 +244,8 @@ public class CardEffects : NetworkBehaviour {
         if (manaCost <= source.Mana)
         {
             played = true;
-            print(manaCost);
-            print(source.Mana);
+            //print(manaCost);
+            //print(source.Mana);
             health.CmdTakeDamage(-10);
             source.Mana -= manaCost;
         }

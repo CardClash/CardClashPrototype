@@ -76,17 +76,19 @@ public class CardDeck : MonoBehaviour {
             {
                 
                 effects.PlayCard(hand[key]);
-                Debug.Log(hand[key]);
+                //Debug.Log(hand[key]);
                 
                 if (effects.played)
                 {
+                    print(hand[key]);
+                    effects.SetCardID(hand[key] - 10);
                     effects.TimeStop();
-                    discardPile.Enqueue(hand[key]);
                     //print(unusedCards.Peek());
                     if (unusedCards.Count <= 0)
                     {
                         int[] shuffleMe = new int[discardPile.Count];
-                        for (int i = 0; i < discardPile.Count; i++)
+                        int iteration = discardPile.Count;
+                        for (int i = 0; i < iteration; i++)
                         {
                             shuffleMe[i] = discardPile.Dequeue();
                         }
@@ -97,6 +99,7 @@ public class CardDeck : MonoBehaviour {
                         }
                     }
                     hand[key] = (int)unusedCards.Dequeue();
+                    discardPile.Enqueue(hand[key]);
                 }
                 
                 break;
@@ -108,6 +111,7 @@ public class CardDeck : MonoBehaviour {
 
     public static void Shuffle(int[] a)
     {
+        print("shuffle");
         int n = a.Length;
         rand = new System.Random();
 
