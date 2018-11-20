@@ -11,7 +11,7 @@ public class FighterHealthScript : NetworkBehaviour {
     public int currentPercentage;
     private Rigidbody2D rigid;
     private NetworkFighterScript localPlayer;
-    //bool isDead;
+    private GameObject hitObj;
 
     public GameObject hitEffect;
     private SpriteRenderer hitFXRenderer;
@@ -34,26 +34,14 @@ public class FighterHealthScript : NetworkBehaviour {
         //set current percentage to the starting percentage amount
         currentPercentage = startingPercentage;
         rigid = GetComponent<Rigidbody2D>();
-
-        GameObject hitObj = Instantiate(hitEffect);
-
-        hitEffect = hitObj;
-
-        hitFXRenderer = hitEffect.GetComponent<SpriteRenderer>();
-        hitFXAnimator = hitEffect.GetComponent<Animator>();
-
-        hitFXRenderer.enabled = false;
     }
 
     private void Update()
-    {
-        //CmdUpdateDamage();
-        //RpcUpdateDamage();
-        
-        //Check if the hit effect is done
-        if(!hitFXAnimator.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
+    {   
+        //Check if the hit effect is done, then delete it
+        if(hitObj && !hitFXAnimator.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
         {
-            hitFXRenderer.enabled = false;
+            Destroy(hitObj);
         }
     }
 
@@ -68,12 +56,12 @@ public class FighterHealthScript : NetworkBehaviour {
 
         localPlayer.IsHit = true;
 
-        //rigid.AddForce(new Vector2(100, 100) * direction, ForceMode2D.Force);
-        //rigid.AddForce(new Vector2(0, 6.5f * currentPercentage), ForceMode2D.Force);
+        hitObj = Instantiate(hitEffect);
 
-        //rigid.velocity = new Vector2(0, 100);
+        hitFXRenderer = hitObj.GetComponent<SpriteRenderer>();
+        hitFXAnimator = hitObj.GetComponent<Animator>();
         hitFXRenderer.enabled = true;
-        hitEffect.transform.position = transform.position;
+        hitObj.transform.position = transform.position;
         hitFXAnimator.Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
@@ -88,50 +76,6 @@ public class FighterHealthScript : NetworkBehaviour {
             currentPercentage = 0;
         }
     }
-
-    [Command]
-    public void CmdMakeDamage(int amount)
-    {
-        currentPercentage = amount;
-    }
-
-    [Command]
-    public void CmdUpdateDamage()
-    {
-        int hp = currentPercentage;
-        currentPercentage = hp;
-    }
-
-    [ClientRpc]
-    public void RpcUpdateDamage()
-    {
-        if (isServer)
-        {
-            return;
-        }
-        int hp = currentPercentage;
-        currentPercentage = hp;
-    }
-
-    //[Command]
-    //public void CmdTakeHitDamage(int amount)
-    //{
-    //    //increase the percentage by the amount of damage taken
-    //    currentPercentage += amount;
-
-    //    //based off of the Smash Bros. series knockback calculation
-    //    float knockback = (((((currentPercentage / 10) + ((currentPercentage * amount) / 20)) * 1.4f) + 18) * 75);
-
-    //    Vector2 force = new Vector2(knockback, 0);
-
-    //    //rigid.AddForce(new Vector2(100, 100) * direction, ForceMode2D.Force);
-    //    //rigid.AddForce(new Vector2(0, 6.5f * currentPercentage), ForceMode2D.Force);
-
-    //    //rigid.velocity = new Vector2(0, 100);
-
-    //    rigid.AddForce(new Vector2(knockback, knockback), ForceMode2D.Force);
-
-    //}
 
     [Command]
     public void CmdTakeDamage(int amount)
@@ -150,33 +94,6 @@ public class FighterHealthScript : NetworkBehaviour {
         }
         CmdTakeDamage(amount);
     }
-
-    [Command]
-    public void CmdClientTakeDamage(int amount)
-    {
-        //TargetTakeDamage(GetComponent<NetworkConnection>(), amount);
-        RpcTakeDamage(amount);
-    }
-
-    [TargetRpc]
-    public void TargetTakeDamage(NetworkConnection net, int amount)
-    {
-        TakeDamage(amount);
-    }
-
-    //[ClientRpc]
-    //public void RpcTakeDamage(int amount)
-    //{
-    //    hitEffect.GetComponent<SpriteRenderer>().enabled = true;
-    //    hitEffect.transform.position = transform.position;
-    //    hitEffect.GetComponent<Animator>().Play(0);
-    //    //increase the percentage by the amount of damage taken
-    //    currentPercentage += amount;
-    //    if (currentPercentage < 0)
-    //    {
-    //        currentPercentage = 0;
-    //    }
-    //}
 
     [Command]
     public void CmdReset()

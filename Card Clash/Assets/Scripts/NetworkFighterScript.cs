@@ -223,8 +223,6 @@ public class NetworkFighterScript : NetworkBehaviour
         readied = false;
         matchStarted = false;
 
-        //GetComponent<SpriteRenderer>().enabled = false;
-
         manaGems = new Image[5];
         manaGems[0] = GameObject.Find("ManaGem1").GetComponent<Image>();
         manaGems[1] = GameObject.Find("ManaGem2").GetComponent<Image>();
@@ -268,13 +266,12 @@ public class NetworkFighterScript : NetworkBehaviour
         playerMana = 1;
         Mana = 3;
         gravityScale = 1;
-        //GetComponent<NetworkIdentity>().AssignClientAuthority(NetworkConnection);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(opponent != null)
+        if(opponent)
         {
             o_NetFighterScript = opponent.GetComponent<NetworkFighterScript>();
         }
@@ -309,7 +306,6 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             endGameText.GetComponent<Text>().text = "";
             gameObject.SetActive(true);
-            //Debug.Log(playerMana);
 
             if (!isLocalPlayer)
             {
@@ -330,8 +326,6 @@ public class NetworkFighterScript : NetworkBehaviour
                     if (player != this.gameObject)
                     {
                         opponent = player;
-                        //GetComponent<NetworkIdentity>().AssignClientAuthority(opponent.GetComponent<NetworkIdentity>().connectionToServer);
-                        //opponent.GetComponent<NetworkIdentity>().AssignClientAuthority(opponent.GetComponent<NetworkIdentity>().connectionToServer);
                     }
                 }
             }
@@ -362,12 +356,6 @@ public class NetworkFighterScript : NetworkBehaviour
             CheckInput();
 
             ManaSystem();
-            //TimeStop();
-
-            //if (myArrow && !isServer)
-            //{
-            //    myArrow.transform.rotation = Quaternion.Euler(new Vector3(0, 180f, 0));
-            //}
 
             if (!gameStarted && Opponent && lives == 4 && endGameText.GetComponent<Text>().text == "")
             {
@@ -377,7 +365,7 @@ public class NetworkFighterScript : NetworkBehaviour
             if (Opponent)
             {
                 float opponentTimer = o_NetFighterScript.timeStopTimer;
-                //print("Opponent:   " + opponentTimer);
+
                 if (opponentTimer >= 1.4f)
                 {
                     CmdSetStopTimer(opponentTimer);
@@ -392,7 +380,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
                 CmdSetStopTimer(nextTimeStopTimer);
                 timeStopTimer = nextTimeStopTimer;
-                //print("Me:   " + timeStopTimer);
+
                 if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
                 {
                     Time.timeScale = defaultTime;
@@ -408,7 +396,7 @@ public class NetworkFighterScript : NetworkBehaviour
                 else
                 {
                     Time.timeScale = cardTimeScale;
-                    //print("Art: " + artArrayNum);
+
                     if (artArrayNum != -1)
                     {
                         telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
@@ -546,8 +534,6 @@ public class NetworkFighterScript : NetworkBehaviour
 
         rigid.velocity = new Vector2();
 
-        //GetComponent<FighterHealthScript>().currentPercentage = 0;
-
         localPlayerHealthScript.CmdReset();
 
         playerSpeed = 10;
@@ -628,7 +614,6 @@ public class NetworkFighterScript : NetworkBehaviour
         if ((anim.GetBool("isGrounded") && Input.GetButtonDown("Jump")))
         {
             anim.SetBool("isJumping", true);
-            //anim.Play("fighterJumpAnim");
             rigid.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
         }
 
@@ -637,7 +622,6 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             anim.SetBool("isJumping", false);
             anim.SetBool("isFalling", true);
-            //anim.Play("fighterFallAnim");
             rigid.AddForce(Vector2.up * Physics2D.gravity.y *
                 (fallMultiplier - 1) * Time.deltaTime, ForceMode2D.Impulse);
         }
@@ -663,19 +647,6 @@ public class NetworkFighterScript : NetworkBehaviour
         //clamps player's velocity to the playerSpeed 1.5x
         rigid.velocity = Vector2.ClampMagnitude(rigid.velocity, playerSpeed * 1.5f);
     }
-
-    //private void SetCamera()
-    //{
-    //    if(!isLocalPlayer)
-    //    {
-    //        return;
-    //    }
-    //    GameObject cam = GameObject.Find("Window Camera");
-    //    if (cam != null)
-    //    {
-    //        cam.GetComponent<WindowCamera>().SetMainCharacter(gameObject);
-    //    }
-    //}
 
     public void CorrectFlip()
     {
@@ -1011,13 +982,10 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             playerMana += Time.deltaTime;
             manaDisplay = (int)playerMana;
-
-            //print("playerMana: " + playerMana);
+            
             if (playerMana >= 7.5)
             {
-                //print("Mana: " + Mana);
                 Mana = Mana + 1;
-                //print("Mana: " + Mana);
                 playerMana = 0;
             }
             if (Mana <= -1)
@@ -1031,27 +999,6 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
-    /*public void TimeStop()
-    {
-       
-
-        Time.timeScale = 0.5f;
-        timeStopTimer = 1.5f;
-
-        
-        if (timeStopTimer <= 0.0f)
-        {
-            Time.timeScale = 1.0f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Time.timeScale = 0.5f;
-            timeStopTimer = 1.5f;
-        }
-        
-    }*/
-
     public void CheckPlayerState()
     {
         //if the player loses all their lives, they lose
@@ -1063,7 +1010,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //if your opponent loses, you win
-        if (opponent && o_NetFighterScript.PlayerState == 2)
+        if (o_NetFighterScript && o_NetFighterScript.PlayerState == 2)
         {
             CmdSetPlayerState(1);
             print("check player state - win");
