@@ -57,7 +57,12 @@ public class ArrowScript : MonoBehaviour {
     {
         if (facingRight)
         {
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
             arrowSpeed *= -1;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         shot = true;
         //print("true");

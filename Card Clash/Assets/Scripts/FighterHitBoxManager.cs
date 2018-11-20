@@ -34,8 +34,11 @@ public class FighterHitBoxManager : NetworkBehaviour
         {
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
+            
+            //disable hitbox to prevent multiple collisions
+            col.enabled = false;
         }
-        else if (col.CompareTag("Projectile") && col.gameObject != GetComponent<NetworkFighterScript>().MyArrow)
+        else if (col.tag == "Projectile" && col.gameObject != GetComponent<NetworkFighterScript>().MyArrow)
         {
             //print(GetComponent<NetworkFighterScript>().MyArrow);
             //Vector2 direct = col.transform.position - transform.position;

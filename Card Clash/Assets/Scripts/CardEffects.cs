@@ -102,8 +102,6 @@ public class CardEffects : NetworkBehaviour {
 
         source = GameObject.Find("Main Character (Network)(Clone)").GetComponent<NetworkFighterScript>();
         health = GameObject.Find("Main Character (Network)(Clone)").GetComponent<FighterHealthScript>();
-
-        //played = 0;
         
         initialized = true;
     }
@@ -258,7 +256,16 @@ public class CardEffects : NetworkBehaviour {
         if (manaCost <= source.Mana)
         {
             played = true;
-            source.TeleportDir(Input.GetAxis("Horizontal"));
+            //source.TeleportDir(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+            //Calculate the direction of the input
+            Vector2 dir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            //Calculate the magnitude of the 
+            float mag = dir.magnitude;
+
+            //add the direction to the position with the max distance being 5, multiplied by the xDir and yDir (-1 to 1)
+            source.transform.position += new Vector3(dir.x, dir.y, 0) * mag * 5;
+
             source.Mana -= manaCost;
         }
         else
@@ -315,64 +322,4 @@ public class CardEffects : NetworkBehaviour {
             played = false;
         }
     }
-
-    //void Teleport()
-    //{
-    //    manaCost = 2;
-
-    //    if (manaCost <= source.Mana)
-
-    //    {
-    //        played = true;
-    //        print(manaCost);
-    //        print(source.Mana);
-    //        if (source.facingRight == false)
-    //        {
-    //            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
-    //        }
-    //        else if (source.facingRight == true)
-    //        {
-    //            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
-    //        }
-    //        print("Teleported Forward");
-    //        source.Mana -= manaCost;
-    //    }
-
-    //    else
-    //    {
-    //        played = false;
-    //        print("can't play card");
-    //    }
-
-    //}
-
-    //void TeleportBackwards()
-    //{
-    //    manaCost = 2;
-
-    //    if (manaCost <= source.Mana)
-
-    //    {
-    //        played = true;
-    //        print(manaCost);
-    //        print(source.Mana);
-    //        if (source.facingRight == true)
-    //        {
-    //            source.transform.position = source.transform.position + new Vector3(1.5f, 0.0f, 0.0f);
-    //        }
-    //        else if (source.facingRight == false)
-    //        {
-    //            source.transform.position = source.transform.position + new Vector3(-1.5f, 0.0f, 0.0f);
-    //        }
-    //        print("Teleported Backwards");
-    //        source.Mana -= manaCost;
-    //    }
-
-    //    else
-    //    {
-    //        played = false;
-    //        print("can't play card");
-    //    }
-
-    //}
 }

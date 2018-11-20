@@ -31,6 +31,7 @@ public class NetworkFighterScript : NetworkBehaviour
     private Rigidbody2D rigid;
     private FighterHealthScript localPlayerHealthScript;
     private GameObject opponent;
+    private NetworkFighterScript o_NetFighterScript;
     public int playerNumber;
     public float playerMana;
     public int manaDisplay;
@@ -63,6 +64,8 @@ public class NetworkFighterScript : NetworkBehaviour
     public GameObject endGameText;
 
     public GameObject deathExplosion;
+    private Animator animDeathExplosion;
+    private SpriteRenderer renderDeathExplosion;
     private GameObject deathObj;
 
     [SyncVar]
@@ -199,7 +202,10 @@ public class NetworkFighterScript : NetworkBehaviour
         deathObj = Instantiate(deathExplosion);
 
         deathExplosion = deathObj;
-        deathExplosion.GetComponent<SpriteRenderer>().enabled = false;
+        renderDeathExplosion = deathExplosion.GetComponent<SpriteRenderer>();
+        animDeathExplosion = deathExplosion.GetComponent<Animator>();
+
+        renderDeathExplosion.enabled = false;
 
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -268,8 +274,12 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(opponent != null)
+        {
+            o_NetFighterScript = opponent.GetComponent<NetworkFighterScript>();
+        }
         //print(Time.timeSinceLevelLoad.ToString() + " - " + playerState);
-        
+
         //if (!matchStarted)
         //{
         //    transform.position = new Vector3(0, 0, transform.position.z);
@@ -346,9 +356,6 @@ public class NetworkFighterScript : NetworkBehaviour
             //Checks for jump
             CheckJump();
 
-            //if (Input.GetButtonDown("Teleport"))
-            //    TeleportDir(inputX);
-
             //Checks player state
             CheckPlayerState();
 
@@ -369,15 +376,15 @@ public class NetworkFighterScript : NetworkBehaviour
 
             if (Opponent)
             {
-                float opponentTimer = Opponent.GetComponent<NetworkFighterScript>().timeStopTimer;
+                float opponentTimer = o_NetFighterScript.timeStopTimer;
                 //print("Opponent:   " + opponentTimer);
                 if (opponentTimer >= 1.4f)
                 {
                     CmdSetStopTimer(opponentTimer);
                     timeStopTimer = opponentTimer;
-                    if (Opponent.GetComponent<NetworkFighterScript>().artArrayNum != lastArtArrayNum)
+                    if (o_NetFighterScript.artArrayNum != lastArtArrayNum)
                     {
-                        ArtArrayNum = Opponent.GetComponent<NetworkFighterScript>().artArrayNum;
+                        ArtArrayNum = o_NetFighterScript.artArrayNum;
                     }
                 }
 
@@ -409,7 +416,7 @@ public class NetworkFighterScript : NetworkBehaviour
                     }
                 }
 
-                int dmg = Opponent.GetComponent<NetworkFighterScript>().OpponentDamage - lastDamage;
+                int dmg = o_NetFighterScript.OpponentDamage - lastDamage;
 
                 if (dmg > 0)
                 {
@@ -572,8 +579,8 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             deathExplosion.transform.position = new Vector3(-27f, transform.position.y, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, -90.0f);
-            deathExplosion.GetComponent<SpriteRenderer>().enabled = true;
-            deathExplosion.GetComponent<Animator>().Play(0);
+            renderDeathExplosion.enabled = true;
+            animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
             print("1");
@@ -582,8 +589,8 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             deathExplosion.transform.position = new Vector3(29.5f, transform.position.y, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, 90.0f);
-            deathExplosion.GetComponent<SpriteRenderer>().enabled = true;
-            deathExplosion.GetComponent<Animator>().Play(0);
+            renderDeathExplosion.enabled = true;
+            animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
             print("12");
@@ -592,8 +599,8 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             deathExplosion.transform.position = new Vector3(transform.position.x, -3.5f, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, 0);
-            deathExplosion.GetComponent<SpriteRenderer>().enabled = true;
-            deathExplosion.GetComponent<Animator>().Play(0);
+            renderDeathExplosion.enabled = true;
+            animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
             print("123");
@@ -602,11 +609,16 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             deathExplosion.transform.position = new Vector3(transform.position.x, 10.0f, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, -180.0f);
-            deathExplosion.GetComponent<SpriteRenderer>().enabled = true;
-            deathExplosion.GetComponent<Animator>().Play(0);
+            renderDeathExplosion.enabled = true;
+            animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
             print("1234");
+        }
+
+        if (!animDeathExplosion.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
+        {
+            renderDeathExplosion.enabled = false;
         }
     }
 
@@ -790,7 +802,7 @@ public class NetworkFighterScript : NetworkBehaviour
                     damageTextPlayer2.GetComponent<Text>().text = Opponent.GetComponent<FighterHealthScript>().Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
-                switch (opponent.GetComponent<NetworkFighterScript>().Lives)
+                switch (o_NetFighterScript.Lives)
                 {
                     case 0:
                         lifePlayer2[0].enabled = false;
@@ -833,7 +845,7 @@ public class NetworkFighterScript : NetworkBehaviour
                 }
 
 
-                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+                o_NetFighterScript.CorrectFlip();
             }
         }
         else if (playerNumber == 2)
@@ -945,7 +957,7 @@ public class NetworkFighterScript : NetworkBehaviour
                     damageTextPlayer1.GetComponent<Text>().text = localPlayerHealthScript.Damage.ToString() + "%";
 
                 //Enables/Disables Image component based on how many lives player has
-                switch (opponent.GetComponent<NetworkFighterScript>().Lives)
+                switch (o_NetFighterScript.Lives)
                 {
                     case 0:
                         lifePlayer1[0].enabled = false;
@@ -988,7 +1000,7 @@ public class NetworkFighterScript : NetworkBehaviour
                 }
 
 
-                opponent.GetComponent<NetworkFighterScript>().CorrectFlip();
+                o_NetFighterScript.CorrectFlip();
             }
         }
     }
@@ -1051,7 +1063,7 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //if your opponent loses, you win
-        if (opponent && opponent.GetComponent<NetworkFighterScript>().PlayerState == 2)
+        if (opponent && o_NetFighterScript.PlayerState == 2)
         {
             CmdSetPlayerState(1);
             print("check player state - win");
@@ -1083,40 +1095,15 @@ public class NetworkFighterScript : NetworkBehaviour
 
     
 
-    public void TeleportDir(float xDir)
+    public void TeleportDir(float xDir, float yDir)
     {
-        float yDir = Input.GetAxis("Vertical");
-
         //Calculate the direction of the input
         Vector2 dir = new Vector2(xDir, yDir);
         //Calculate the magnitude of the
         float mag = dir.magnitude;
 
-        //Set the distance to 5 depending on direction
-        if (dir.x < 0)
-        {
-            dir.x = -5;
-        }
-        else if(dir.x > 0)
-        {
-            dir.x = 5;
-        }
-        else
-        {
-            dir.x = 0;
-        }
-
-        if (dir.y < 0)
-        {
-            dir.y = -5;
-        }
-        else
-        {
-            dir.y = 5;
-        }
-
         //add the direction to the position with the max distance being 5, multiplied by the xDir and yDir (-1 to 1)
-        transform.position += new Vector3(dir.x, dir.y, 0) * mag;
+        transform.position += new Vector3(dir.x, dir.y, 0) * mag * 5;
     }
 
     [Command]

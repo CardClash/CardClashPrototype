@@ -10,9 +10,12 @@ public class FighterHealthScript : NetworkBehaviour {
     [SyncVar]
     public int currentPercentage;
     private Rigidbody2D rigid;
+    private NetworkFighterScript localPlayer;
     //bool isDead;
 
     public GameObject hitEffect;
+    private SpriteRenderer hitFXRenderer;
+    private Animator hitFXAnimator;
 
     public int Damage
     {
@@ -25,6 +28,9 @@ public class FighterHealthScript : NetworkBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        //Setting variables
+        localPlayer = GetComponent<NetworkFighterScript>();
+
         //set current percentage to the starting percentage amount
         currentPercentage = startingPercentage;
         rigid = GetComponent<Rigidbody2D>();
@@ -32,13 +38,23 @@ public class FighterHealthScript : NetworkBehaviour {
         GameObject hitObj = Instantiate(hitEffect);
 
         hitEffect = hitObj;
-        hitEffect.GetComponent<SpriteRenderer>().enabled = false;
+
+        hitFXRenderer = hitEffect.GetComponent<SpriteRenderer>();
+        hitFXAnimator = hitEffect.GetComponent<Animator>();
+
+        hitFXRenderer.enabled = false;
     }
 
     private void Update()
     {
         //CmdUpdateDamage();
         //RpcUpdateDamage();
+        
+        //Check if the hit effect is done
+        if(!hitFXAnimator.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
+        {
+            hitFXRenderer.enabled = false;
+        }
     }
 
     public void TakeHitDamage(int amount, Vector2 dir)
@@ -50,15 +66,15 @@ public class FighterHealthScript : NetworkBehaviour {
         //based off of the Smash Bros. series knockback calculation
         float knockback = (((((currentPercentage / 10) + ((currentPercentage * amount) / 20)) * 1.4f) + 18) * 15);
 
-        GetComponent<NetworkFighterScript>().IsHit = true;
+        localPlayer.IsHit = true;
 
         //rigid.AddForce(new Vector2(100, 100) * direction, ForceMode2D.Force);
         //rigid.AddForce(new Vector2(0, 6.5f * currentPercentage), ForceMode2D.Force);
 
         //rigid.velocity = new Vector2(0, 100);
-        hitEffect.GetComponent<SpriteRenderer>().enabled = true;
+        hitFXRenderer.enabled = true;
         hitEffect.transform.position = transform.position;
-        hitEffect.GetComponent<Animator>().Play(0);
+        hitFXAnimator.Play(0);
 
         rigid.AddForce(new Vector2(knockback * dir.x, knockback), ForceMode2D.Force);
     }
