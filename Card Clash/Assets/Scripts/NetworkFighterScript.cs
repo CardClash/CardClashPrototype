@@ -199,14 +199,6 @@ public class NetworkFighterScript : NetworkBehaviour
         artArrayNum = -1;
         lastArtArrayNum = -2;
 
-        deathObj = Instantiate(deathExplosion);
-
-        deathExplosion = deathObj;
-        renderDeathExplosion = deathExplosion.GetComponent<SpriteRenderer>();
-        animDeathExplosion = deathExplosion.GetComponent<Animator>();
-
-        renderDeathExplosion.enabled = false;
-
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
@@ -271,10 +263,6 @@ public class NetworkFighterScript : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(opponent)
-        {
-            o_NetFighterScript = opponent.GetComponent<NetworkFighterScript>();
-        }
         //print(Time.timeSinceLevelLoad.ToString() + " - " + playerState);
 
         //if (!matchStarted)
@@ -364,6 +352,8 @@ public class NetworkFighterScript : NetworkBehaviour
 
             if (Opponent)
             {
+                o_NetFighterScript = opponent.GetComponent<NetworkFighterScript>();
+
                 float opponentTimer = o_NetFighterScript.timeStopTimer;
 
                 if (opponentTimer >= 1.4f)
@@ -563,48 +553,59 @@ public class NetworkFighterScript : NetworkBehaviour
         //If the player position is outside the boundaries of the stage, reset them to the stage and show death FX accordingly
         if (transform.position.x < -40.0f)
         {
+            deathObj = Instantiate(deathExplosion);
+
+            renderDeathExplosion = deathObj.GetComponent<SpriteRenderer>();
+            animDeathExplosion = deathObj.GetComponent<Animator>();
+
             deathExplosion.transform.position = new Vector3(-27f, transform.position.y, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, -90.0f);
             renderDeathExplosion.enabled = true;
             animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
-            print("1");
         }
         if (transform.position.x > 44.0f)
         {
+            deathObj = Instantiate(deathExplosion);
+
+            renderDeathExplosion = deathObj.GetComponent<SpriteRenderer>();
+            animDeathExplosion = deathObj.GetComponent<Animator>();
+
             deathExplosion.transform.position = new Vector3(29.5f, transform.position.y, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, 90.0f);
             renderDeathExplosion.enabled = true;
             animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
-            print("12");
         }
         if (transform.position.y < -18.0f)
         {
+            deathObj = Instantiate(deathExplosion);
+
+            renderDeathExplosion = deathObj.GetComponent<SpriteRenderer>();
+            animDeathExplosion = deathObj.GetComponent<Animator>();
+
             deathExplosion.transform.position = new Vector3(transform.position.x, -3.5f, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, 0);
             renderDeathExplosion.enabled = true;
             animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
-            print("123");
         }
         if (transform.position.y > 24.0f)
         {
+            deathObj = Instantiate(deathExplosion);
+
+            renderDeathExplosion = deathObj.GetComponent<SpriteRenderer>();
+            animDeathExplosion = deathObj.GetComponent<Animator>();
+
             deathExplosion.transform.position = new Vector3(transform.position.x, 10.0f, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, -180.0f);
             renderDeathExplosion.enabled = true;
             animDeathExplosion.Play(0);
             Reset();
             CmdSetLives(Lives - 1);
-            print("1234");
-        }
-
-        if (!animDeathExplosion.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
-        {
-            renderDeathExplosion.enabled = false;
         }
     }
 

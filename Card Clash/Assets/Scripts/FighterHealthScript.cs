@@ -37,12 +37,8 @@ public class FighterHealthScript : NetworkBehaviour {
     }
 
     private void Update()
-    {   
-        //Check if the hit effect is done, then delete it
-        if(hitObj && !hitFXAnimator.GetCurrentAnimatorStateInfo(0).IsName("HitAnimation"))
-        {
-            Destroy(hitObj);
-        }
+    {
+
     }
 
     public void TakeHitDamage(int amount, Vector2 dir)

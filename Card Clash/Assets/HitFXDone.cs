@@ -14,5 +14,6 @@ public class HitFXDone : StateMachineBehaviour {
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("isPlaying", false);
+        Destroy(animator.gameObject);
 	}
 }
