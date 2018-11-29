@@ -277,28 +277,28 @@ public class CardEffects : NetworkBehaviour {
     //Sets gravity scale from 1 to 2 for a set amount of time to the opponent
     void GravityIncrease()
     {
-        manaCost = 1;
+        //manaCost = 1;
 
-        if (manaCost <= source.Mana)
-        {
-            played = true;
+        //if (manaCost <= source.Mana)
+        //{
+        //    played = true;
 
-            if (source.isServer)
-            {
-                source.CmdSetGravTimer(10.0f);
-            }
-            else
-            {
-                source.CmdAddOppGravTimer(10.0f);
-                source.OpponentGravTimer += 10.0f;
-            }
+        //    if (source.isServer)
+        //    {
+        //        source.CmdSetGravTimer(10.0f);
+        //    }
+        //    else
+        //    {
+        //        source.CmdAddOppGravTimer(10.0f);
+        //        source.OpponentGravTimer += 10.0f;
+        //    }
 
-            source.Mana -= manaCost;
-        }
-        else
-        {
-            played = false;
-        }
+        //    source.Mana -= manaCost;
+        //}
+        //else
+        //{
+        //    played = false;
+        //}
     }
 
     //shoots an arrow (currently at a set strength and arc)

@@ -72,14 +72,14 @@ public class NetworkFighterScript : NetworkBehaviour
     private int opponentDamage;
     private int lastDamage;
 
-    [SyncVar]
-    private float gravTimer;
-    [SyncVar]
-    private float opponentGravTimer;
-    private float totalGravTimer;
+    //[SyncVar]
+    //private float gravTimer;
+    //[SyncVar]
+    //private float opponentGravTimer;
+    //private float totalGravTimer;
 
-    public float gravScale = 2.0f;
-    private float baseGravScale;
+    //public float gravScale = 2.0f;
+    //private float baseGravScale;
     
     public GameObject arrow;
     private GameObject myArrow;
@@ -167,17 +167,17 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
-    public float GravTimer
-    {
-        get { return gravTimer; }
-        set { gravTimer = value; }
-    }
+    //public float GravTimer
+    //{
+    //    get { return gravTimer; }
+    //    set { gravTimer = value; }
+    //}
 
-    public float OpponentGravTimer
-    {
-        get { return opponentGravTimer; }
-        set { opponentGravTimer = value; }
-    }
+    //public float OpponentGravTimer
+    //{
+    //    get { return opponentGravTimer; }
+    //    set { opponentGravTimer = value; }
+    //}
     #endregion
 
 
@@ -191,10 +191,10 @@ public class NetworkFighterScript : NetworkBehaviour
         defaultTime = Time.timeScale;
         timeStopTimer = 0.0f;
 
-        baseGravScale = GetComponent<Rigidbody2D>().gravityScale;
-        totalGravTimer = 0;
-        opponentGravTimer = 0;
-        gravTimer = 0;
+        //baseGravScale = GetComponent<Rigidbody2D>().gravityScale;
+        //totalGravTimer = 0;
+        //opponentGravTimer = 0;
+        //gravTimer = 0;
 
         artArrayNum = -1;
         lastArtArrayNum = -2;
@@ -1084,17 +1084,17 @@ public class NetworkFighterScript : NetworkBehaviour
         timeStopTimer = time;
     }
 
-    [Command]
-    public void CmdSetGravTimer(float myTimer)
-    {
-        GravTimer = myTimer;
-    }
+    //[Command]
+    //public void CmdSetGravTimer(float myTimer)
+    //{
+    //    GravTimer = myTimer;
+    //}
 
-    [Command]
-    public void CmdAddOppGravTimer(float myTimer)
-    {
-        OpponentGravTimer += myTimer;
-    }
+    //[Command]
+    //public void CmdAddOppGravTimer(float myTimer)
+    //{
+    //    OpponentGravTimer += myTimer;
+    //}
 
     [Command]
     public void CmdSpawnArrow()

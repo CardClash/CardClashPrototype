@@ -89,10 +89,8 @@ public class CardDeck : MonoBehaviour {
     {
         foreach(int key in keyList)
         {
-            
             if (key == current)
             {
-                
                 effects.PlayCard(hand[key]);
                 //Debug.Log(hand[key]);
                 
