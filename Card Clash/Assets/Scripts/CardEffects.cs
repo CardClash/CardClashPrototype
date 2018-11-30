@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class CardEffects : NetworkBehaviour {
 
@@ -112,10 +113,13 @@ public class CardEffects : NetworkBehaviour {
         health = player.GetComponent<FighterHealthScript>();
     }
 
-    public void TimeStop()
+    public void TimeStop(int artIndex)
     {
         //Time.timeScale = 0.5f;
-        source.timeStopTimer = 1.5f;
+        source.CmdSetStopTimer(1.5f);
+        source.TimeStopTimer = 1.5f;
+        source.telegraph1.GetComponent<Image>().sprite = GetComponent<CardSelect>().cardArt[artIndex];
+        source.telegraph1.enabled = true;
         //source.telegraph.enabled = true;
 
         //if (source.timeStopTimer <= 0.0f)

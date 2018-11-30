@@ -98,7 +98,7 @@ public class CardDeck : MonoBehaviour {
                 {
                     //print(hand[key]);
                     effects.SetCardID(hand[key] - 10);
-                    effects.TimeStop();
+                    effects.TimeStop(hand[key] - 10);
                     //print(unusedCards.Peek());
                     if (unusedCards.Count <= 0)
                     {

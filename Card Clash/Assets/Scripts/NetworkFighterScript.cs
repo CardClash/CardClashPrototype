@@ -37,19 +37,20 @@ public class NetworkFighterScript : NetworkBehaviour
     public int manaDisplay;
     private int actualMana;
     [SyncVar]
-    public float timeStopTimer = 0.0f;
+    private float timeStopTimer = 0.0f;
+    private float opponentTimeStopTimer;
     public float cardTimeScale = 0.5f;
     private float defaultTime;
 
     [SyncVar]
     private int artArrayNum;
-    private int lastArtArrayNum;
 
     private bool gameStarted = false;
     private bool isHit = false;
 
     private Image[] manaGems;
-    public Image telegraph;
+    public Image telegraph1;
+    public Image telegraph2;
     private Slider manaBar;
 
     private Image[] lifePlayer1;
@@ -138,6 +139,12 @@ public class NetworkFighterScript : NetworkBehaviour
         set { isHit = value; }
     }
 
+    public float TimeStopTimer
+    {
+        get { return timeStopTimer; }
+        set { timeStopTimer = value; }
+    }
+
     public float GravityScale
     {
         get { return gravityScale; }
@@ -161,9 +168,17 @@ public class NetworkFighterScript : NetworkBehaviour
         get { return artArrayNum; }
         set
         {
-            //print(value);
-            if (0 <= value && value <= 6)
-                artArrayNum = value;
+            int arrayNum = value;
+            if (arrayNum < 0)
+            {
+                arrayNum = 0;
+            }
+            else if (arrayNum > 6)
+            {
+                arrayNum = 6;
+            }
+            CmdSetArtArrayNum(arrayNum);
+            artArrayNum = arrayNum;
         }
     }
 
@@ -190,14 +205,14 @@ public class NetworkFighterScript : NetworkBehaviour
 
         defaultTime = Time.timeScale;
         timeStopTimer = 0.0f;
+        opponentTimeStopTimer = 0.0f;
 
         //baseGravScale = GetComponent<Rigidbody2D>().gravityScale;
         //totalGravTimer = 0;
         //opponentGravTimer = 0;
         //gravTimer = 0;
 
-        artArrayNum = -1;
-        lastArtArrayNum = -2;
+        ArtArrayNum = 0;
 
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -236,9 +251,11 @@ public class NetworkFighterScript : NetworkBehaviour
         lifePlayer2[2] = GameObject.Find("Life3Player2").GetComponent<Image>();
         lifePlayer2[3] = GameObject.Find("Life4Player2").GetComponent<Image>();
 
-        telegraph = GameObject.Find("TelegraphImage").GetComponent<Image>();
+        telegraph1 = GameObject.Find("TelegraphImage1").GetComponent<Image>();
+        telegraph2 = GameObject.Find("TelegraphImage2").GetComponent<Image>();
 
-        telegraph.enabled = false;
+        telegraph1.enabled = false;
+        telegraph2.enabled = false;
 
         damageTextPlayer1 = GameObject.Find("DamageTextPlayer1").GetComponent<Text>();
         damageTextPlayer2 = GameObject.Find("DamageTextPlayer2").GetComponent<Text>();
@@ -252,6 +269,7 @@ public class NetworkFighterScript : NetworkBehaviour
         GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
         //CmdEnableRender();
         networkManager = GameObject.Find("Network Manager");
+        networkManager.GetComponent<NetworkManagerHUD>().enabled = false;
         networkManager.GetComponent<CardEffects>().Initialize();
         playerNumber = networkManager.GetComponent<CharacterSelect>().GetPlayerNumber();
 
@@ -352,47 +370,62 @@ public class NetworkFighterScript : NetworkBehaviour
 
             if (Opponent)
             {
+                #region EnemyTelegraphSetup
                 o_NetFighterScript = opponent.GetComponent<NetworkFighterScript>();
 
-                float opponentTimer = o_NetFighterScript.timeStopTimer;
+                float opponentTimer = o_NetFighterScript.TimeStopTimer;
 
-                if (opponentTimer >= 1.4f)
+                if (opponentTimeStopTimer <= 0 && opponentTimer > opponentTimeStopTimer)
                 {
-                    CmdSetStopTimer(opponentTimer);
-                    timeStopTimer = opponentTimer;
-                    if (o_NetFighterScript.artArrayNum != lastArtArrayNum)
-                    {
-                        ArtArrayNum = o_NetFighterScript.artArrayNum;
-                    }
+                    opponentTimeStopTimer = opponentTimer;
+                }
+                if (opponentTimeStopTimer > 0)
+                {
+                    telegraph2.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[o_NetFighterScript.ArtArrayNum];
+                    telegraph2.enabled = true;
+                }
+                else
+                {
+                    telegraph2.enabled = false;
+                }
+                #endregion
+
+                if (timeStopTimer <= 0)
+                {
+                    telegraph1.enabled = false;
+                }
+
+                if (telegraph1.enabled || telegraph2.enabled)
+                {
+                    Time.timeScale = cardTimeScale;
+                }
+                else
+                {
+                    Time.timeScale = defaultTime;
                 }
 
                 float nextTimeStopTimer = timeStopTimer - Time.deltaTime;
 
                 CmdSetStopTimer(nextTimeStopTimer);
                 timeStopTimer = nextTimeStopTimer;
+                opponentTimeStopTimer -= Time.deltaTime;
 
-                if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
-                {
-                    Time.timeScale = defaultTime;
-                    telegraph.enabled = false;
-                    lastArtArrayNum = artArrayNum;
-                }
-                else if (!isServer && timeStopTimer <= 0.0f)
-                {
-                    Time.timeScale = defaultTime;
-                    telegraph.enabled = false;
-                    lastArtArrayNum = artArrayNum;
-                }
-                else
-                {
-                    Time.timeScale = cardTimeScale;
-
-                    if (artArrayNum != -1)
-                    {
-                        telegraph.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
-                        telegraph.enabled = true;
-                    }
-                }
+                //if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
+                //{
+                //    Time.timeScale = defaultTime;
+                //    telegraph2.enabled = false;
+                //}
+                //else if (!isServer && timeStopTimer <= 0.0f)
+                //{
+                //    Time.timeScale = defaultTime;
+                //    telegraph2.enabled = false;
+                //}
+                //else
+                //{
+                //    Time.timeScale = cardTimeScale;
+                //    telegraph2.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
+                //    telegraph2.enabled = true;
+                //}
 
                 int dmg = o_NetFighterScript.OpponentDamage - lastDamage;
 
@@ -1082,6 +1115,12 @@ public class NetworkFighterScript : NetworkBehaviour
     public void CmdSetStopTimer(float time)
     {
         timeStopTimer = time;
+    }
+
+    [Command]
+    public void CmdSetArtArrayNum(int num)
+    {
+        artArrayNum = num;
     }
 
     //[Command]
