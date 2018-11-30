@@ -398,10 +398,12 @@ public class NetworkFighterScript : NetworkBehaviour
                 if (telegraph1.enabled || telegraph2.enabled)
                 {
                     Time.timeScale = cardTimeScale;
+                    // telegraph time slow code here, Dito
                 }
                 else
                 {
                     Time.timeScale = defaultTime;
+                    // disable telegraph time slow code here, Dito
                 }
 
                 float nextTimeStopTimer = timeStopTimer - Time.deltaTime;
@@ -409,23 +411,6 @@ public class NetworkFighterScript : NetworkBehaviour
                 CmdSetStopTimer(nextTimeStopTimer);
                 timeStopTimer = nextTimeStopTimer;
                 opponentTimeStopTimer -= Time.deltaTime;
-
-                //if (isServer && (timeStopTimer <= 0.0f || opponentTimer <= 0.0f))
-                //{
-                //    Time.timeScale = defaultTime;
-                //    telegraph2.enabled = false;
-                //}
-                //else if (!isServer && timeStopTimer <= 0.0f)
-                //{
-                //    Time.timeScale = defaultTime;
-                //    telegraph2.enabled = false;
-                //}
-                //else
-                //{
-                //    Time.timeScale = cardTimeScale;
-                //    telegraph2.GetComponent<Image>().sprite = networkManager.GetComponent<CardSelect>().cardArt[artArrayNum];
-                //    telegraph2.enabled = true;
-                //}
 
                 int dmg = o_NetFighterScript.OpponentDamage - lastDamage;
 
