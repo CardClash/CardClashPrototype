@@ -397,12 +397,12 @@ public class NetworkFighterScript : NetworkBehaviour
 
                 if (telegraph1.enabled || telegraph2.enabled)
                 {
-                    Time.timeScale = cardTimeScale;
+                    //Time.timeScale = cardTimeScale;
                     // telegraph time slow code here, Dito
                 }
                 else
                 {
-                    Time.timeScale = defaultTime;
+                    //Time.timeScale = defaultTime;
                     // disable telegraph time slow code here, Dito
                 }
 
