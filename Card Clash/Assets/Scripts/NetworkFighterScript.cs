@@ -606,6 +606,7 @@ public class NetworkFighterScript : NetworkBehaviour
 
             deathExplosion.transform.position = new Vector3(transform.position.x, -3.5f, -2);
             deathExplosion.transform.eulerAngles = new Vector3(0, 0, 0);
+
             renderDeathExplosion.enabled = true;
             animDeathExplosion.Play(0);
             Reset();
