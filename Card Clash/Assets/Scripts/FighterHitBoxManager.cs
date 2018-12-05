@@ -30,12 +30,13 @@ public class FighterHitBoxManager : NetworkBehaviour
         direction = direction.normalized;
 
         //If the collider is a punch, it will deal damage to the opponent
-        if (col.tag == "Punch")
+        if (col.tag == "Punch" && col.enabled)
         {
             gameObject.GetComponent<FighterHealthScript>().TakeHitDamage(7, direction);
             //gameObject.GetComponent<FighterHealthScript>().CmdTakeHitDamage(7);
-            
+
             //disable hitbox to prevent multiple collisions
+            col.gameObject.GetComponentInParent<Animator>().StopPlayback();
             col.enabled = false;
         }
         else if (col.tag == "Projectile" && col.gameObject != GetComponent<NetworkFighterScript>().MyArrow)
