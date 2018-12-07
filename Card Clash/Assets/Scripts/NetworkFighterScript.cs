@@ -1046,11 +1046,11 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //press J or the A button to punch
-        if (Input.GetButtonDown("Punch"))
+        if (Input.GetButtonDown("Punch") && anim.GetBool("isPlayingCard") == false)
         {
             Debug.Log("Punch!");
-            GetComponent<NetworkAnimator>().SetTrigger("hitPunch");
             anim.SetTrigger("hitPunch");
+            anim.SetBool("isAttacking", true);
         }
 
         //press escape or the select button to quit

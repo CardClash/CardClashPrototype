@@ -102,6 +102,7 @@ public class CardSelect : MonoBehaviour {
         {
             //Debug.Log("Using Card! " + current);
             cardDeck.CardPick(current);
+            
         }
 
         PopulateManaCosts();
