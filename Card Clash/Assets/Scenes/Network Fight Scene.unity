@@ -267,7 +267,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &227977284 stripped
 MonoBehaviour:
@@ -441,50 +441,8 @@ Transform:
   m_LocalScale: {x: 0.3661224, y: 0.40123, z: 0.40123}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &358602422
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -2.77
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286129147220986, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ca54129a8a1edec45a6e43214c7b784b, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &404583118
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +516,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &651770319 stripped
 MonoBehaviour:
@@ -765,7 +723,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4893208692102228, guid: a96a6cf4cd6bd654c933d1b3d6642a0d, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114507692585244452, guid: a96a6cf4cd6bd654c933d1b3d6642a0d,
         type: 2}
@@ -1107,7 +1065,7 @@ Prefab:
     - target: {fileID: 224979399211208460, guid: ca2b34fbf9730614999dc4f85176b704,
         type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224979399211208460, guid: ca2b34fbf9730614999dc4f85176b704,
         type: 2}
@@ -1372,7 +1330,7 @@ Prefab:
     - target: {fileID: 224838218319631536, guid: 59862d4d29c52da46afd2b275347049b,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224838218319631536, guid: 59862d4d29c52da46afd2b275347049b,
         type: 2}
@@ -1667,7 +1625,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4790499934673174, guid: 5a6a21647ece7374c9a111501a6f8cfb, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a6a21647ece7374c9a111501a6f8cfb, type: 2}
@@ -1737,7 +1695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2083650139 stripped
 MonoBehaviour:
