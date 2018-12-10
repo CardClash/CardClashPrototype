@@ -13,49 +13,49 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isJumping
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isFalling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: hitPunch
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isAttacking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isPlayingCard
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: playCard
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -69,39 +69,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!114 &114282639917313816
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc300efe2edc594793aec76d93f4b7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114479882997447474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c65a88b7293e4741b1e688fa349b726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114546003295607022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc300efe2edc594793aec76d93f4b7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114754453309397202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -543,9 +510,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: hitPunch
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isAttacking
-    m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isPlayingCard
     m_EventTreshold: 0
@@ -672,9 +636,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isPlayingCard
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102118570066574186}
   m_Solo: 0
@@ -719,9 +680,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: hitPunch
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isAttacking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isPlayingCard
@@ -786,9 +744,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isPlayingCard
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102118570066574186}
   m_Solo: 0
@@ -848,9 +803,6 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isPlayingCard
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102118570066574186}
@@ -947,9 +899,6 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isGrounded
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102646505210721312}
@@ -1122,9 +1071,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: playCard
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isPlayingCard
-    m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
     m_EventTreshold: 0
@@ -1154,9 +1100,6 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isPlayingCard
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isAttacking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102791934672723460}
@@ -1284,9 +1227,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isAttacking
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isPlayingCard
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102118570066574186}
   m_Solo: 0
@@ -1310,9 +1250,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: hitPunch
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isAttacking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isPlayingCard
@@ -1412,9 +1349,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: hitPunch
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isAttacking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isPlayingCard
@@ -1545,8 +1479,7 @@ AnimatorState:
   - {fileID: 1101975039006887932}
   - {fileID: 1101255537900744774}
   - {fileID: 1101382966385075454}
-  m_StateMachineBehaviours:
-  - {fileID: 114479882997447474}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1724,8 +1657,7 @@ AnimatorState:
   - {fileID: 1101160932650117618}
   - {fileID: 1101005853850088928}
   - {fileID: 1101896165047433222}
-  m_StateMachineBehaviours:
-  - {fileID: 114282639917313816}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 0
@@ -1753,8 +1685,7 @@ AnimatorState:
   - {fileID: 1101583716240583646}
   - {fileID: 1101335685819596788}
   - {fileID: 1101316475522207990}
-  m_StateMachineBehaviours:
-  - {fileID: 114546003295607022}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1791,7 +1722,7 @@ AnimatorStateMachine:
     m_Position: {x: 840, y: -132, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102791934672723460}
-    m_Position: {x: -120, y: -60, z: 0}
+    m_Position: {x: -84, y: -48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102646505210721312}
     m_Position: {x: 144, y: 312, z: 0}
@@ -1800,7 +1731,7 @@ AnimatorStateMachine:
     m_Position: {x: 276, y: -12, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102118570066574186}
-    m_Position: {x: 744, y: 144, z: 0}
+    m_Position: {x: 768, y: 132, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

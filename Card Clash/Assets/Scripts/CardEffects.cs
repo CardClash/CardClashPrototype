@@ -139,10 +139,10 @@ public class CardEffects : NetworkBehaviour {
     {
         foreach (int key in keyList)
         {
-            if (key == id && source.anim.GetBool("isAttacking") == false)
+            if (key == id && source.anim.GetBool("isAttacking") == false && source.anim.GetBool("isPlayingCard") == false)
             {
-                source.anim.SetBool("isPlayingCard", true);
                 source.anim.SetTrigger("playCard");
+                source.SetPlayCardBool(1);
                 database[key]();
             }
         }

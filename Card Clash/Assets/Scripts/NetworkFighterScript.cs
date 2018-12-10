@@ -1037,6 +1037,22 @@ public class NetworkFighterScript : NetworkBehaviour
         }
     }
 
+    public void SetAttackBool(int active)
+    {
+        if(active == 0)
+            anim.SetBool("isAttacking", false);
+        else
+            anim.SetBool("isAttacking", true);
+    }
+
+    public void SetPlayCardBool(int active)
+    {
+        if (active == 0)
+            anim.SetBool("isPlayingCard", false);
+        else
+            anim.SetBool("isPlayingCard", true);
+    }
+
     public void CheckInput()
     {
         //press R or Start to reset
@@ -1046,11 +1062,11 @@ public class NetworkFighterScript : NetworkBehaviour
         }
 
         //press J or the A button to punch
-        if (Input.GetButtonDown("Punch") && anim.GetBool("isPlayingCard") == false)
+        if (Input.GetButtonDown("Punch") && anim.GetBool("isPlayingCard") == false && anim.GetBool("isAttacking") == false)
         {
             Debug.Log("Punch!");
             anim.SetTrigger("hitPunch");
-            anim.SetBool("isAttacking", true);
+            SetAttackBool(1);
         }
 
         //press escape or the select button to quit
@@ -1059,8 +1075,6 @@ public class NetworkFighterScript : NetworkBehaviour
             Application.Quit();
         }
     }
-
-    
 
     public void TeleportDir(float xDir, float yDir)
     {
