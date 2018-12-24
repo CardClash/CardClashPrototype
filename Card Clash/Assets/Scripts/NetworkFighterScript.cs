@@ -1066,7 +1066,6 @@ public class NetworkFighterScript : NetworkBehaviour
         {
             Debug.Log("Punch!");
             anim.SetTrigger("hitPunch");
-            SetAttackBool(1);
         }
 
         //press escape or the select button to quit

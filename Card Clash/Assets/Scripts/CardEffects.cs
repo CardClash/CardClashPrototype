@@ -142,7 +142,6 @@ public class CardEffects : NetworkBehaviour {
             if (key == id && source.anim.GetBool("isAttacking") == false && source.anim.GetBool("isPlayingCard") == false)
             {
                 source.anim.SetTrigger("playCard");
-                source.SetPlayCardBool(1);
                 database[key]();
             }
         }
